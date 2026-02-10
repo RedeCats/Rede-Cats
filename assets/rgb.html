@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Rede Cats • RGB</title>
+  <link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap inner">
+    <a class="brand" href="index.html">
+      <div class="dot"></div>
+      <div class="title">
+        <strong>REDE CATS</strong>
+        <small>Personalize seu nick</small>
+      </div>
+    </a>
+
+    <nav class="nav">
+      <a data-nav href="index.html">🏠 Início</a>
+      <a data-nav href="loja.html">🛒 Loja</a>
+      <a data-nav href="votar.html">🗳️ Votar</a>
+      <a data-nav href="doadores.html">💎 Doadores</a>
+      <a data-nav href="rgb.html" class="active">🌈 RGB</a>
+      <a data-nav href="https://redecats.gitbook.io/redecats-docs/" target="_blank" rel="noreferrer">📘 Wiki</a>
+      <a data-nav href="https://discord.gg/5Dmarekg" target="_blank" rel="noreferrer">💬 Discord</a>
+    </nav>
+
+    <div class="pill"><small>Dica:</small> <strong>teste antes</strong></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="sectionTitle">
+    <h2>🌈 RGB / Gradiente</h2>
+    <small>preview visual (comando depende do plugin)</small>
+  </div>
+
+  <section class="rgbGrid">
+    <div class="card pad">
+      <h3 style="margin:0 0 12px;">Configurar</h3>
+
+      <div class="field">
+        <label>NICK</label>
+        <input id="nick" type="text" placeholder="SeuNickAqui" value="RedeCats"/>
+      </div>
+
+      <div class="field">
+        <label>MODO</label>
+        <select id="mode">
+          <option value="gradient" selected>Gradiente</option>
+          <option value="solid">Cor sólida</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>COR 1</label>
+        <input id="color1" type="color" value="#7c3aed"/>
+      </div>
+
+      <div class="field">
+        <label>COR 2</label>
+        <input id="color2" type="color" value="#22d3ee"/>
+      </div>
+
+      <hr class="sep"/>
+      <p class="sub" style="margin:0;">
+        Quando você me disser qual plugin de chat/RGB você usa, eu coloco o comando real.
+      </p>
+    </div>
+
+    <div class="previewBox">
+      <h3 style="margin:0 0 10px;">Preview</h3>
+      <div id="nickPreview" class="nickPreview">RedeCats</div>
+
+      <hr class="sep"/>
+      <div class="badge cyan" style="font-size:12px; font-weight:1000;">📌 Comando (exemplo)</div>
+      <p id="cmdPreview" class="sub" style="margin-top:10px;"></p>
+
+      <hr class="sep"/>
+      <a class="btn primary" href="https://discord.gg/5Dmarekg" target="_blank" rel="noreferrer">💬 Pedir ajuda no Discord</a>
+    </div>
+  </section>
+
+  <footer>
+    <hr class="sep"/>
+    <div class="footerRow">
+      <div>© 2026 <b>REDE CATS</b> • RGB</div>
+      <div class="social">
+        <a href="index.html" title="Início">🏠</a>
+        <a href="loja.html" title="Loja">🛒</a>
+        <a href="https://redecats.gitbook.io/redecats-docs/" target="_blank" rel="noreferrer" title="Wiki">📘</a>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

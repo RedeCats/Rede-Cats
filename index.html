@@ -1,89 +1,117 @@
 <!doctype html>
 <html lang="pt-br">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rede Cats</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>REDE CATS</title>
 
-<style>
-:root{
- --bg:#0b0a10;
- --card:#141320;
- --stroke:rgba(255,255,255,.10);
- --text:#f2f2ff;
- --accent:#7a35ff;
- --accent2:#00e5ff;
-}
-*{box-sizing:border-box}
-body{
- margin:0;
- font-family:Segoe UI,Arial;
- color:var(--text);
- background:
- radial-gradient(900px 500px at 10% 10%, rgba(122,53,255,.35), transparent),
- radial-gradient(900px 500px at 90% 20%, rgba(0,229,255,.25), transparent),
- var(--bg);
-}
-a{text-decoration:none;color:inherit}
-.container{max-width:1200px;margin:auto;padding:24px}
-header{
- display:flex;justify-content:space-between;align-items:center;
- padding:16px 24px;
- border:1px solid var(--stroke);
- border-radius:20px;
- background:rgba(0,0,0,.4);
-}
-nav a{margin:0 10px;font-weight:800}
-.hero{
- margin-top:24px;
- padding:40px;
- border-radius:30px;
- background:linear-gradient(135deg,rgba(122,53,255,.35),rgba(0,229,255,.15));
-}
-.hero h1{font-size:52px;margin:0}
-.hero p{opacity:.8;font-size:18px}
-.btn{
- display:inline-block;
- margin-top:16px;
- padding:14px 22px;
- border-radius:14px;
- background:linear-gradient(90deg,var(--accent),var(--accent2));
- font-weight:900;
-}
-footer{
- margin-top:40px;
- text-align:center;
- opacity:.5;
-}
-</style>
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
+<body class="theme-cats">
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <span class="brand-dot"></span>
+      <span class="brand">REDE CATS</span>
+    </div>
 
-<body>
-<div class="container">
+    <nav class="topbar__nav">
+      <a class="navbtn" href="index.html">Início</a>
+      <a class="navbtn" href="loja.html">Loja</a>
+      <a class="navbtn" href="votar.html">Votar</a>
+      <a class="navbtn" href="doadores.html">Doadores</a>
+      <a class="navbtn" href="rgb.html">RGB</a>
+      <a class="navbtn" href="#" id="btnWiki">Wiki</a>
+      <a class="navbtn navbtn--discord" href="https://discord.gg/5Dmarekg" target="_blank" rel="noopener">Discord</a>
+    </nav>
+  </header>
 
-<header>
- <strong>REDE CATS</strong>
- <nav>
-  <a href="index.html">Início</a>
-  <a href="loja.html">Loja</a>
-  <a href="votar.html">Votar</a>
-  <a href="doadores.html">Doadores</a>
-  <a href="rgb.html">RGB</a>
-  <a href="https://redecats.gitbook.io/redecats-docs/" target="_blank">Wiki</a>
-  <a href="https://discord.gg/5Dmarekg" target="_blank">Discord</a>
- </nav>
-</header>
+  <!-- Hero -->
+  <main class="page">
+    <section class="hero">
+      <div class="hero__content">
+        <h1>BEM-VINDO À <span class="glow">REDE CATS</span></h1>
+        <p>
+          O servidor Minecraft com vibe neon, sistemas insanos e a estética maligna da Rede Cats.
+          Entre agora e evolua no seu ritmo.
+        </p>
 
-<section class="hero">
- <h1>BEM-VINDO À REDE CATS</h1>
- <p>Servidor Minecraft com estética neon, sistemas insanos e progressão real.</p>
- <div class="btn">IP: redecats.jogar.in</div>
-</section>
+        <div class="ipbox">
+          <div class="ipbox__ip">
+            <span class="label">IP JAVA</span>
+            <span class="value" id="serverIp">redecats.jogar.in</span>
+            <span class="sub">Bedrock: em breve</span>
+          </div>
 
-<footer>
- Este site não possui vínculo com a Mojang AB
-</footer>
+          <button class="btn" id="copyIpBtn">Copiar IP</button>
+          <span class="pill">Java: Online</span>
+        </div>
 
-</div>
+        <div class="chips">
+          <span class="chip">⚡ Neon Roxo/Azul</span>
+          <span class="chip">😼 Cats Maligno</span>
+          <span class="chip">📘 Wiki completa</span>
+          <span class="chip">🛒 Loja (em expansão)</span>
+        </div>
+      </div>
+
+      <div class="hero__side">
+        <div class="sidecard">
+          <h3>📘 Wiki</h3>
+          <p>Tutoriais, comandos, regras, sistemas e tudo para o jogador não ficar perdido.</p>
+        </div>
+
+        <div class="sidecard">
+          <h3>🔗 Acesso rápido</h3>
+          <p>Use os botões do topo para Loja/Votar/Doadores/RGB/Wiki/Discord.</p>
+        </div>
+
+        <div class="sidecard">
+          <h3>🛒 Loja</h3>
+          <p>VIPs, coins, chaves e itens. Novidades serão adicionadas em breve.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cards grandões -->
+    <section class="cards">
+      <h2>Atalhos rápidos</h2>
+      <div class="cards__grid">
+        <a class="cardimg" href="#" id="cardIntro">
+          <img src="assets/icon_card_1_introducao.png" alt="Introdução" />
+        </a>
+
+        <a class="cardimg" href="#" id="cardComoEntrar">
+          <img src="assets/icon_card_2_como_entrar.png" alt="Como entrar" />
+        </a>
+
+        <a class="cardimg" href="#" id="cardRegras">
+          <img src="assets/icon_card_3_regras.png" alt="Regras" />
+        </a>
+
+        <a class="cardimg" href="#" id="cardSistemas">
+          <img src="assets/icon_card_4_sistemas.png" alt="Sistemas" />
+        </a>
+
+        <a class="cardimg" href="#" id="cardVips">
+          <img src="assets/icon_card_5_vips.png" alt="VIPs" />
+        </a>
+
+        <a class="cardimg" href="#" id="cardSuporte">
+          <img src="assets/icon_card_6_suporte.png" alt="Suporte" />
+        </a>
+      </div>
+
+      <p class="hint">
+        Dica: esses atalhos vão abrir a Wiki quando você colocar o link do GitBook (passo 3 abaixo).
+      </p>
+    </section>
+
+    <footer class="footer">
+      <span>© 2026 REDE CATS • IP: redecats.jogar.in • Discord: discord.gg/5Dmarekg</span>
+    </footer>
+  </main>
+
+  <script src="assets/app.js"></script>
 </body>
 </html>

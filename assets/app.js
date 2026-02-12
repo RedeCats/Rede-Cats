@@ -1,13 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Ano no footer
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  // Copiar IP
   const ipEl = document.getElementById("serverIp");
   const copyBtn = document.getElementById("copyIpBtn");
   const toast = document.getElementById("toast");
-
-  // Se você quiser, troque aqui o IP padrão (ou deixe o texto do HTML)
-  const fallbackIP = ipEl ? ipEl.textContent.trim() : "";
 
   function showToast(msg) {
     if (!toast) return;
@@ -20,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       await navigator.clipboard.writeText(text);
       return true;
-    } catch (e) {
+    } catch {
       try {
         const temp = document.createElement("input");
         temp.value = text;
@@ -29,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.execCommand("copy");
         temp.remove();
         return true;
-      } catch (e2) {
+      } catch {
         return false;
       }
     }
@@ -37,15 +36,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (copyBtn && ipEl) {
     copyBtn.addEventListener("click", async () => {
-      const ip = ipEl.textContent.trim() || fallbackIP;
+      const ip = ipEl.textContent.trim();
       const ok = await copyText(ip);
       showToast(ok ? "IP copiado!" : "Não consegui copiar :(");
     });
   }
 
-  // “Online” (placeholder simples)
-  const onlineCount = document.getElementById("onlineCount");
-  if (onlineCount && (onlineCount.textContent || "").trim() === "--") {
-    onlineCount.textContent = "Online";
-  }
+  // Navbar ativa (marca a página atual)
+  const path = (location.pathname.split("/").pop() || "index.html").toLowerCase();
+  document.querySelectorAll(".nav a").forEach((a) => {
+    const href = (a.getAttribute("href") || "").toLowerCase();
+    if (!href) return;
+    if (href === path) a.classList.add("is-active");
+  });
 });

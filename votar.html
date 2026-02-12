@@ -2,93 +2,44 @@
 <html lang="pt-br">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>REDE CATS — Votar</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rede Cats</title>
   <link rel="stylesheet" href="assets/style.css" />
 </head>
+
 <body>
-
   <header class="topbar">
-    <div class="container">
-      <div class="wrap">
-        <div class="brand">
-          <span class="brand-dot"></span>
-          <div class="brand-title">REDE CATS</div>
-        </div>
-
-        <nav class="nav">
-          <a href="index.html">🏠 Início</a>
-          <a href="loja.html">🛒 Loja</a>
-          <a href="votar.html">🗳️ Votar</a>
-          <a href="doadores.html">🏆 Doadores</a>
-          <a href="rgb.html">🌈 RGB</a>
-          <a href="SEU_LINK_GITBOOK_AQUI" target="_blank" rel="noopener">📘 Wiki</a>
-          <a href="https://discord.gg/5Dmarekg" target="_blank" rel="noopener">💬 Discord</a>
-        </nav>
+    <div class="container topbar__content">
+      <div class="brand">
+        <div class="logo">🐱</div>
+        <strong class="brand__name">REDE CATS</strong>
       </div>
+
+      <nav class="nav">
+        <a href="index.html">Início</a>
+        <a href="loja.html">Loja</a>
+        <a href="votar.html">Votar</a>
+        <a href="doadores.html">Doadores</a>
+        <a href="rgb.html">RGB</a>
+      </nav>
     </div>
   </header>
 
   <main class="section">
     <div class="container">
-      <div class="vote-wrap">
-        <section class="vote-left">
-          <span class="badge">🗳️ Voto = recompensa</span>
-          <h1 class="vote-title">VOTE<br>NO SERVIDOR</h1>
-          <p class="vote-desc">
-            Votando você ajuda o servidor a crescer e ainda pode ganhar recompensas.
-            Assim que você tiver os links de voto, é só trocar os botões do lado direito.
-          </p>
-
-          <div class="feature-img" style="border-radius:22px; margin-top:12px">
-            <img src="assets/hero_banner.png" alt="Vote" />
-          </div>
-
-          <hr class="sep" />
-
-          <div class="feature-item">
-            <b>Como funciona</b>
-            <span>
-              Você vota em sites de lista → recebe chave/coins no jogo (defina depois).  
-              Dúvidas? Leia a Wiki ou chame no Discord.
-            </span>
-          </div>
-        </section>
-
-        <aside class="vote-right">
-          <div class="title" style="font-weight:1000; margin:0 0 10px">Escolha um site</div>
-
-          <!-- TROQUE OS LINKS DEPOIS -->
-          <a class="btn vote-btn highlight" href="#" onclick="alert('Cole seu link de voto aqui depois!');return false;">SITE 1</a>
-          <a class="btn vote-btn" href="#" onclick="alert('Cole seu link de voto aqui depois!');return false;">SITE 2</a>
-          <a class="btn vote-btn" href="#" onclick="alert('Cole seu link de voto aqui depois!');return false;">SITE 3</a>
-          <a class="btn vote-btn" href="#" onclick="alert('Cole seu link de voto aqui depois!');return false;">SITE 4</a>
-          <a class="btn vote-btn" href="#" onclick="alert('Cole seu link de voto aqui depois!');return false;">SITE 5</a>
-
-          <hr class="sep" />
-          <a class="btn primary wide" href="SEU_LINK_GITBOOK_AQUI" target="_blank" rel="noopener">📘 Abrir Wiki</a>
-          <a class="btn wide" href="https://discord.gg/5Dmarekg" target="_blank" rel="noopener">💬 Suporte no Discord</a>
-        </aside>
-      </div>
+      <h1>TÍTULO DA PÁGINA</h1>
+      <p class="muted">
+        Conteúdo da página aqui.
+      </p>
     </div>
   </main>
 
   <footer class="footer">
-    <div class="container">
-      <div class="bar">
-        <div>
-          <b>© 2026 REDE CATS</b> · IP: <b>redecats.jogar.in</b> · Discord: <b>discord.gg/5Dmarekg</b>
-          <div class="smallnote">Este site não possui quaisquer vínculos com a Mojang AB.</div>
-        </div>
-        <div class="social">
-          <a href="https://discord.gg/5Dmarekg" target="_blank" rel="noopener" title="Discord">💬</a>
-          <a href="SEU_LINK_GITBOOK_AQUI" target="_blank" rel="noopener" title="Wiki">📘</a>
-          <a href="index.html" title="Início">🏠</a>
-        </div>
-      </div>
+    <div class="container footer__content">
+      <span class="muted small">© <span id="year"></span> Rede Cats</span>
     </div>
   </footer>
 
-  <script src="assets/app.js"></script>
+  <script src="assets/app.js" defer></script>
 </body>
 </html>

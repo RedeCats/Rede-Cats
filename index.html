@@ -3,172 +3,123 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Seu Servidor - Minecraft</title>
-  <meta name="description" content="Site oficial do servidor. IP, Discord, loja e informações." />
-  <link rel="stylesheet" href="style.css" />
+  <title>Rede Cats - Servidor Minecraft</title>
+  <meta name="description" content="Servidor Minecraft com sistemas insanos, vibe neon e comunidade ativa." />
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
 
 <body>
   <header class="topbar">
     <div class="container topbar__content">
       <div class="brand">
-        <div class="logo">⛏️</div>
+        <div class="logo">🐱</div>
         <div class="brand__text">
-          <strong class="brand__name">SEU SERVIDOR</strong>
-          <span class="brand__tag">Survival • RankUP • Eventos</span>
+          <strong class="brand__name">REDE CATS</strong>
+          <span class="brand__tag">Survival • RankUP • Sistemas</span>
         </div>
       </div>
 
       <nav class="nav">
-        <a href="#home">Início</a>
-        <a href="#sobre">Sobre</a>
-        <a href="#como-entrar">Como entrar</a>
-        <a href="#loja">Loja</a>
-        <a class="btn btn--outline" href="#discord">Discord</a>
+        <a href="index.html">Início</a>
+        <a href="loja.html">Loja</a>
+        <a href="votar.html">Votar</a>
+        <a href="doadores.html">Doadores</a>
+        <a href="rgb.html">RGB</a>
+        <a class="btn btn--outline" href="https://discord.gg/SEUCONVITE" target="_blank">Discord</a>
       </nav>
     </div>
   </header>
 
-  <main id="home">
+  <main>
     <section class="hero">
       <div class="container hero__grid">
         <div>
-          <h1>Bem-vindo ao <span class="accent">SEU SERVIDOR</span></h1>
+          <h1>Bem-vindo à <span class="accent">Rede Cats</span></h1>
           <p class="muted">
-            Um servidor feito pra você evoluir, farmar, competir e se divertir com a galera.
+            Servidor Minecraft com vibe neon, sistemas avançados e evolução constante.
           </p>
 
           <div class="card ip-card">
-            <div class="ip-card__left">
+            <div>
               <div class="label">IP do servidor</div>
-              <div class="ip" id="serverIp">jogar.seuservidor.com:25565</div>
-              <div class="muted small">Versão: 1.21.x (Java) • Bedrock: opcional</div>
+              <div class="ip" id="serverIp">redecats.jogar.in</div>
+              <div class="muted small">Java 1.21.x • Bedrock em breve</div>
             </div>
             <div class="ip-card__right">
               <button class="btn" id="copyIpBtn">Copiar IP</button>
-              <button class="btn btn--ghost" id="openMcBtn">Abrir Minecraft (link)</button>
             </div>
           </div>
 
           <div class="hero__actions">
-            <a class="btn" href="#como-entrar">Como entrar</a>
-            <a class="btn btn--outline" href="#loja">Ver loja</a>
+            <a class="btn" href="como-entrar.html">Como entrar</a>
+            <a class="btn btn--outline" href="loja.html">Ver loja</a>
           </div>
         </div>
 
         <div class="hero__side">
           <div class="banner">
-            <div class="banner__title">Eventos toda semana</div>
-            <div class="banner__desc muted">Keys, torneios, missões e recompensas.</div>
+            <div class="banner__title">⚡ Sistemas exclusivos</div>
+            <p class="muted">Eventos, ranks, missões e recompensas.</p>
             <div class="stats">
               <div class="stat">
-                <div class="stat__num" id="onlineCount">--</div>
-                <div class="stat__label muted">online agora</div>
+                <div class="stat__num" id="onlineCount">Online</div>
+                <div class="stat__label muted">Status</div>
               </div>
               <div class="stat">
                 <div class="stat__num">24/7</div>
                 <div class="stat__label muted">Uptime</div>
               </div>
               <div class="stat">
-                <div class="stat__num">⚡</div>
-                <div class="stat__label muted">Anti-lag</div>
+                <div class="stat__num">💜</div>
+                <div class="stat__label muted">Neon</div>
               </div>
             </div>
-            <div class="small muted">* Online pode ser manual ou via API (te explico depois).</div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="sobre" class="section">
+    <section class="section">
       <div class="container">
-        <h2>Sobre o servidor</h2>
+        <h2>Atalhos rápidos</h2>
         <div class="grid3">
-          <div class="card">
-            <h3>Economia</h3>
-            <p class="muted">Loja, leilão, jobs e mercado com preços balanceados.</p>
-          </div>
-          <div class="card">
-            <h3>Progressão</h3>
-            <p class="muted">Ranks, níveis, missões e recompensas diárias.</p>
-          </div>
-          <div class="card">
-            <h3>Comunidade</h3>
-            <p class="muted">Staff ativa e Discord com suporte e novidades.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="como-entrar" class="section">
-      <div class="container">
-        <h2>Como entrar</h2>
-        <div class="grid2">
-          <div class="card">
-            <h3>Java</h3>
-            <ol class="muted">
-              <li>Abra o Minecraft Java</li>
-              <li>Multiplayer → Adicionar servidor</li>
-              <li>IP: <b>jogar.seuservidor.com:25565</b></li>
-            </ol>
-          </div>
-          <div class="card">
-            <h3>Bedrock (se tiver Geyser)</h3>
-            <ol class="muted">
-              <li>Servidores → Adicionar</li>
-              <li>Endereço: <b>jogar.seuservidor.com</b></li>
-              <li>Porta: <b>19132</b></li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="loja" class="section">
-      <div class="container">
-        <h2>Loja</h2>
-        <div class="grid3">
-          <div class="card">
-            <h3>VIP</h3>
-            <p class="muted">Vantagens e cosmetics sem quebrar o balance.</p>
-            <a class="btn btn--outline" href="#" target="_blank" rel="noreferrer">Abrir loja</a>
-          </div>
-          <div class="card">
-            <h3>Coins</h3>
-            <p class="muted">Moeda do servidor para itens e upgrades.</p>
-            <a class="btn btn--outline" href="#" target="_blank" rel="noreferrer">Comprar coins</a>
-          </div>
-          <div class="card">
-            <h3>Chaves</h3>
-            <p class="muted">Keys para caixas especiais e recompensas.</p>
-            <a class="btn btn--outline" href="#" target="_blank" rel="noreferrer">Comprar chaves</a>
-          </div>
-        </div>
-        <p class="small muted">Depois eu te mostro como colocar pagamento (Pix/Mercado Pago) do jeito certo.</p>
-      </div>
-    </section>
-
-    <section id="discord" class="section">
-      <div class="container">
-        <div class="card discord">
-          <div>
-            <h2>Entre no Discord</h2>
-            <p class="muted">Regras, suporte, anúncios e eventos.</p>
-          </div>
-          <a class="btn" href="https://discord.gg/SEUCONVITE" target="_blank" rel="noreferrer">Abrir Discord</a>
+          <a class="card" href="introducao.html">
+            <img src="assets/icon_card_1_introducao.png">
+            <h3>Introdução</h3>
+          </a>
+          <a class="card" href="como-entrar.html">
+            <img src="assets/icon_card_2_como_entrar.png">
+            <h3>Como entrar</h3>
+          </a>
+          <a class="card" href="regras.html">
+            <img src="assets/icon_card_3_regras.png">
+            <h3>Regras</h3>
+          </a>
+          <a class="card" href="sistemas.html">
+            <img src="assets/icon_card_4_sistemas.png">
+            <h3>Sistemas</h3>
+          </a>
+          <a class="card" href="vips.html">
+            <img src="assets/icon_card_5_vips.png">
+            <h3>VIPs</h3>
+          </a>
+          <a class="card" href="suporte.html">
+            <img src="assets/icon_card_6_suporte.png">
+            <h3>Suporte</h3>
+          </a>
         </div>
       </div>
     </section>
 
     <footer class="footer">
       <div class="container footer__content">
-        <span class="muted small">© <span id="year"></span> SEU SERVIDOR • Todos os direitos reservados</span>
-        <span class="muted small">Feito com ❤️</span>
+        <span class="muted small">© <span id="year"></span> Rede Cats</span>
+        <span class="muted small">discord.gg/SEUCONVITE</span>
       </div>
     </footer>
   </main>
 
-  <div class="toast" id="toast">Copiado!</div>
-  <script src="script.js"></script>
+  <div class="toast" id="toast">IP copiado!</div>
+  <script src="assets/app.js" defer></script>
 </body>
 </html>

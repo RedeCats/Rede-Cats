@@ -2,177 +2,44 @@
 <html lang="pt-br">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>REDE CATS — Loja</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rede Cats</title>
   <link rel="stylesheet" href="assets/style.css" />
 </head>
+
 <body>
-
   <header class="topbar">
-    <div class="container">
-      <div class="wrap">
-        <div class="brand">
-          <span class="brand-dot"></span>
-          <div class="brand-title">REDE CATS</div>
-        </div>
-
-        <nav class="nav">
-          <a href="index.html">🏠 Início</a>
-          <a href="loja.html">🛒 Loja</a>
-          <a href="votar.html">🗳️ Votar</a>
-          <a href="doadores.html">🏆 Doadores</a>
-          <a href="rgb.html">🌈 RGB</a>
-          <a href="SEU_LINK_GITBOOK_AQUI" target="_blank" rel="noopener">📘 Wiki</a>
-          <a href="https://discord.gg/5Dmarekg" target="_blank" rel="noopener">💬 Discord</a>
-        </nav>
+    <div class="container topbar__content">
+      <div class="brand">
+        <div class="logo">🐱</div>
+        <strong class="brand__name">REDE CATS</strong>
       </div>
+
+      <nav class="nav">
+        <a href="index.html">Início</a>
+        <a href="loja.html">Loja</a>
+        <a href="votar.html">Votar</a>
+        <a href="doadores.html">Doadores</a>
+        <a href="rgb.html">RGB</a>
+      </nav>
     </div>
   </header>
 
   <main class="section">
     <div class="container">
-      <h2>Loja Oficial</h2>
-      <p class="lead">Layout grande estilo “site de loja”. Aqui você vai colocar os produtos reais depois (VIP, coins, chaves, etc.).</p>
-
-      <div class="shop-grid">
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-          <div class="card">
-            <div class="card-inner">
-              <div class="head">
-                <h3>🧩 Categorias</h3>
-              </div>
-              <div class="group">
-                <button class="btn filter-btn primary" data-filter="all">🌌 Todas</button>
-                <button class="btn filter-btn" data-filter="vip">👑 VIP</button>
-                <button class="btn filter-btn" data-filter="cash">🪙 Cash/Coins</button>
-                <button class="btn filter-btn" data-filter="chave">🗝️ Chaves</button>
-                <button class="btn filter-btn" data-filter="pets">🐾 Pets</button>
-              </div>
-
-              <hr class="sep" />
-
-              <div class="title" style="font-weight:1000; margin:0 0 8px">⚠️ Aviso</div>
-              <p style="margin:0;color:var(--muted);line-height:1.55">
-                Compras são virtuais e ajudam a manter o servidor online.
-                Em caso de dúvidas, chame no Discord.
-              </p>
-
-              <hr class="sep" />
-              <a class="btn primary wide" href="https://discord.gg/5Dmarekg" target="_blank" rel="noopener">Abrir suporte</a>
-            </div>
-          </div>
-        </aside>
-
-        <!-- PRODUCTS -->
-        <section>
-          <div class="products">
-            <!-- EXEMPLOS (troca depois) -->
-            <article class="product" data-cat="vip">
-              <div class="thumb">
-                <img src="assets/hero_banner.png" alt="VIP" />
-              </div>
-              <div class="meta">
-                <p class="name">VIP LENDÁRIO</p>
-                <p class="price">R$ 15,00</p>
-                <div class="actions">
-                  <button class="btn small">Detalhes</button>
-                  <button class="btn small primary">Adicionar</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="product" data-cat="cash">
-              <div class="thumb">
-                <img src="assets/section_welcome.png" alt="Cash" />
-              </div>
-              <div class="meta">
-                <p class="name">1000 COINS</p>
-                <p class="price">R$ 10,00</p>
-                <div class="actions">
-                  <button class="btn small">Detalhes</button>
-                  <button class="btn small primary">Adicionar</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="product" data-cat="chave">
-              <div class="thumb">
-                <img src="assets/section_icons.png" alt="Chave" />
-              </div>
-              <div class="meta">
-                <p class="name">CHAVE MÍTICA</p>
-                <p class="price">R$ 7,00</p>
-                <div class="actions">
-                  <button class="btn small">Detalhes</button>
-                  <button class="btn small primary">Adicionar</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="product" data-cat="pets">
-              <div class="thumb">
-                <img src="assets/hero_banner.png" alt="Pet" />
-              </div>
-              <div class="meta">
-                <p class="name">PET SOMBRIO</p>
-                <p class="price">R$ 30,00</p>
-                <div class="actions">
-                  <button class="btn small">Detalhes</button>
-                  <button class="btn small primary">Adicionar</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="product" data-cat="vip">
-              <div class="thumb">
-                <img src="assets/section_welcome.png" alt="VIP" />
-              </div>
-              <div class="meta">
-                <p class="name">VIP MAGNÍFICO</p>
-                <p class="price">R$ 45,00</p>
-                <div class="actions">
-                  <button class="btn small">Detalhes</button>
-                  <button class="btn small primary">Adicionar</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="product" data-cat="cash">
-              <div class="thumb">
-                <img src="assets/section_icons.png" alt="Cash" />
-              </div>
-              <div class="meta">
-                <p class="name">5000 COINS</p>
-                <p class="price">R$ 45,00</p>
-                <div class="actions">
-                  <button class="btn small">Detalhes</button>
-                  <button class="btn small primary">Adicionar</button>
-                </div>
-              </div>
-            </article>
-          </div>
-        </section>
-      </div>
+      <h1>TÍTULO DA PÁGINA</h1>
+      <p class="muted">
+        Conteúdo da página aqui.
+      </p>
     </div>
   </main>
 
   <footer class="footer">
-    <div class="container">
-      <div class="bar">
-        <div>
-          <b>© 2026 REDE CATS</b> · IP: <b>redecats.jogar.in</b> · Discord: <b>discord.gg/5Dmarekg</b>
-          <div class="smallnote">Este site não possui quaisquer vínculos com a Mojang AB.</div>
-        </div>
-        <div class="social">
-          <a href="https://discord.gg/5Dmarekg" target="_blank" rel="noopener" title="Discord">💬</a>
-          <a href="SEU_LINK_GITBOOK_AQUI" target="_blank" rel="noopener" title="Wiki">📘</a>
-          <a href="index.html" title="Início">🏠</a>
-        </div>
-      </div>
+    <div class="container footer__content">
+      <span class="muted small">© <span id="year"></span> Rede Cats</span>
     </div>
   </footer>
 
-  <script src="assets/app.js"></script>
+  <script src="assets/app.js" defer></script>
 </body>
 </html>

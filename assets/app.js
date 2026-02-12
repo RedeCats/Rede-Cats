@@ -1,63 +1,51 @@
-// 1) COLOQUE AQUI O LINK DA SUA WIKI (GitBook):
-// Exemplo (o seu print mostrou algo assim):
-// https://redecats.gitbook.io/redecats-docs/
-const WIKI_URL = "https://redecats.gitbook.io/redecats-docs/";
-
-// 2) IP DO SERVIDOR
-const SERVER_IP = "redecats.jogar.in";
-
-function openWiki(path = "") {
-  const base = WIKI_URL.replace(/\/$/, "");
-  const url = path ? `${base}/${path.replace(/^\//, "")}` : base;
-  window.open(url, "_blank", "noopener");
-}
-
-function copyText(text) {
-  navigator.clipboard.writeText(text).then(() => {
-    alert("IP copiado: " + text);
-  }).catch(() => {
-    // fallback simples
-    const t = document.createElement("textarea");
-    t.value = text;
-    document.body.appendChild(t);
-    t.select();
-    document.execCommand("copy");
-    document.body.removeChild(t);
-    alert("IP copiado: " + text);
-  });
-}
-
 document.addEventListener("DOMContentLoaded", () => {
+  const yearEl = document.getElementById("year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
   const ipEl = document.getElementById("serverIp");
-  if (ipEl) ipEl.textContent = SERVER_IP;
-
-  // Botão do topo "Wiki"
-  const btnWiki = document.getElementById("btnWiki");
-  if (btnWiki) btnWiki.addEventListener("click", (e) => {
-    e.preventDefault();
-    openWiki("");
-  });
-
-  // Copiar IP
   const copyBtn = document.getElementById("copyIpBtn");
-  if (copyBtn) copyBtn.addEventListener("click", () => copyText(SERVER_IP));
+  const toast = document.getElementById("toast");
 
-  // Cards (cada um abre um lugar da wiki — você pode mudar depois)
-  const map = [
-    ["cardIntro", ""],          // home da wiki
-    ["cardComoEntrar", ""],
-    ["cardRegras", ""],
-    ["cardSistemas", ""],
-    ["cardVips", ""],
-    ["cardSuporte", ""],
-  ];
+  // Se você quiser, troque aqui o IP padrão (ou deixe o texto do HTML)
+  const fallbackIP = ipEl ? ipEl.textContent.trim() : "";
 
-  map.forEach(([id, path]) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener("click", (e) => {
-      e.preventDefault();
-      openWiki(path);
+  function showToast(msg) {
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1400);
+  }
+
+  async function copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e) {
+      try {
+        const temp = document.createElement("input");
+        temp.value = text;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        temp.remove();
+        return true;
+      } catch (e2) {
+        return false;
+      }
+    }
+  }
+
+  if (copyBtn && ipEl) {
+    copyBtn.addEventListener("click", async () => {
+      const ip = ipEl.textContent.trim() || fallbackIP;
+      const ok = await copyText(ip);
+      showToast(ok ? "IP copiado!" : "Não consegui copiar :(");
     });
-  });
+  }
+
+  // “Online” (placeholder simples)
+  const onlineCount = document.getElementById("onlineCount");
+  if (onlineCount && (onlineCount.textContent || "").trim() === "--") {
+    onlineCount.textContent = "Online";
+  }
 });

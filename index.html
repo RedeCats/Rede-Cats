@@ -9,6 +9,13 @@
 </head>
 
 <body>
+
+  <!-- FUNDO ANIMADO -->
+  <div class="bg-animated">
+    <div class="bg-image"></div>
+    <div class="bg-glow"></div>
+  </div>
+
   <header class="topbar">
     <div class="container topbar__content">
       <div class="brand">
@@ -30,7 +37,7 @@
     </div>
   </header>
 
-  <main>
+  <main class="site-content">
     <section class="hero">
       <div class="container hero__grid">
         <div>
@@ -62,7 +69,7 @@
             <p class="muted">Eventos, ranks, missões e recompensas.</p>
             <div class="stats">
               <div class="stat">
-                <div class="stat__num" id="onlineCount">Online</div>
+                <div class="stat__num">Online</div>
                 <div class="stat__label muted">Status</div>
               </div>
               <div class="stat">
@@ -79,14 +86,15 @@
       </div>
     </section>
 
-    <!-- NOVO: atalhos em coluna na esquerda + palco grande no meio -->
+    <!-- LAYOUT: atalhos à esquerda + palco central -->
     <section class="section home-lower">
       <div class="container home-lower__grid">
+
         <aside class="home-links">
           <h2>Atalhos rápidos</h2>
 
           <a class="card link-card" href="introducao.html">
-            <img src="assets/icon_card_1_introducao.png" alt="">
+            <img src="assets/icon_card_1_introducao.png">
             <div>
               <h3>Introdução</h3>
               <p class="muted small">Conheça a proposta do servidor.</p>
@@ -94,58 +102,58 @@
           </a>
 
           <a class="card link-card" href="como-entrar.html">
-            <img src="assets/icon_card_2_como_entrar.png" alt="">
+            <img src="assets/icon_card_2_como_entrar.png">
             <div>
               <h3>Como entrar</h3>
-              <p class="muted small">Java/Bedrock e passo a passo.</p>
+              <p class="muted small">Java e Bedrock.</p>
             </div>
           </a>
 
           <a class="card link-card" href="regras.html">
-            <img src="assets/icon_card_3_regras.png" alt="">
+            <img src="assets/icon_card_3_regras.png">
             <div>
               <h3>Regras</h3>
-              <p class="muted small">Evite punições e jogue de boa.</p>
+              <p class="muted small">Jogue sem punições.</p>
             </div>
           </a>
 
           <a class="card link-card" href="sistemas.html">
-            <img src="assets/icon_card_4_sistemas.png" alt="">
+            <img src="assets/icon_card_4_sistemas.png">
             <div>
               <h3>Sistemas</h3>
-              <p class="muted small">Ranks, missões, economia e mais.</p>
+              <p class="muted small">Ranks, economia, missões.</p>
             </div>
           </a>
 
           <a class="card link-card" href="vips.html">
-            <img src="assets/icon_card_5_vips.png" alt="">
+            <img src="assets/icon_card_5_vips.png">
             <div>
               <h3>VIPs</h3>
-              <p class="muted small">Vantagens e categorias.</p>
+              <p class="muted small">Vantagens exclusivas.</p>
             </div>
           </a>
 
           <a class="card link-card" href="suporte.html">
-            <img src="assets/icon_card_6_suporte.png" alt="">
+            <img src="assets/icon_card_6_suporte.png">
             <div>
               <h3>Suporte</h3>
-              <p class="muted small">Fale com a equipe / tickets.</p>
+              <p class="muted small">Fale com a equipe.</p>
             </div>
           </a>
         </aside>
 
         <section class="home-stage">
           <div class="card stage-card">
-            <h2>Área de destaque</h2>
+            <h2>Destaques do servidor</h2>
             <p class="muted">
-              Aqui vamos colocar imagens do spawn, banners, novidades e eventos.
+              Aqui entram banners, novidades, eventos e imagens do spawn.
             </p>
-
             <div class="stage-placeholder">
-              <span class="muted small">Espaço reservado (imagem/banner)</span>
+              <span class="muted small">Área de destaque</span>
             </div>
           </div>
         </section>
+
       </div>
     </section>
 

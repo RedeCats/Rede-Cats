@@ -23,7 +23,7 @@ html,body{margin:0;padding:0;height:100%;font-family:system-ui;color:var(--text)
 .bg-image{
   position:absolute;
   inset:-10%;
-  background:url("img/spawn.jpg") center/cover no-repeat;
+  background:url("spawn.png") center/cover no-repeat;
   opacity:.18;
   filter: blur(6px) saturate(1.1);
   animation: bgMove 90s ease-in-out infinite alternate;

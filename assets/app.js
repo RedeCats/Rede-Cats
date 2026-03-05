@@ -128,3 +128,48 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===== Helpers opcionais (se você quiser usar no futuro) =====
   // Exemplo: showToast("Bem-vindo!");
 });
+
+// ============================
+// STATUS DO SERVIDOR
+// ============================
+
+async function atualizarStatusServidor() {
+
+const ip = "redecats.jogar.in"; // coloque seu IP aqui
+
+try {
+
+const res = await fetch(`https://api.mcsrvstat.us/2/${ip}`);
+const data = await res.json();
+
+const statusText = document.getElementById("statusText");
+const playersText = document.getElementById("playersText");
+
+if (!statusText || !playersText) return;
+
+if (data.online) {
+
+statusText.innerText = "ONLINE";
+statusText.style.color = "#00ff9c";
+
+playersText.innerText = `${data.players.online}/${data.players.max}`;
+
+} else {
+
+statusText.innerText = "OFFLINE";
+statusText.style.color = "#ff4a4a";
+
+playersText.innerText = "0/0";
+
+}
+
+} catch (err) {
+
+console.log("Erro ao buscar status do servidor");
+
+}
+
+}
+
+atualizarStatusServidor();
+setInterval(atualizarStatusServidor, 30000);

@@ -1,46 +1,245 @@
-
 <!doctype html>
 <html lang="pt-br">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rede Cats</title>
+  <title>Sistemas - Rede Cats</title>
+  <meta name="description" content="Conheça os sistemas oficiais da Rede Cats: progressão, economia, eventos e mais." />
   <link rel="stylesheet" href="assets/style.css" />
 </head>
 
 <body>
+  <!-- FUNDO ANIMADO -->
+  <div class="bg-animated">
+    <div class="bg-image"></div>
+    <div class="bg-glow"></div>
+  </div>
+
   <header class="topbar">
     <div class="container topbar__content">
       <div class="brand">
         <div class="logo">🐱</div>
-        <strong class="brand__name">REDE CATS</strong>
+        <div class="brand__text">
+          <strong class="brand__name">REDE CATS</strong>
+          <span class="brand__tag">Survival • RankUP • Sistemas</span>
+        </div>
       </div>
 
-      <nav class="nav">
+      <nav class="nav" aria-label="Navegação">
         <a href="index.html">Início</a>
+        <a href="regras.html">Regras</a>
+        <a href="sistemas.html">Sistemas</a>
         <a href="loja.html">Loja</a>
-        <a href="votar.html">Votar</a>
-        <a href="doadores.html">Doadores</a>
-        <a href="rgb.html">RGB</a>
+        <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+
+    <div class="container">
+      <nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile">
+        <a href="index.html">Início</a>
+        <a href="regras.html">Regras</a>
+        <a href="sistemas.html">Sistemas</a>
+        <a href="loja.html">Loja</a>
+        <div class="mobile-actions">
+          <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a>
+        </div>
       </nav>
     </div>
   </header>
 
-  <main class="section">
-    <div class="container">
-      <h1>TÍTULO DA PÁGINA</h1>
-      <p class="muted">
-        Conteúdo da página aqui.
-      </p>
-    </div>
+  <main class="site-content">
+    <section class="section">
+      <div class="container">
+
+        <div class="card premium-hover">
+          <div class="badge">⚡ SISTEMAS OFICIAIS</div>
+          <h1 style="margin-top:10px">Sistemas da Rede Cats</h1>
+          <p class="muted">
+            Aqui você encontra os principais sistemas do servidor. Tudo pensado pra progressão, diversão e competitividade.
+          </p>
+
+          <div class="spacer"></div>
+
+          <div class="badge">💡 Dica</div>
+          <p class="muted small">
+            Se você é novo: comece no spawn, faça suas primeiras farms, participe de eventos e evolua no RankUP.
+          </p>
+        </div>
+
+        <div class="spacer"></div>
+
+        <!-- GRID DE SISTEMAS -->
+        <div class="card premium-hover">
+          <h2>Principais sistemas</h2>
+          <p class="muted">O coração da Rede Cats — evolução, economia e conteúdo.</p>
+
+          <div class="sys-grid">
+
+            <div class="sys-item premium-hover">
+              <div class="sys-title">🏆 RankUP</div>
+              <p class="muted small">Evolua de rank, desbloqueie benefícios e chegue ao topo.</p>
+              <div class="sys-tags">
+                <span class="badge">Progressão</span>
+                <span class="badge">Desafios</span>
+              </div>
+            </div>
+
+            <div class="sys-item premium-hover">
+              <div class="sys-title">💰 Economia & Loja</div>
+              <p class="muted small">Ganhe moedas, negocie com players e movimente o mercado.</p>
+              <div class="sys-tags">
+                <span class="badge">Mercado</span>
+                <span class="badge">Cash/Coins</span>
+              </div>
+            </div>
+
+            <div class="sys-item premium-hover">
+              <div class="sys-title">🎁 Crates & Recompensas</div>
+              <p class="muted small">Caixas com itens raros, cosméticos e drops especiais.</p>
+              <div class="sys-tags">
+                <span class="badge">Loot</span>
+                <span class="badge">Raridades</span>
+              </div>
+            </div>
+
+            <div class="sys-item premium-hover">
+              <div class="sys-title">🧭 Missões & Quests</div>
+              <p class="muted small">Complete objetivos e ganhe recompensas por evolução.</p>
+              <div class="sys-tags">
+                <span class="badge">Diárias</span>
+                <span class="badge">Semanais</span>
+              </div>
+            </div>
+
+            <div class="sys-item premium-hover">
+              <div class="sys-title">⚔️ PvP & Arena</div>
+              <p class="muted small">Treine, lute e conquiste prestígio em batalhas.</p>
+              <div class="sys-tags">
+                <span class="badge">Competitivo</span>
+                <span class="badge">Ranking</span>
+              </div>
+            </div>
+
+            <div class="sys-item premium-hover">
+              <div class="sys-title">🏰 Eventos</div>
+              <p class="muted small">Eventos semanais com prêmios e desafios únicos.</p>
+              <div class="sys-tags">
+                <span class="badge">Semanal</span>
+                <span class="badge">Recompensas</span>
+              </div>
+            </div>
+
+            <div class="sys-item premium-hover">
+              <div class="sys-title">🛡️ Proteção & Claims</div>
+              <p class="muted small">Proteja sua base, itens e terrenos com segurança.</p>
+              <div class="sys-tags">
+                <span class="badge">Segurança</span>
+                <span class="badge">Terrenos</span>
+              </div>
+            </div>
+
+            <div class="sys-item premium-hover">
+              <div class="sys-title">✨ Itens Especiais</div>
+              <p class="muted small">Itens exclusivos, raros e com utilidades diferenciadas.</p>
+              <div class="sys-tags">
+                <span class="badge">Exclusivo</span>
+                <span class="badge">Raro</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <!-- COMO EVOLUIR -->
+        <div class="card premium-hover">
+          <h2>Como evoluir rápido</h2>
+          <p class="muted">Um roteiro simples pra você progredir sem travar.</p>
+
+          <div class="steps-grid">
+            <div class="step premium-hover">
+              <div class="badge">1</div>
+              <h3>Comece no spawn</h3>
+              <p class="muted small">Pegue kits iniciais, leia as regras e entenda o básico.</p>
+            </div>
+
+            <div class="step premium-hover">
+              <div class="badge">2</div>
+              <h3>Faça farm e junte coins</h3>
+              <p class="muted small">Venda itens, participe de quests e comece a lucrar.</p>
+            </div>
+
+            <div class="step premium-hover">
+              <div class="badge">3</div>
+              <h3>Participe de eventos</h3>
+              <p class="muted small">Eventos são a forma mais rápida de conseguir recompensas fortes.</p>
+            </div>
+
+            <div class="step premium-hover">
+              <div class="badge">4</div>
+              <h3>Suba no RankUP</h3>
+              <p class="muted small">Desbloqueie vantagens e vire destaque do servidor.</p>
+            </div>
+          </div>
+
+          <div class="spacer"></div>
+
+          <a class="btn" href="loja.html">Ver VIPs na Loja</a>
+          <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a>
+        </div>
+
+        <div class="spacer"></div>
+
+        <footer class="footer">
+          <div class="container footer__content">
+            <span class="muted small">© <span id="year"></span> Rede Cats</span>
+            <span class="muted small">Discord: discord.gg/GQZGduc9</span>
+          </div>
+        </footer>
+
+      </div>
+    </section>
   </main>
 
-  <footer class="footer">
-    <div class="container footer__content">
-      <span class="muted small">© <span id="year"></span> Rede Cats</span>
-    </div>
-  </footer>
-
+  <div class="toast" id="toast">OK</div>
   <script src="assets/app.js" defer></script>
+
+  <!-- CSS pequeno para esta página (pode colocar no style.css se quiser) -->
+  <style>
+    .sys-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+      margin-top:14px;
+    }
+    .sys-item{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      border-radius:16px;
+      padding:14px;
+    }
+    .sys-title{font-weight:900;font-size:1.05rem;margin-bottom:6px}
+    .sys-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
+    .steps-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+      margin-top:14px;
+    }
+    .step{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      border-radius:16px;
+      padding:14px;
+    }
+
+    @media(max-width:900px){
+      .sys-grid,.steps-grid{grid-template-columns:1fr}
+    }
+  </style>
 </body>
 </html>

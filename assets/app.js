@@ -3,11 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // ===== Copiar IP =====
-  const ipEl = document.getElementById("serverIp");
-  const copyBtn = document.getElementById("copyIpBtn");
+  // ===== Toast =====
   const toast = document.getElementById("toast");
-
   function showToast(msg) {
     if (!toast) return;
     toast.textContent = msg;
@@ -15,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => toast.classList.remove("show"), 1400);
   }
 
+  // ===== Copiar texto (utilitário) =====
   async function copyText(text) {
     try {
       await navigator.clipboard.writeText(text);
@@ -34,6 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // ===== Copiar IP =====
+  const ipEl = document.getElementById("serverIp");
+  const copyBtn = document.getElementById("copyIpBtn");
   if (copyBtn && ipEl) {
     copyBtn.addEventListener("click", async () => {
       const ip = ipEl.textContent.trim();
@@ -42,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ===== Navbar ativa =====
+  // ===== Navbar ativa (desktop + mobile) =====
   const path = (location.pathname.split("/").pop() || "index.html").toLowerCase();
   document.querySelectorAll(".nav a, .mobile-nav a").forEach((a) => {
     const href = (a.getAttribute("href") || "").toLowerCase();
@@ -50,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (href === path) a.classList.add("is-active");
   });
 
-  // ===== Menu Mobile =====
+  // ===== Menu Mobile (hambúrguer) =====
   const menuBtn = document.getElementById("menuBtn");
   const mobileNav = document.getElementById("mobileNav");
   if (menuBtn && mobileNav) {
@@ -59,7 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const isOpen = mobileNav.classList.contains("open");
       menuBtn.setAttribute("aria-expanded", String(isOpen));
     });
-    // fecha ao clicar em link
+
+    // fecha ao clicar em um link no mobile
     mobileNav.querySelectorAll("a").forEach((a) => {
       a.addEventListener("click", () => {
         mobileNav.classList.remove("open");
@@ -69,12 +71,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===== Status do Servidor (mcsrvstat.us) =====
-  // Atualiza: statusText, playersText
+  // Atualiza elementos se existirem:
+  // - statusText (ONLINE/OFFLINE)
+  // - playersText (ex: 12/200)
   const statusText = document.getElementById("statusText");
   const playersText = document.getElementById("playersText");
 
   async function fetchServerStatus(host) {
-    // API pública simples (funciona com GitHub Pages)
     const url = `https://api.mcsrvstat.us/2/${encodeURIComponent(host)}`;
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error("HTTP " + res.status);
@@ -103,23 +106,25 @@ document.addEventListener("DOMContentLoaded", () => {
           playersText.textContent = "—";
         }
       }
-    } catch (e) {
+    } catch {
       if (statusText) statusText.textContent = "OFFLINE";
       if (playersText) playersText.textContent = "—";
-      // opcional: showToast("Não deu pra carregar o status agora.")
     }
   }
 
   updateStatus();
-  // atualiza a cada 60s
   setInterval(updateStatus, 60000);
-});
 
-// ===== Accordion (regras) =====
-document.querySelectorAll(".rule-acc-btn").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const panel = btn.nextElementSibling;
-    if (!panel || !panel.classList.contains("rule-acc-panel")) return;
-    panel.classList.toggle("open");
+  // ===== Accordion (Regras) =====
+  // (só roda se tiver as classes na página)
+  document.querySelectorAll(".rule-acc-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const panel = btn.nextElementSibling;
+      if (!panel || !panel.classList.contains("rule-acc-panel")) return;
+      panel.classList.toggle("open");
+    });
   });
+
+  // ===== Helpers opcionais (se você quiser usar no futuro) =====
+  // Exemplo: showToast("Bem-vindo!");
 });

@@ -1,46 +1,173 @@
-
 <!doctype html>
 <html lang="pt-br">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rede Cats</title>
+  <title>Suporte - Rede Cats</title>
+  <meta name="description" content="Suporte oficial da Rede Cats: tickets, denúncias e dúvidas." />
   <link rel="stylesheet" href="assets/style.css" />
 </head>
 
 <body>
+  <!-- FUNDO ANIMADO -->
+  <div class="bg-animated">
+    <div class="bg-image"></div>
+    <div class="bg-glow"></div>
+  </div>
+
   <header class="topbar">
     <div class="container topbar__content">
       <div class="brand">
         <div class="logo">🐱</div>
-        <strong class="brand__name">REDE CATS</strong>
+        <div class="brand__text">
+          <strong class="brand__name">REDE CATS</strong>
+          <span class="brand__tag">Survival • RankUP • Sistemas</span>
+        </div>
       </div>
 
-      <nav class="nav">
+      <nav class="nav" aria-label="Navegação">
         <a href="index.html">Início</a>
+        <a href="regras.html">Regras</a>
+        <a href="sistemas.html">Sistemas</a>
         <a href="loja.html">Loja</a>
-        <a href="votar.html">Votar</a>
+        <a href="vips.html">VIPs</a>
         <a href="doadores.html">Doadores</a>
-        <a href="rgb.html">RGB</a>
+        <a href="suporte.html">Suporte</a>
+        <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+
+    <div class="container">
+      <nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile">
+        <a href="index.html">Início</a>
+        <a href="regras.html">Regras</a>
+        <a href="sistemas.html">Sistemas</a>
+        <a href="loja.html">Loja</a>
+        <a href="vips.html">VIPs</a>
+        <a href="doadores.html">Doadores</a>
+        <a href="suporte.html">Suporte</a>
+        <div class="mobile-actions">
+          <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a>
+        </div>
       </nav>
     </div>
   </header>
 
-  <main class="section">
-    <div class="container">
-      <h1>TÍTULO DA PÁGINA</h1>
-      <p class="muted">
-        Conteúdo da página aqui.
-      </p>
-    </div>
+  <main class="site-content">
+    <section class="section">
+      <div class="container">
+
+        <div class="card premium-hover">
+          <div class="badge">🛠️ SUPORTE</div>
+          <h1 style="margin-top:10px">Suporte da Rede Cats</h1>
+          <p class="muted">
+            Precisa de ajuda, quer denunciar, reportar bug ou comprar VIP? Faça tudo via ticket no Discord.
+          </p>
+
+          <div class="spacer"></div>
+
+          <a class="btn" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Abrir Ticket no Discord</a>
+          <a class="btn btn--outline" href="regras.html#denuncia">Como denunciar</a>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="card premium-hover">
+          <h2>📌 Tipos de atendimento</h2>
+          <p class="muted">Escolha o tipo certo no ticket pra te ajudarmos mais rápido.</p>
+
+          <div class="support-grid">
+            <div class="support-item premium-hover">
+              <div class="support-title">🎫 Dúvidas gerais</div>
+              <p class="muted small">Problemas para entrar, comandos, itens, sistemas e configurações.</p>
+            </div>
+
+            <div class="support-item premium-hover">
+              <div class="support-title">🐞 Bug / Exploit</div>
+              <p class="muted small">Encontrou bug? Reporte com print/vídeo + como reproduzir.</p>
+            </div>
+
+            <div class="support-item premium-hover">
+              <div class="support-title">⚠️ Denúncia</div>
+              <p class="muted small">Denuncie com provas completas (sem cortes) e contexto.</p>
+            </div>
+
+            <div class="support-item premium-hover">
+              <div class="support-title">💎 Compra / VIP</div>
+              <p class="muted small">Compra temporária via ticket (até a loja direta ficar pronta).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="card premium-hover">
+          <h2>✅ Para agilizar seu ticket</h2>
+          <div class="rule-accordion">
+            <button class="rule-acc-btn" type="button">O que enviar no ticket?</button>
+            <div class="rule-acc-panel">
+              <ul class="muted small" style="margin:8px 0 0;padding-left:18px">
+                <li>Seu nick</li>
+                <li>O que aconteceu</li>
+                <li>Print/vídeo (se tiver)</li>
+                <li>Data e horário aproximado</li>
+              </ul>
+            </div>
+
+            <button class="rule-acc-btn" type="button">Tempo de resposta</button>
+            <div class="rule-acc-panel">
+              <p class="muted small">
+                O suporte responde conforme disponibilidade. Tickets com informações completas são respondidos mais rápido.
+              </p>
+            </div>
+
+            <button class="rule-acc-btn" type="button">Reembolso / estorno</button>
+            <div class="rule-acc-panel">
+              <p class="muted small">
+                Compras e doações seguem as regras do servidor. Em casos especiais, a equipe analisará pelo ticket.
+              </p>
+            </div>
+          </div>
+
+          <div class="spacer"></div>
+          <a class="btn" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Abrir ticket</a>
+        </div>
+
+        <div class="spacer"></div>
+
+        <footer class="footer">
+          <div class="container footer__content">
+            <span class="muted small">© <span id="year"></span> Rede Cats</span>
+            <span class="muted small">Discord: discord.gg/GQZGduc9</span>
+          </div>
+        </footer>
+
+      </div>
+    </section>
   </main>
 
-  <footer class="footer">
-    <div class="container footer__content">
-      <span class="muted small">© <span id="year"></span> Rede Cats</span>
-    </div>
-  </footer>
-
+  <div class="toast" id="toast">OK</div>
   <script src="assets/app.js" defer></script>
+
+  <style>
+    .support-grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+    }
+    .support-item{
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      padding:14px;
+    }
+    .support-title{font-weight:900;margin-bottom:6px}
+    @media(max-width:900px){
+      .support-grid{grid-template-columns:1fr}
+    }
+  </style>
 </body>
 </html>

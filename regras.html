@@ -1,54 +1,277 @@
 <!doctype html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8">
-  <title>Rede Cats • Regras</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="assets/style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Regras - Rede Cats</title>
+  <meta name="description" content="Regras e diretrizes oficiais da Rede Cats." />
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
 
 <body>
+  <!-- FUNDO ANIMADO -->
+  <div class="bg-animated">
+    <div class="bg-image"></div>
+    <div class="bg-glow"></div>
+  </div>
+
   <header class="topbar">
     <div class="container topbar__content">
       <div class="brand">
         <div class="logo">🐱</div>
-        <strong class="brand__name">REDE CATS</strong>
+        <div class="brand__text">
+          <strong class="brand__name">REDE CATS</strong>
+          <span class="brand__tag">Survival • RankUP • Sistemas</span>
+        </div>
       </div>
-      <nav class="nav">
+
+      <nav class="nav" aria-label="Navegação">
         <a href="index.html">Início</a>
+        <a href="regras.html">Regras</a>
+        <a href="como-entrar.html">Como entrar</a>
+        <a href="sistemas.html">Sistemas</a>
         <a href="loja.html">Loja</a>
-        <a href="votar.html">Votar</a>
-        <a href="doadores.html">Doadores</a>
-        <a href="rgb.html">RGB</a>
+        <a class="btn btn--outline" href="https://discord.gg/SEUCONVITE" target="_blank" rel="noopener">Discord</a>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+
+    <div class="container">
+      <nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile">
+        <a href="index.html">Início</a>
+        <a href="regras.html">Regras</a>
+        <a href="como-entrar.html">Como entrar</a>
+        <a href="sistemas.html">Sistemas</a>
+        <a href="loja.html">Loja</a>
+        <div class="mobile-actions">
+          <a class="btn btn--outline" href="https://discord.gg/SEUCONVITE" target="_blank" rel="noopener">Entrar no Discord</a>
+        </div>
       </nav>
     </div>
   </header>
 
-  <main class="section">
-    <div class="container">
-      <h1>Regras do servidor</h1>
+  <main class="site-content">
+    <section class="section">
+      <div class="container">
+        <div class="card premium-hover">
+          <h1>Regras e Diretrizes</h1>
+          <p class="muted">
+            Para manter o servidor justo e divertido, siga as regras abaixo. A staff pode agir em casos não previstos
+            quando houver má-fé, abuso ou tentativa de burlar punições.
+          </p>
 
-      <div class="card">
-        <ul class="muted">
-          <li>❌ Proibido usar hacks ou clientes modificados</li>
-          <li>❌ Proibido x-ray, dupes ou bugs</li>
-          <li>❌ Ofensas, racismo ou toxicidade</li>
-          <li>❌ Divulgação sem autorização</li>
-          <li>❌ Exploração de falhas</li>
-        </ul>
-        <p class="muted small">
-          O descumprimento das regras pode resultar em mute, ban temporário ou permanente.
-        </p>
+          <div class="rules-badges">
+            <span class="badge">🧾 Provas com contexto</span>
+            <span class="badge">🛡️ Ambiente saudável</span>
+            <span class="badge">⚖️ Punições progressivas</span>
+          </div>
+
+          <div class="rules-top">
+            <div class="rules-tabs" role="tablist" aria-label="Categorias de regras">
+              <a class="rule-tab" href="#silenciamento">Silenciamento</a>
+              <a class="rule-tab" href="#ban-temp">Ban Temporário</a>
+              <a class="rule-tab" href="#ban-perm">Ban Permanente</a>
+              <a class="rule-tab" href="#discord">Discord</a>
+            </div>
+
+            <div class="rules-note">
+              <div class="label">Importante</div>
+              <p class="muted small">
+                A conta é responsabilidade do jogador. “Meu irmão/amigo usou” não anula punição.
+                Tentativas de burlar punição (trocar nick/conta) podem agravar a penalidade.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <!-- COMO DENUNCIAR -->
+        <div class="card premium-hover" id="denuncia">
+          <h2>Como criar uma denúncia (do jeito certo)</h2>
+          <p class="muted">
+            Abra um ticket no Discord e envie: nick do jogador, data/horário, provas e contexto completo.
+          </p>
+
+          <div class="rules-grid-2">
+            <div class="stage-item">
+              <div class="stage-item__title">📌 Procedimento</div>
+              <p class="muted small">
+                Discord → Ticket → “Denunciar jogador” → descreva o ocorrido com prints/vídeo.
+              </p>
+            </div>
+            <div class="stage-item">
+              <div class="stage-item__title">⏰ Requisitos</div>
+              <ul class="muted small rules-list">
+                <li>Prova deve mostrar a tela inteira (sem cortes suspeitos).</li>
+                <li>Enviar data e horário do ocorrido.</li>
+                <li>Prova antiga pode ser recusada.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <!-- SILENCIAMENTO -->
+        <div class="card premium-hover" id="silenciamento">
+          <h2>Silenciamento (chat)</h2>
+          <p class="muted">Regras relacionadas ao chat do servidor.</p>
+
+          <div class="rule-accordion">
+            <button class="rule-acc-btn" type="button">1) Spam / Flood / CAPS exagerado</button>
+            <div class="rule-acc-panel">
+              <p class="muted small">Mensagem repetida, poluição do chat, ou uso exagerado de CAPS.</p>
+              <div class="rule-table">
+                <div class="rt-row"><span>1ª</span><span>Aviso</span></div>
+                <div class="rt-row"><span>2ª</span><span>Aviso</span></div>
+                <div class="rt-row"><span>3ª</span><span>Silenciamento</span></div>
+              </div>
+            </div>
+
+            <button class="rule-acc-btn" type="button">2) Ofensas / desrespeito</button>
+            <div class="rule-acc-panel">
+              <p class="muted small">Ofender jogadores, provocar ou gerar clima tóxico no chat.</p>
+              <div class="rule-table">
+                <div class="rt-row"><span>1ª</span><span>Aviso</span></div>
+                <div class="rt-row"><span>2ª</span><span>Aviso</span></div>
+                <div class="rt-row"><span>3ª</span><span>Silenciamento</span></div>
+              </div>
+            </div>
+
+            <button class="rule-acc-btn" type="button">3) Divulgação / propaganda</button>
+            <div class="rule-acc-panel">
+              <p class="muted small">Divulgar links, servidores, grupos, ou spam de convite no chat.</p>
+              <div class="rule-table">
+                <div class="rt-row"><span>1ª</span><span>Aviso</span></div>
+                <div class="rt-row"><span>2ª</span><span>Aviso</span></div>
+                <div class="rt-row"><span>3ª</span><span>Silenciamento</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <!-- BAN TEMP -->
+        <div class="card premium-hover" id="ban-temp">
+          <h2>Banimento Temporário</h2>
+          <p class="muted">Regras de jogabilidade e conduta dentro do servidor.</p>
+
+          <div class="rule-accordion">
+            <button class="rule-acc-btn" type="button">1) Abuso de bugs / exploits</button>
+            <div class="rule-acc-panel">
+              <p class="muted small">Aproveitar falhas do servidor para obter vantagem.</p>
+              <div class="rule-table">
+                <div class="rt-row"><span>1ª</span><span>3 dias</span></div>
+                <div class="rt-row"><span>2ª</span><span>7 dias</span></div>
+                <div class="rt-row"><span>3ª</span><span>30 dias / permanente (caso grave)</span></div>
+              </div>
+            </div>
+
+            <button class="rule-acc-btn" type="button">2) Trapaças leves / automação indevida</button>
+            <div class="rule-acc-panel">
+              <p class="muted small">Macros/auto-clicker/sistemas externos para vantagem (quando aplicável).</p>
+              <div class="rule-table">
+                <div class="rt-row"><span>1ª</span><span>3 dias</span></div>
+                <div class="rt-row"><span>2ª</span><span>7 dias</span></div>
+                <div class="rt-row"><span>3ª</span><span>30 dias</span></div>
+              </div>
+            </div>
+
+            <button class="rule-acc-btn" type="button">3) Trap / golpes / roubo com má-fé</button>
+            <div class="rule-acc-panel">
+              <p class="muted small">Enganar em troca/venda e causar prejuízo intencional.</p>
+              <div class="rule-table">
+                <div class="rt-row"><span>1ª</span><span>7 dias</span></div>
+                <div class="rt-row"><span>2ª</span><span>14 dias</span></div>
+                <div class="rt-row"><span>3ª</span><span>30 dias</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <!-- BAN PERM -->
+        <div class="card premium-hover" id="ban-perm">
+          <h2>Banimento Permanente</h2>
+          <p class="muted">Infrações graves (normalmente resultam em ban direto).</p>
+
+          <div class="rule-accordion">
+            <button class="rule-acc-btn" type="button">1) Hacks / clientes de trapaça</button>
+            <div class="rule-acc-panel">
+              <p class="muted small">Cheats, scripts, injeções e qualquer ferramenta de vantagem injusta.</p>
+              <div class="rule-table">
+                <div class="rt-row"><span>Punição</span><span>Permanente</span></div>
+              </div>
+            </div>
+
+            <button class="rule-acc-btn" type="button">2) Divulgação grave / tentativa de “puxar jogador”</button>
+            <div class="rule-acc-panel">
+              <p class="muted small">Divulgar IP de outros servidores para tirar jogadores do nosso.</p>
+              <div class="rule-table">
+                <div class="rt-row"><span>Punição</span><span>Permanente</span></div>
+              </div>
+            </div>
+
+            <button class="rule-acc-btn" type="button">3) Ameaças / doxxing / conteúdo criminoso</button>
+            <div class="rule-acc-panel">
+              <p class="muted small">Qualquer ameaça real, exposição de dados pessoais ou conteúdo ilegal.</p>
+              <div class="rule-table">
+                <div class="rt-row"><span>Punição</span><span>Permanente + encaminhamento (se necessário)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <!-- DISCORD -->
+        <div class="card premium-hover" id="discord">
+          <h2>Regras do Discord</h2>
+          <p class="muted">Valem as regras de respeito, spam, divulgação e conduta.</p>
+
+          <div class="rule-accordion">
+            <button class="rule-acc-btn" type="button">1) Flood / spam / convites</button>
+            <div class="rule-acc-panel">
+              <p class="muted small">Spam de mensagens, links e convites sem permissão.</p>
+              <div class="rule-table">
+                <div class="rt-row"><span>1ª</span><span>Advertência</span></div>
+                <div class="rt-row"><span>2ª</span><span>Mute</span></div>
+                <div class="rt-row"><span>3ª</span><span>Ban</span></div>
+              </div>
+            </div>
+
+            <button class="rule-acc-btn" type="button">2) Ofensas / preconceito</button>
+            <div class="rule-acc-panel">
+              <p class="muted small">Tóxico, assédio, discriminação: tolerância baixa.</p>
+              <div class="rule-table">
+                <div class="rt-row"><span>Punição</span><span>Mute/Ban (conforme gravidade)</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="spacer"></div>
+
+          <a class="btn" href="index.html">Voltar ao início</a>
+          <a class="btn btn--outline" href="#denuncia">Como denunciar</a>
+        </div>
+
+        <div class="spacer"></div>
+
+        <footer class="footer">
+          <div class="container footer__content">
+            <span class="muted small">© <span id="year"></span> Rede Cats</span>
+            <span class="muted small">Discord: discord.gg/SEUCONVITE</span>
+          </div>
+        </footer>
       </div>
-    </div>
+    </section>
   </main>
 
-  <footer class="footer">
-    <div class="container footer__content">
-      <span class="muted small">© <span id="year"></span> Rede Cats</span>
-    </div>
-  </footer>
-
+  <div class="toast" id="toast">OK</div>
   <script src="assets/app.js" defer></script>
 </body>
 </html>

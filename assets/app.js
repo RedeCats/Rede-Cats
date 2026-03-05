@@ -61,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
       menuBtn.setAttribute("aria-expanded", String(isOpen));
     });
 
-    // fecha ao clicar em um link no mobile
     mobileNav.querySelectorAll("a").forEach((a) => {
       a.addEventListener("click", () => {
         mobileNav.classList.remove("open");
@@ -70,12 +69,30 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // ===== Accordion (Regras / FAQ) =====
+  document.querySelectorAll(".rule-acc-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const panel = btn.nextElementSibling;
+      if (!panel || !panel.classList.contains("rule-acc-panel")) return;
+      panel.classList.toggle("open");
+    });
+  });
+
+  // ===== Helpers =====
+  function stripMinecraftFormatting(s) {
+    if (!s) return "";
+    // Remove § + código (ex: §a, §l) e & + código (ex: &a)
+    return String(s)
+      .replace(/§[0-9A-FK-ORa-fk-or]/g, "")
+      .replace(/&[0-9A-FK-ORa-fk-or]/g, "");
+  }
+
   // ===== Status do Servidor (mcsrvstat.us) =====
-  // Atualiza elementos se existirem:
-  // - statusText (ONLINE/OFFLINE)
-  // - playersText (ex: 12/200)
   const statusText = document.getElementById("statusText");
   const playersText = document.getElementById("playersText");
+  const motdText = document.getElementById("motdText");
+  const versionText = document.getElementById("versionText");
+  const pingText = document.getElementById("pingText");
 
   async function fetchServerStatus(host) {
     const url = `https://api.mcsrvstat.us/2/${encodeURIComponent(host)}`;
@@ -85,18 +102,30 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function updateStatus() {
-    if (!ipEl || (!statusText && !playersText)) return;
+    if (!ipEl) return;
+
+    // Se a página não tem nada de status, não faz request atoa
+    const hasAny =
+      statusText || playersText || motdText || versionText || pingText;
+    if (!hasAny) return;
 
     const host = ipEl.textContent.trim();
+
     try {
       if (statusText) statusText.textContent = "Carregando…";
       if (playersText) playersText.textContent = "—";
+      if (motdText) motdText.textContent = "—";
+      if (versionText) versionText.textContent = "—";
+      if (pingText) pingText.textContent = "—";
 
       const data = await fetchServerStatus(host);
 
       const online = !!data.online;
+
+      // Status
       if (statusText) statusText.textContent = online ? "ONLINE" : "OFFLINE";
 
+      // Players
       if (playersText) {
         if (online && data.players && typeof data.players.online === "number") {
           const on = data.players.online;
@@ -106,70 +135,45 @@ document.addEventListener("DOMContentLoaded", () => {
           playersText.textContent = "—";
         }
       }
+
+      // Versão
+      if (versionText) {
+        if (online && data.version) versionText.textContent = String(data.version);
+        else versionText.textContent = "—";
+      }
+
+      // Ping (nem sempre vem — depende do retorno)
+      if (pingText) {
+        if (online && typeof data.ping === "number") pingText.textContent = `${data.ping}ms`;
+        else pingText.textContent = "—";
+      }
+
+      // MOTD
+      if (motdText) {
+        if (online && data.motd) {
+          // data.motd.clean costuma ser array de linhas
+          if (Array.isArray(data.motd.clean) && data.motd.clean.length) {
+            motdText.textContent = data.motd.clean.join(" ").trim();
+          } else if (typeof data.motd.clean === "string") {
+            motdText.textContent = data.motd.clean.trim();
+          } else if (Array.isArray(data.motd.raw) && data.motd.raw.length) {
+            motdText.textContent = stripMinecraftFormatting(data.motd.raw.join(" ")).trim();
+          } else {
+            motdText.textContent = "—";
+          }
+        } else {
+          motdText.textContent = "—";
+        }
+      }
     } catch {
       if (statusText) statusText.textContent = "OFFLINE";
       if (playersText) playersText.textContent = "—";
+      if (motdText) motdText.textContent = "—";
+      if (versionText) versionText.textContent = "—";
+      if (pingText) pingText.textContent = "—";
     }
   }
 
   updateStatus();
   setInterval(updateStatus, 60000);
-
-  // ===== Accordion (Regras) =====
-  // (só roda se tiver as classes na página)
-  document.querySelectorAll(".rule-acc-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const panel = btn.nextElementSibling;
-      if (!panel || !panel.classList.contains("rule-acc-panel")) return;
-      panel.classList.toggle("open");
-    });
-  });
-
-  // ===== Helpers opcionais (se você quiser usar no futuro) =====
-  // Exemplo: showToast("Bem-vindo!");
 });
-
-// ============================
-// STATUS DO SERVIDOR
-// ============================
-
-async function atualizarStatusServidor() {
-
-const ip = "redecats.jogar.in"; // coloque seu IP aqui
-
-try {
-
-const res = await fetch(`https://api.mcsrvstat.us/2/${ip}`);
-const data = await res.json();
-
-const statusText = document.getElementById("statusText");
-const playersText = document.getElementById("playersText");
-
-if (!statusText || !playersText) return;
-
-if (data.online) {
-
-statusText.innerText = "ONLINE";
-statusText.style.color = "#00ff9c";
-
-playersText.innerText = `${data.players.online}/${data.players.max}`;
-
-} else {
-
-statusText.innerText = "OFFLINE";
-statusText.style.color = "#ff4a4a";
-
-playersText.innerText = "0/0";
-
-}
-
-} catch (err) {
-
-console.log("Erro ao buscar status do servidor");
-
-}
-
-}
-
-atualizarStatusServidor();
-setInterval(atualizarStatusServidor, 30000);

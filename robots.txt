@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://redecats.github.io/Rede-Cats/sitemap.xml

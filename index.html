@@ -4,19 +4,31 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Rede Cats - Servidor Minecraft</title>
-  <meta name="description" content="Rede Cats - Survival, RankUP e sistemas avançados com vibe neon." />
+  <meta name="description" content="Servidor Minecraft com sistemas insanos, vibe neon e comunidade ativa." />
   <link rel="stylesheet" href="assets/style.css?v=20260305" />
 </head>
-<body>
-  <header class="header">
-    <div class="container header__content">
-      <a class="brand" href="index.html" aria-label="Rede Cats">
-        <span class="brand__logo">REDE CATS</span>
-        <span class="brand__tag muted">Survival • RankUP • Sistemas</span>
-      </a>
 
-      <nav class="nav">
-        <a href="index.html" class="active">Início</a>
+<body>
+
+  <!-- FUNDO ANIMADO -->
+  <div class="bg-animated">
+    <div class="bg-image"></div>
+    <div class="bg-glow"></div>
+  </div>
+
+  <header class="topbar">
+    <div class="container topbar__content">
+      <div class="brand">
+        <div class="logo">🐱</div>
+        <div class="brand__text">
+          <strong class="brand__name">REDE CATS</strong>
+          <span class="brand__tag">Survival • RankUP • Sistemas</span>
+        </div>
+      </div>
+
+      <!-- NAV DESKTOP -->
+      <nav class="nav" aria-label="Navegação">
+        <a href="index.html">Início</a>
         <a href="regras.html">Regras</a>
         <a href="sistemas.html">Sistemas</a>
         <a href="loja.html">Loja</a>
@@ -24,37 +36,43 @@
         <a href="doadores.html">Doadores</a>
         <a href="rgb.html">RGB</a>
         <a href="suporte.html">Suporte</a>
-        <a class="nav__discord" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
+        <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
       </nav>
 
-      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">☰</button>
+      <!-- BOTÃO MOBILE -->
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">☰</button>
     </div>
 
-    <div class="mobile-nav" id="mobileNav">
-      <a href="index.html">Início</a>
-      <a href="regras.html">Regras</a>
-      <a href="sistemas.html">Sistemas</a>
-      <a href="loja.html">Loja</a>
-      <a href="vips.html">VIPs</a>
-      <a href="doadores.html">Doadores</a>
-      <a href="rgb.html">RGB</a>
-      <a href="suporte.html">Suporte</a>
-      <a href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a>
+    <!-- NAV MOBILE -->
+    <div class="container">
+      <nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile">
+        <a href="index.html">Início</a>
+        <a href="regras.html">Regras</a>
+        <a href="sistemas.html">Sistemas</a>
+        <a href="loja.html">Loja</a>
+        <a href="vips.html">VIPs</a>
+        <a href="doadores.html">Doadores</a>
+        <a href="rgb.html">RGB</a>
+        <a href="suporte.html">Suporte</a>
+        <div class="mobile-actions">
+          <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a>
+        </div>
+      </nav>
     </div>
   </header>
 
-  <main>
+  <main class="site-content">
     <section class="hero">
-      <div class="container hero__content">
-        <div class="hero__left">
-          <h1>Bem-vindo à <span class="gradient">Rede Cats</span></h1>
+      <div class="container hero__grid">
+        <div>
+          <h1>Bem-vindo à <span class="accent">Rede Cats</span></h1>
           <p class="muted">
             Servidor Minecraft com vibe neon, sistemas avançados e evolução constante.
           </p>
 
-          <div class="ip-card card">
-            <div class="ip-card__left">
-              <span class="muted small">IP do servidor</span>
+          <div class="card ip-card premium-hover">
+            <div>
+              <div class="label">IP do servidor</div>
               <div class="ip" id="serverIp">redecats.jogar.in</div>
               <div class="muted small">Java 1.21.x • Bedrock em breve</div>
             </div>
@@ -64,130 +82,169 @@
             </div>
           </div>
 
-          <div class="hero__cta">
+          <div class="hero__actions">
             <a class="btn" href="como-entrar.html">Como entrar</a>
             <a class="btn btn--outline" href="loja.html">Ver loja</a>
             <a class="btn btn--outline" href="regras.html">Ver regras</a>
           </div>
         </div>
 
-        <div class="hero__right">
-          <div class="live card premium-hover">
-            <div class="live__top">
-              <h2>⚡ Rede Cats ao vivo</h2>
-              <p class="muted small">Status real do servidor e progresso da comunidade.</p>
-            </div>
+        <div class="hero__side">
+          <div class="banner premium-hover">
+            <div class="banner__title">⚡ Rede Cats ao vivo</div>
+            <p class="muted">Status real do servidor e progresso da comunidade.</p>
 
-            <div class="live__grid">
-              <div class="live__item">
-                <span class="muted small">Status</span>
-                <strong id="statusText">—</strong>
-              </div>
+<div class="stats">
+  <div class="stat">
+    <div class="stat__num" id="statusText">—</div>
+    <div class="stat__label muted">Status</div>
+  </div>
 
-              <div class="live__item">
-                <span class="muted small">Players</span>
-                <strong id="playersText">—</strong>
-              </div>
+  <div class="stat">
+    <div class="stat__num" id="playersText">—</div>
+    <div class="stat__label muted">Players</div>
+  </div>
 
-              <div class="live__item">
-                <span class="muted small">Versão</span>
-                <strong id="versionText">—</strong>
-              </div>
+  <div class="stat">
+    <div class="stat__num" id="versionText">—</div>
+    <div class="stat__label muted">Versão</div>
+  </div>
 
-              <div class="live__item">
-                <span class="muted small">Ping</span>
-                <strong id="pingText">—</strong>
-              </div>
-            </div>
+  <div class="stat">
+    <div class="stat__num" id="pingText">—</div>
+    <div class="stat__label muted">Ping</div>
+  </div>
+</div>
 
-            <div class="live__motd">
-              <span class="muted small">MOTD</span>
-              <div class="motd" id="motdText">—</div>
-            </div>
+<div style="margin-top:12px">
+  <div class="badge">📝 MOTD</div>
+  <p class="muted" id="motdText" style="margin-top:10px">—</p>
+</div>
 
-            <div class="live__actions">
-              <a class="chip" href="sistemas.html">Eventos</a>
-              <a class="chip" href="sistemas.html">⚔️</a>
-              <a class="chip" href="sistemas.html">RankUP</a>
-              <a class="chip" href="vips.html">VIPs</a>
-              <a class="chip" href="rgb.html">RGB</a>
+            <div style="margin-top:12px">
+              <span class="badge">🏆 Eventos</span>
+              <span class="badge">⚔️ RankUP</span>
+              <span class="badge">💎 VIPs</span>
+              <span class="badge">🌈 RGB</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section">
-      <div class="container">
-        <h2>Atalhos rápidos</h2>
-        <div class="quick-grid">
-          <a class="quick card premium-hover" href="regras.html">
-            <strong> Regras</strong>
-            <span class="muted small">Tudo em uma página (sem wiki).</span>
-          </a>
-          <a class="quick card premium-hover" href="sistemas.html">
-            <strong> Sistemas</strong>
-            <span class="muted small">Progressão, economia, eventos e mais.</span>
-          </a>
-          <a class="quick card premium-hover" href="loja.html">
-            <strong> Loja</strong>
-            <span class="muted small">VIPs (mensal e vitalício) + cupom de abertura.</span>
-          </a>
-          <a class="quick card premium-hover" href="vips.html">
-            <strong> VIPs</strong>
-            <span class="muted small">Compare Elite, Prime e Ultra.</span>
-          </a>
-          <a class="quick card premium-hover" href="doadores.html">
-            <strong> Doadores</strong>
-            <span class="muted small">Ranking do mês + meta.</span>
-          </a>
-          <a class="quick card premium-hover" href="rgb.html">
-            <strong> RGB</strong>
-            <span class="muted small">Gerador de gradiente (MiniMessage, &x, §x).</span>
-          </a>
-          <a class="quick card premium-hover" href="suporte.html">
-            <strong> Suporte</strong>
-            <span class="muted small">Tickets, denúncias e ajuda.</span>
-          </a>
-          <a class="quick card premium-hover" href="como-entrar.html">
-            <strong> Como entrar</strong>
-            <span class="muted small">Java 1.21.x (Bedrock em breve).</span>
-          </a>
-        </div>
-      </div>
-    </section>
+    <!-- LAYOUT: atalhos + destaques -->
+    <section class="section home-lower">
+      <div class="container home-lower__grid">
 
-    <section class="section">
-      <div class="container">
-        <h2>Destaques do servidor</h2>
-        <p class="muted">Conteúdo principal do servidor — clique e vá direto para as páginas.</p>
+        <aside class="home-links">
+          <h2>Atalhos rápidos</h2>
 
-        <div class="feature-grid">
-          <a class="feature card premium-hover" href="loja.html">
-            <strong>Cupom de abertura</strong>
-            <span class="muted small">ABERTURA30: -30% OFF por tempo limitado.</span>
+          <a class="card link-card premium-hover" href="regras.html">
+            <img src="assets/icon_card_3_regras.png" alt="Regras">
+            <div>
+              <h3>Regras</h3>
+              <p class="muted small">Tudo em uma página (sem wiki).</p>
+            </div>
           </a>
-          <a class="feature card premium-hover" href="sistemas.html">
-            <strong>⚡ Sistemas exclusivos</strong>
-            <span class="muted small">RankUP, quests, crates, eventos e mais.</span>
+
+          <a class="card link-card premium-hover" href="sistemas.html">
+            <img src="assets/icon_card_4_sistemas.png" alt="Sistemas">
+            <div>
+              <h3>Sistemas</h3>
+              <p class="muted small">Progressão, economia, eventos e mais.</p>
+            </div>
           </a>
-          <a class="feature card premium-hover" href="rgb.html">
-            <strong>Gerador RGB</strong>
-            <span class="muted small">Crie gradientes pra TAG/chat (MiniMessage, &x, §x).</span>
+
+          <a class="card link-card premium-hover" href="loja.html">
+            <img src="assets/icon_card_5_vips.png" alt="Loja">
+            <div>
+              <h3>Loja</h3>
+              <p class="muted small">VIPs (mensal e vitalício) + cupom de abertura.</p>
+            </div>
           </a>
-          <a class="feature card premium-hover" href="suporte.html">
-            <strong>🛠️ Suporte</strong>
-            <span class="muted small">Abra ticket, tire dúvidas e denuncie com provas.</span>
+
+          <a class="card link-card premium-hover" href="vips.html">
+            <img src="assets/icon_card_5_vips.png" alt="VIPs">
+            <div>
+              <h3>VIPs</h3>
+              <p class="muted small">Compare Elite, Prime e Ultra.</p>
+            </div>
           </a>
-          <a class="feature card premium-hover" href="regras.html">
-            <strong>Regras claras</strong>
-            <span class="muted small">Organizadas e fáceis de entender, tudo no site.</span>
+
+          <a class="card link-card premium-hover" href="doadores.html">
+            <img src="assets/icon_card_6_suporte.png" alt="Doadores">
+            <div>
+              <h3>Doadores</h3>
+              <p class="muted small">Ranking do mês + meta.</p>
+            </div>
           </a>
-          <a class="feature card premium-hover" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">
-            <strong>Comunidade</strong>
-            <span class="muted small">Entre no Discord e acompanhe as novidades.</span>
+
+          <a class="card link-card premium-hover" href="rgb.html">
+            <img src="assets/icon_card_1_wiki.png" alt="RGB">
+            <div>
+              <h3>RGB</h3>
+              <p class="muted small">Gerador de gradiente (MiniMessage, &x, §x).</p>
+            </div>
           </a>
-        </div>
+
+          <a class="card link-card premium-hover" href="suporte.html">
+            <img src="assets/icon_card_6_suporte.png" alt="Suporte">
+            <div>
+              <h3>Suporte</h3>
+              <p class="muted small">Tickets, denúncias e ajuda.</p>
+            </div>
+          </a>
+
+          <a class="card link-card premium-hover" href="como-entrar.html">
+            <img src="assets/icon_card_2_como_entrar.png" alt="Como entrar">
+            <div>
+              <h3>Como entrar</h3>
+              <p class="muted small">Java 1.21.x (Bedrock em breve).</p>
+            </div>
+          </a>
+        </aside>
+
+        <section class="home-stage">
+          <div class="card stage-card premium-hover">
+            <h2>Destaques do servidor</h2>
+            <p class="muted">
+              Conteúdo principal do servidor — clique e vá direto para as páginas.
+            </p>
+
+            <div class="stage-grid">
+              <a class="stage-item premium-hover" href="loja.html">
+                <div class="stage-item__title">🚀 Cupom de abertura</div>
+                <p class="muted small">ABERTURA30: -30% OFF por tempo limitado.</p>
+              </a>
+
+              <a class="stage-item premium-hover" href="sistemas.html">
+                <div class="stage-item__title">⚡ Sistemas exclusivos</div>
+                <p class="muted small">RankUP, quests, crates, eventos e mais.</p>
+              </a>
+
+              <a class="stage-item premium-hover" href="rgb.html">
+                <div class="stage-item__title">🌈 Gerador RGB</div>
+                <p class="muted small">Crie gradientes pra TAG/chat (MiniMessage, &x, §x).</p>
+              </a>
+
+              <a class="stage-item premium-hover" href="suporte.html">
+                <div class="stage-item__title">🛠️ Suporte</div>
+                <p class="muted small">Abra ticket, tire dúvidas e denuncie com provas.</p>
+              </a>
+
+              <a class="stage-item premium-hover" href="regras.html">
+                <div class="stage-item__title">🧾 Regras claras</div>
+                <p class="muted small">Organizadas e fáceis de entender, tudo no site.</p>
+              </a>
+
+              <a class="stage-item premium-hover" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">
+                <div class="stage-item__title">💬 Comunidade</div>
+                <p class="muted small">Entre no Discord e acompanhe as novidades.</p>
+              </a>
+            </div>
+          </div>
+        </section>
+
       </div>
     </section>
 
@@ -200,7 +257,77 @@
   </main>
 
   <div class="toast" id="toast">IP copiado!</div>
-
   <script src="assets/app.js?v=20260305" defer></script>
+
+  <!-- CSS pequeno pro index (pra não depender de classes que talvez não existam no seu CSS antigo) -->
+  <style>
+    .ip-card{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      margin-top:14px;
+    }
+    .ip-card__right{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .ip{
+      font-weight:1000;
+      font-size:1.2rem;
+      letter-spacing:.03em;
+      margin-top:6px;
+    }
+
+    .banner{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      padding:16px;
+    }
+    .banner__title{font-weight:1000;font-size:1.05rem}
+
+    .stats{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+    }
+    .stat{
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.20);
+      padding:12px;
+      text-align:center;
+    }
+    .stat__num{font-weight:1000;font-size:1.1rem}
+    .stat__label{font-size:.9rem}
+
+    .stage-grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+    }
+    .stage-item{
+      display:block;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      padding:14px;
+    }
+    .stage-item__title{font-weight:1000;margin-bottom:6px}
+
+    @media(max-width:900px){
+      .ip-card{flex-direction:column;align-items:flex-start}
+      .stats{grid-template-columns:1fr}
+      .stage-grid{grid-template-columns:1fr}
+    }
+  </style>
 </body>
 </html>
+
+

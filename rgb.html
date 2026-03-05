@@ -4,119 +4,207 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>RGB - Rede Cats</title>
-  <meta name="description" content="Gerador de gradiente RGB/HEX para Minecraft (MiniMessage, &x, §x) - Rede Cats." />
+  <meta name="description" content="Gerador de gradiente RGB/HEX para Minecraft (MiniMessage, &#rrggbb, §x, &x) - Rede Cats." />
   <link rel="stylesheet" href="assets/style.css?v=20260305" />
 </head>
-<body>
-  <header class="header">
-    <div class="container header__content">
-      <a class="brand" href="index.html" aria-label="Rede Cats">
-        <span class="brand__logo">REDE CATS</span>
-        <span class="brand__tag muted">RGB / Gradiente</span>
-      </a>
 
-      <nav class="nav">
+<body>
+  <!-- FUNDO ANIMADO -->
+  <div class="bg-animated">
+    <div class="bg-image"></div>
+    <div class="bg-glow"></div>
+  </div>
+
+  <header class="topbar">
+    <div class="container topbar__content">
+      <div class="brand">
+        <div class="logo">🐱</div>
+        <div class="brand__text">
+          <strong class="brand__name">REDE CATS</strong>
+          <span class="brand__tag">Ferramentas • RGB • Gradientes</span>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Navegação">
         <a href="index.html">Início</a>
         <a href="regras.html">Regras</a>
         <a href="sistemas.html">Sistemas</a>
         <a href="loja.html">Loja</a>
         <a href="vips.html">VIPs</a>
         <a href="doadores.html">Doadores</a>
-        <a class="active" href="rgb.html">RGB</a>
-        <a href="suporte.html">Suporte</a>
-        <a class="nav__discord" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
+        <a href="rgb.html">RGB</a>
+        <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
       </nav>
 
-      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">☰</button>
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">☰</button>
     </div>
 
-    <div class="mobile-nav" id="mobileNav">
-      <a href="index.html">Início</a>
-      <a href="regras.html">Regras</a>
-      <a href="sistemas.html">Sistemas</a>
-      <a href="loja.html">Loja</a>
-      <a href="vips.html">VIPs</a>
-      <a href="doadores.html">Doadores</a>
-      <a class="active" href="rgb.html">RGB</a>
-      <a href="suporte.html">Suporte</a>
-      <a href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a>
+    <div class="container">
+      <nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile">
+        <a href="index.html">Início</a>
+        <a href="regras.html">Regras</a>
+        <a href="sistemas.html">Sistemas</a>
+        <a href="loja.html">Loja</a>
+        <a href="vips.html">VIPs</a>
+        <a href="doadores.html">Doadores</a>
+        <a href="rgb.html">RGB</a>
+        <div class="mobile-actions">
+          <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a>
+        </div>
+      </nav>
     </div>
   </header>
 
-  <main>
+  <main class="site-content">
     <section class="section">
       <div class="container">
-        <h1>🎨 Gerador RGB / Gradiente</h1>
-        <p class="muted">
-          Crie gradientes para TAG/chat no Minecraft: MiniMessage, &#rrggbb, §x e &x.
-        </p>
 
-        <div class="card premium-hover" style="margin-top:14px">
-          <h2>Texto</h2>
-          <div class="grid" style="display:grid;gap:10px;grid-template-columns:2fr 1fr 1fr">
-            <div>
-              <label class="muted small">Texto</label>
-              <input id="rgbText" class="input" type="text" value="REDE CATS" />
-            </div>
-            <div>
-              <label class="muted small">Cor 1</label>
-              <input id="rgbC1" class="input" type="color" value="#ff2df7" />
-            </div>
-            <div>
-              <label class="muted small">Cor 2</label>
-              <input id="rgbC2" class="input" type="color" value="#00f5ff" />
-            </div>
-          </div>
-
-          <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-            <button class="btn" id="rgbGenBtn">Gerar</button>
-            <button class="btn btn--outline" id="rgbSwapBtn">Inverter</button>
-          </div>
-
-          <div style="margin-top:14px">
-            <div class="muted small">Prévia</div>
-            <div id="rgbPreview" style="font-weight:900;font-size:22px;margin-top:6px"></div>
-          </div>
+        <div class="card premium-hover">
+          <div class="badge">🌈 RGB / HEX</div>
+          <h1 style="margin-top:10px">Gerador de Gradiente</h1>
+          <p class="muted">
+            Gere texto com gradiente para Minecraft em vários formatos (MiniMessage, &#rrggbb, §x, &x).
+            Inspirado no estilo de geradores como o RGBirdflop (Birdflop).
+          </p>
         </div>
 
         <div class="spacer"></div>
 
-        <div class="grid" style="display:grid;gap:14px;grid-template-columns:1fr 1fr">
-          <div class="card premium-hover">
-            <h2>MiniMessage</h2>
-            <p class="muted small">Ex.: &lt;gradient:#ff0000:#00ffff&gt;TEXTO&lt;/gradient&gt;</p>
-            <textarea id="outMini" class="textarea" rows="5" readonly></textarea>
-            <div style="margin-top:10px">
-              <button class="btn" data-copy="outMini">Copiar</button>
-            </div>
-          </div>
+        <div class="rgb-layout">
+          <!-- CONTROLES -->
+          <aside class="card premium-hover">
+            <h2>Configuração</h2>
 
-          <div class="card premium-hover">
-            <h2>&#rrggbb (Hex)</h2>
-            <p class="muted small">Ex.: &#ff0000T&#00ffffE…</p>
-            <textarea id="outHex" class="textarea" rows="5" readonly></textarea>
-            <div style="margin-top:10px">
-              <button class="btn" data-copy="outHex">Copiar</button>
+            <div class="field">
+              <div class="label">Texto</div>
+              <textarea id="rgbText" class="input" rows="4" placeholder="Digite aqui...">REDE CATS</textarea>
+              <div class="muted small">
+                Dica: quanto mais texto, mais suave fica o gradiente.
+              </div>
             </div>
-          </div>
 
-          <div class="card premium-hover">
-            <h2>§x (Legacy)</h2>
-            <p class="muted small">Ex.: §x§f§f§0§0§0§0T…</p>
-            <textarea id="outSection" class="textarea" rows="5" readonly></textarea>
-            <div style="margin-top:10px">
-              <button class="btn" data-copy="outSection">Copiar</button>
-            </div>
-          </div>
+            <div class="spacer"></div>
 
-          <div class="card premium-hover">
-            <h2>&x (Legacy)</h2>
-            <p class="muted small">Ex.: &x&f&f&0&0&0&0T…</p>
-            <textarea id="outAmp" class="textarea" rows="5" readonly></textarea>
-            <div style="margin-top:10px">
-              <button class="btn" data-copy="outAmp">Copiar</button>
+            <div class="field">
+              <div class="label">Cores (pontos do gradiente)</div>
+
+              <div class="color-row">
+                <input type="color" id="c1" value="#b100ff" />
+                <input type="text" class="input mono" id="c1hex" value="#b100ff" />
+              </div>
+
+              <div class="color-row">
+                <input type="color" id="c2" value="#00e5ff" />
+                <input type="text" class="input mono" id="c2hex" value="#00e5ff" />
+              </div>
+
+              <div class="muted small">
+                (Opcional) Adicione mais 1 cor pra fazer 3 pontos.
+              </div>
+
+              <div class="color-row" id="c3row" style="display:none;margin-top:10px">
+                <input type="color" id="c3" value="#ffffff" />
+                <input type="text" class="input mono" id="c3hex" value="#ffffff" />
+              </div>
+
+              <div class="spacer"></div>
+
+              <div class="btn-row">
+                <button class="btn btn--outline" id="toggleC3">Adicionar 3ª cor</button>
+              </div>
             </div>
-          </div>
+
+            <div class="spacer"></div>
+
+            <div class="field">
+              <div class="label">Tipo de gradiente</div>
+              <select id="mode" class="input">
+                <option value="rgb">RGB (padrão)</option>
+                <option value="hsl">HSL (mais “suave” em alguns casos)</option>
+              </select>
+              <div class="muted small">
+                O Birdflop tem várias opções (rgb/hsl/oklab/oklch etc.). Aqui deixei as 2 mais úteis.
+              </div>
+            </div>
+
+            <div class="spacer"></div>
+
+            <div class="field">
+              <div class="label">Opções</div>
+              <label class="check">
+                <input type="checkbox" id="trimSpaces" checked />
+                <span>Não colorir espaços</span>
+              </label>
+              <label class="check">
+                <input type="checkbox" id="lowerHex" />
+                <span>Hex em minúsculo</span>
+              </label>
+            </div>
+
+            <div class="spacer"></div>
+
+            <div class="field">
+              <div class="label">Formato de saída</div>
+              <select id="format" class="input">
+                <option value="minimessage">&lt;#rrggbb&gt; (MiniMessage)</option>
+                <option value="amp">&#rrggbb (ampersand + hex)</option>
+                <option value="section">§x§r§r§g§g§b§b (section)</option>
+                <option value="legacy">&x&r&r&g&g&b&b (legacy)</option>
+              </select>
+
+              <div class="muted small">
+                Birdflop oferece vários formatos (MiniMessage, JSON, §x, &x, etc.).
+              </div>
+            </div>
+
+            <div class="spacer"></div>
+
+            <div class="btn-row">
+              <button class="btn" id="copyOut">Copiar resultado</button>
+              <button class="btn btn--outline" id="resetAll">Reset</button>
+            </div>
+
+            <div class="spacer"></div>
+
+            <div class="card premium-hover" style="background:rgba(255,255,255,.04)">
+              <div class="badge">⚠️ Nota</div>
+              <p class="muted small" style="margin-top:10px">
+                Se você usa plugins com <b>MiniMessage</b> (TAB, chat, scoreboard), escolha o formato MiniMessage.
+                Se usa plugins antigos, use &x ou §x.
+              </p>
+            </div>
+          </aside>
+
+          <!-- SAÍDA / PREVIEW -->
+          <section class="card premium-hover">
+            <h2>Saída</h2>
+            <p class="muted">Copie e cole no seu plugin.</p>
+
+            <div class="out-box">
+              <div class="label">Resultado</div>
+              <textarea id="out" class="input mono" rows="6" readonly></textarea>
+            </div>
+
+            <div class="spacer"></div>
+
+            <div class="card premium-hover" style="background:rgba(255,255,255,.04)">
+              <div class="badge">👀 Preview</div>
+              <p class="muted small" style="margin-top:10px">
+                O preview abaixo é só visual (HTML). No Minecraft o resultado depende do plugin/formato.
+              </p>
+              <div id="preview" class="preview"></div>
+            </div>
+
+            <div class="spacer"></div>
+
+            <h2>Presets rápidos</h2>
+            <div class="preset-grid">
+              <button class="btn btn--outline preset" data-preset="cats">Rede Cats (roxo→ciano)</button>
+              <button class="btn btn--outline preset" data-preset="sunset">Sunset (laranja→rosa)</button>
+              <button class="btn btn--outline preset" data-preset="lime">Lime (verde→amarelo)</button>
+              <button class="btn btn--outline preset" data-preset="ice">Ice (azul→branco)</button>
+            </div>
+          </section>
         </div>
 
         <div class="spacer"></div>
@@ -127,6 +215,7 @@
             <span class="muted small">Discord: discord.gg/GQZGduc9</span>
           </div>
         </footer>
+
       </div>
     </section>
   </main>
@@ -134,121 +223,381 @@
   <div class="toast" id="toast">OK</div>
   <script src="assets/app.js?v=20260305" defer></script>
 
+  <style>
+    .rgb-layout{
+      display:grid;
+      grid-template-columns:420px 1fr;
+      gap:14px;
+      align-items:start;
+    }
+    .field{margin-top:10px}
+    .input{
+      width:100%;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.04);
+      color:#fff;
+      outline:none;
+      font-family:system-ui;
+    }
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    textarea.input{resize:vertical}
+    .color-row{
+      display:grid;
+      grid-template-columns:52px 1fr;
+      gap:10px;
+      align-items:center;
+      margin-top:10px;
+    }
+    input[type="color"]{
+      width:52px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.14);
+      background:transparent;padding:0;
+    }
+    .btn-row{display:flex;gap:10px;flex-wrap:wrap}
+    .check{display:flex;gap:10px;align-items:center;margin:10px 0;color:rgba(255,255,255,.85)}
+    .out-box{margin-top:12px}
+    .preview{
+      margin-top:12px;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.20);
+      min-height:44px;
+      font-weight:900;
+      letter-spacing:.02em;
+      word-break:break-word;
+    }
+    .preset-grid{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+    }
+    @media(max-width:900px){
+      .rgb-layout{grid-template-columns:1fr}
+      .preset-grid{grid-template-columns:1fr}
+    }
+  </style>
+
   <script>
-    // ===== Util: copiar =====
-    async function copyText(text) {
-      try {
-        await navigator.clipboard.writeText(text);
-        return true;
-      } catch {
+    document.addEventListener("DOMContentLoaded", () => {
+      const toast = document.getElementById("toast");
+      function showToast(msg){
+        if(!toast) return;
+        toast.textContent = msg;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1400);
+      }
+
+      async function copyText(text) {
         try {
-          const temp = document.createElement("input");
-          temp.value = text;
-          document.body.appendChild(temp);
-          temp.select();
-          document.execCommand("copy");
-          temp.remove();
+          await navigator.clipboard.writeText(text);
           return true;
         } catch {
-          return false;
+          try {
+            const temp = document.createElement("input");
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand("copy");
+            temp.remove();
+            return true;
+          } catch {
+            return false;
+          }
         }
       }
-    }
 
-    function lerp(a, b, t){ return Math.round(a + (b - a) * t); }
-    function hexToRgb(hex){
-      const h = hex.replace("#","").trim();
-      return {
-        r: parseInt(h.substring(0,2),16),
-        g: parseInt(h.substring(2,4),16),
-        b: parseInt(h.substring(4,6),16),
+      // Elements
+      const rgbText = document.getElementById("rgbText");
+      const mode = document.getElementById("mode");
+      const format = document.getElementById("format");
+      const trimSpaces = document.getElementById("trimSpaces");
+      const lowerHex = document.getElementById("lowerHex");
+      const out = document.getElementById("out");
+      const preview = document.getElementById("preview");
+      const copyOut = document.getElementById("copyOut");
+      const resetAll = document.getElementById("resetAll");
+
+      const c1 = document.getElementById("c1");
+      const c2 = document.getElementById("c2");
+      const c3 = document.getElementById("c3");
+      const c1hex = document.getElementById("c1hex");
+      const c2hex = document.getElementById("c2hex");
+      const c3hex = document.getElementById("c3hex");
+      const c3row = document.getElementById("c3row");
+      const toggleC3 = document.getElementById("toggleC3");
+
+      let useC3 = false;
+
+      function clamp01(x){ return Math.max(0, Math.min(1, x)); }
+
+      function hexToRgb(hex){
+        const h = hex.replace("#","").trim();
+        if(h.length !== 6) return {r:255,g:255,b:255};
+        return {
+          r: parseInt(h.slice(0,2),16),
+          g: parseInt(h.slice(2,4),16),
+          b: parseInt(h.slice(4,6),16),
+        };
+      }
+
+      function rgbToHex({r,g,b}, lower){
+        const to2 = (n)=> n.toString(16).padStart(2,"0");
+        const h = `#${to2(r)}${to2(g)}${to2(b)}`;
+        return lower ? h.toLowerCase() : h.toUpperCase();
+      }
+
+      function rgbToHsl({r,g,b}){
+        r/=255; g/=255; b/=255;
+        const max = Math.max(r,g,b), min = Math.min(r,g,b);
+        let h=0, s=0, l=(max+min)/2;
+        const d = max-min;
+        if(d !== 0){
+          s = d/(1 - Math.abs(2*l - 1));
+          switch(max){
+            case r: h = ((g-b)/d) % 6; break;
+            case g: h = (b-r)/d + 2; break;
+            case b: h = (r-g)/d + 4; break;
+          }
+          h *= 60;
+          if(h < 0) h += 360;
+        }
+        return {h,s,l};
+      }
+
+      function hslToRgb({h,s,l}){
+        const c = (1 - Math.abs(2*l - 1)) * s;
+        const x = c * (1 - Math.abs(((h/60) % 2) - 1));
+        const m = l - c/2;
+        let rp=0,gp=0,bp=0;
+        if(0<=h && h<60){rp=c;gp=x;bp=0}
+        else if(60<=h && h<120){rp=x;gp=c;bp=0}
+        else if(120<=h && h<180){rp=0;gp=c;bp=x}
+        else if(180<=h && h<240){rp=0;gp=x;bp=c}
+        else if(240<=h && h<300){rp=x;gp=0;bp=c}
+        else {rp=c;gp=0;bp=x}
+        return {
+          r: Math.round((rp+m)*255),
+          g: Math.round((gp+m)*255),
+          b: Math.round((bp+m)*255),
+        };
+      }
+
+      function lerp(a,b,t){ return a + (b-a)*t; }
+
+      function lerpRgb(a,b,t){
+        return {
+          r: Math.round(lerp(a.r,b.r,t)),
+          g: Math.round(lerp(a.g,b.g,t)),
+          b: Math.round(lerp(a.b,b.b,t)),
+        };
+      }
+
+      function lerpHsl(a,b,t){
+        // Hue lerp shortest path
+        let dh = b.h - a.h;
+        if(dh > 180) dh -= 360;
+        if(dh < -180) dh += 360;
+
+        const h = (a.h + dh*t + 360) % 360;
+        const s = lerp(a.s,b.s,t);
+        const l = lerp(a.l,b.l,t);
+        return {h,s,l};
+      }
+
+      function getStops(){
+        const s1 = c1hex.value.trim().startsWith("#") ? c1hex.value.trim() : ("#" + c1hex.value.trim());
+        const s2 = c2hex.value.trim().startsWith("#") ? c2hex.value.trim() : ("#" + c2hex.value.trim());
+        const stops = [s1, s2];
+        if(useC3){
+          const s3 = c3hex.value.trim().startsWith("#") ? c3hex.value.trim() : ("#" + c3hex.value.trim());
+          stops.push(s3);
+        }
+        return stops.map(x => x.length===7 ? x : "#FFFFFF");
+      }
+
+      function colorAt(t, stops, mode){
+        // Multi-stop interpolation
+        const n = stops.length;
+        if(n === 2){
+          const a = stops[0], b = stops[1];
+          if(mode === "hsl"){
+            const ah = rgbToHsl(hexToRgb(a));
+            const bh = rgbToHsl(hexToRgb(b));
+            return hslToRgb(lerpHsl(ah,bh,t));
+          }
+          return lerpRgb(hexToRgb(a), hexToRgb(b), t);
+        }
+
+        // 3 stops: split [0..0.5] and [0.5..1]
+        if(n === 3){
+          if(t <= 0.5){
+            const tt = t/0.5;
+            if(mode === "hsl"){
+              const ah = rgbToHsl(hexToRgb(stops[0]));
+              const bh = rgbToHsl(hexToRgb(stops[1]));
+              return hslToRgb(lerpHsl(ah,bh,tt));
+            }
+            return lerpRgb(hexToRgb(stops[0]), hexToRgb(stops[1]), tt);
+          }else{
+            const tt = (t-0.5)/0.5;
+            if(mode === "hsl"){
+              const ah = rgbToHsl(hexToRgb(stops[1]));
+              const bh = rgbToHsl(hexToRgb(stops[2]));
+              return hslToRgb(lerpHsl(ah,bh,tt));
+            }
+            return lerpRgb(hexToRgb(stops[1]), hexToRgb(stops[2]), tt);
+          }
+        }
+
+        // fallback
+        return lerpRgb(hexToRgb(stops[0]), hexToRgb(stops[n-1]), t);
+      }
+
+      function applyFormat(hex, ch, fmt){
+        const h = hex.replace("#","");
+        if(fmt === "minimessage"){
+          return `<#${h}>${ch}`;
+        }
+        if(fmt === "amp"){
+          return `&#${h}${ch}`;
+        }
+        if(fmt === "legacy"){
+          // &x&r&r&g&g&b&b + char
+          const parts = h.split("").map(x => `&${x}`).join("");
+          return `&x${parts}${ch}`;
+        }
+        // section default
+        // §x§r§r§g§g§b§b + char
+        const parts = h.split("").map(x => `§${x}`).join("");
+        return `§x${parts}${ch}`;
+      }
+
+      function render(){
+        const text = rgbText.value ?? "";
+        const stops = getStops();
+        const fmt = format.value;
+        const m = mode.value;
+        const lower = !!lowerHex.checked;
+
+        // Count target length (excluding spaces if trimSpaces)
+        const chars = Array.from(text);
+        const targets = trimSpaces.checked ? chars.filter(c => c !== " ") : chars;
+        const L = Math.max(1, targets.length);
+
+        let idx = 0;
+        let outStr = "";
+        let previewHtml = "";
+
+        for(const ch of chars){
+          if(trimSpaces.checked && ch === " "){
+            outStr += " ";
+            previewHtml += " ";
+            continue;
+          }
+          const t = (L === 1) ? 0 : (idx/(L-1));
+          const rgb = colorAt(clamp01(t), stops, m);
+          const hex = rgbToHex(rgb, lower);
+          outStr += applyFormat(hex, ch, fmt);
+
+          // HTML preview
+          previewHtml += `<span style="color:${hex}">${escapeHtml(ch)}</span>`;
+          idx++;
+        }
+
+        out.value = outStr;
+        preview.innerHTML = previewHtml;
+      }
+
+      function escapeHtml(s){
+        return s
+          .replaceAll("&","&amp;")
+          .replaceAll("<","&lt;")
+          .replaceAll(">","&gt;")
+          .replaceAll('"',"&quot;")
+          .replaceAll("'","&#039;");
+      }
+
+      function syncColorInputs(colorInput, hexInput){
+        const v = hexInput.value.trim();
+        let normalized = v.startsWith("#") ? v : ("#" + v);
+        if(normalized.length !== 7) return;
+        colorInput.value = normalized;
+      }
+
+      function syncHexInputs(colorInput, hexInput){
+        hexInput.value = colorInput.value;
+      }
+
+      // Bind events
+      [rgbText, mode, format, trimSpaces, lowerHex].forEach(el => el.addEventListener("input", render));
+
+      c1.addEventListener("input", () => { syncHexInputs(c1,c1hex); render(); });
+      c2.addEventListener("input", () => { syncHexInputs(c2,c2hex); render(); });
+      c3.addEventListener("input", () => { syncHexInputs(c3,c3hex); render(); });
+
+      c1hex.addEventListener("input", () => { syncColorInputs(c1,c1hex); render(); });
+      c2hex.addEventListener("input", () => { syncColorInputs(c2,c2hex); render(); });
+      c3hex.addEventListener("input", () => { syncColorInputs(c3,c3hex); render(); });
+
+      toggleC3.addEventListener("click", () => {
+        useC3 = !useC3;
+        c3row.style.display = useC3 ? "grid" : "none";
+        toggleC3.textContent = useC3 ? "Remover 3ª cor" : "Adicionar 3ª cor";
+        render();
+      });
+
+      copyOut.addEventListener("click", async () => {
+        const ok = await copyText(out.value);
+        showToast(ok ? "Resultado copiado!" : "Não consegui copiar :(");
+      });
+
+      resetAll.addEventListener("click", () => {
+        rgbText.value = "REDE CATS";
+        c1.value = "#b100ff"; c1hex.value = "#b100ff";
+        c2.value = "#00e5ff"; c2hex.value = "#00e5ff";
+        c3.value = "#ffffff"; c3hex.value = "#ffffff";
+        useC3 = false;
+        c3row.style.display = "none";
+        toggleC3.textContent = "Adicionar 3ª cor";
+        mode.value = "rgb";
+        format.value = "minimessage";
+        trimSpaces.checked = true;
+        lowerHex.checked = false;
+        render();
+        showToast("Resetado!");
+      });
+
+      // Presets
+      const presets = {
+        cats: ["#b100ff","#00e5ff"],
+        sunset: ["#ff7a00","#ff2bd6"],
+        lime: ["#00ff7a","#fff200"],
+        ice: ["#00a3ff","#ffffff"]
       };
-    }
-    function rgbToHex(r,g,b){
-      const to = (n)=> n.toString(16).padStart(2,"0");
-      return `#${to(r)}${to(g)}${to(b)}`;
-    }
 
-    function buildGradient(text, c1, c2){
-      const A = hexToRgb(c1);
-      const B = hexToRgb(c2);
-      const chars = [...text];
-      const n = Math.max(chars.length-1, 1);
-
-      const colors = chars.map((_,i)=>{
-        const t = i / n;
-        const r = lerp(A.r,B.r,t);
-        const g = lerp(A.g,B.g,t);
-        const b = lerp(A.b,B.b,t);
-        return rgbToHex(r,g,b);
+      document.querySelectorAll(".preset").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const key = btn.getAttribute("data-preset");
+          const p = presets[key];
+          if(!p) return;
+          c1.value = p[0]; c1hex.value = p[0];
+          c2.value = p[1]; c2hex.value = p[1];
+          if(useC3){
+            useC3 = false;
+            c3row.style.display = "none";
+            toggleC3.textContent = "Adicionar 3ª cor";
+          }
+          render();
+          showToast("Preset aplicado!");
+        });
       });
 
-      // outputs
-      const mini = `<gradient:${c1}:${c2}>${text}</gradient>`;
-      const hex = chars.map((ch,i)=> colors[i].replace("#","") ? `&#${colors[i].replace("#","")}${ch}` : ch).join("");
-      const sec = chars.map((ch,i)=>{
-        const h = colors[i].replace("#","");
-        return `§x§${h[0]}§${h[1]}§${h[2]}§${h[3]}§${h[4]}§${h[5]}${ch}`;
-      }).join("");
-      const amp = chars.map((ch,i)=>{
-        const h = colors[i].replace("#","");
-        return `&x&${h[0]}&${h[1]}&${h[2]}&${h[3]}&${h[4]}&${h[5]}${ch}`;
-      }).join("");
-
-      return { colors, mini, hex, sec, amp };
-    }
-
-    function renderPreview(text, colors){
-      const el = document.getElementById("rgbPreview");
-      el.innerHTML = "";
-      [...text].forEach((ch,i)=>{
-        const s = document.createElement("span");
-        s.textContent = ch;
-        s.style.color = colors[i] || "#fff";
-        el.appendChild(s);
-      });
-    }
-
-    function toast(msg){
-      const t = document.getElementById("toast");
-      if(!t) return;
-      t.textContent = msg;
-      t.classList.add("show");
-      setTimeout(()=>t.classList.remove("show"), 1400);
-    }
-
-    function generate(){
-      const text = document.getElementById("rgbText").value || "";
-      const c1 = document.getElementById("rgbC1").value;
-      const c2 = document.getElementById("rgbC2").value;
-
-      const out = buildGradient(text, c1, c2);
-      renderPreview(text, out.colors);
-
-      document.getElementById("outMini").value = out.mini;
-      document.getElementById("outHex").value = out.hex;
-      document.getElementById("outSection").value = out.sec;
-      document.getElementById("outAmp").value = out.amp;
-    }
-
-    document.getElementById("rgbGenBtn").addEventListener("click", generate);
-    document.getElementById("rgbSwapBtn").addEventListener("click", ()=>{
-      const a = document.getElementById("rgbC1");
-      const b = document.getElementById("rgbC2");
-      const tmp = a.value; a.value = b.value; b.value = tmp;
-      generate();
+      // Initial
+      render();
     });
-
-    document.querySelectorAll("[data-copy]").forEach((btn)=>{
-      btn.addEventListener("click", async ()=>{
-        const id = btn.getAttribute("data-copy");
-        const el = document.getElementById(id);
-        const ok = await copyText(el ? el.value : "");
-        toast(ok ? "Copiado!" : "Falhou :(");
-      });
-    });
-
-    generate();
   </script>
 </body>
 </html>

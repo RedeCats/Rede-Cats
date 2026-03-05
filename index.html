@@ -34,6 +34,8 @@
         <a href="loja.html">Loja</a>
         <a href="vips.html">VIPs</a>
         <a href="doadores.html">Doadores</a>
+        <a href="rgb.html">RGB</a>
+        <a href="suporte.html">Suporte</a>
         <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
       </nav>
 
@@ -50,6 +52,8 @@
         <a href="loja.html">Loja</a>
         <a href="vips.html">VIPs</a>
         <a href="doadores.html">Doadores</a>
+        <a href="rgb.html">RGB</a>
+        <a href="suporte.html">Suporte</a>
         <div class="mobile-actions">
           <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a>
         </div>
@@ -109,6 +113,7 @@
               <span class="badge">🏆 Eventos</span>
               <span class="badge">⚔️ RankUP</span>
               <span class="badge">💎 VIPs</span>
+              <span class="badge">🌈 RGB</span>
             </div>
           </div>
         </div>
@@ -162,6 +167,22 @@
             </div>
           </a>
 
+          <a class="card link-card premium-hover" href="rgb.html">
+            <img src="assets/icon_card_1_wiki.png" alt="RGB">
+            <div>
+              <h3>RGB</h3>
+              <p class="muted small">Gerador de gradiente (MiniMessage, &x, §x).</p>
+            </div>
+          </a>
+
+          <a class="card link-card premium-hover" href="suporte.html">
+            <img src="assets/icon_card_6_suporte.png" alt="Suporte">
+            <div>
+              <h3>Suporte</h3>
+              <p class="muted small">Tickets, denúncias e ajuda.</p>
+            </div>
+          </a>
+
           <a class="card link-card premium-hover" href="como-entrar.html">
             <img src="assets/icon_card_2_como_entrar.png" alt="Como entrar">
             <div>
@@ -187,6 +208,16 @@
               <a class="stage-item premium-hover" href="sistemas.html">
                 <div class="stage-item__title">⚡ Sistemas exclusivos</div>
                 <p class="muted small">RankUP, quests, crates, eventos e mais.</p>
+              </a>
+
+              <a class="stage-item premium-hover" href="rgb.html">
+                <div class="stage-item__title">🌈 Gerador RGB</div>
+                <p class="muted small">Crie gradientes pra TAG/chat (MiniMessage, &x, §x).</p>
+              </a>
+
+              <a class="stage-item premium-hover" href="suporte.html">
+                <div class="stage-item__title">🛠️ Suporte</div>
+                <p class="muted small">Abra ticket, tire dúvidas e denuncie com provas.</p>
               </a>
 
               <a class="stage-item premium-hover" href="regras.html">
@@ -215,5 +246,74 @@
 
   <div class="toast" id="toast">IP copiado!</div>
   <script src="assets/app.js" defer></script>
+
+  <!-- CSS pequeno pro index (pra não depender de classes que talvez não existam no seu CSS antigo) -->
+  <style>
+    .ip-card{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      margin-top:14px;
+    }
+    .ip-card__right{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .ip{
+      font-weight:1000;
+      font-size:1.2rem;
+      letter-spacing:.03em;
+      margin-top:6px;
+    }
+
+    .banner{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      padding:16px;
+    }
+    .banner__title{font-weight:1000;font-size:1.05rem}
+
+    .stats{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+    }
+    .stat{
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.20);
+      padding:12px;
+      text-align:center;
+    }
+    .stat__num{font-weight:1000;font-size:1.1rem}
+    .stat__label{font-size:.9rem}
+
+    .stage-grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+    }
+    .stage-item{
+      display:block;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      padding:14px;
+    }
+    .stage-item__title{font-weight:1000;margin-bottom:6px}
+
+    @media(max-width:900px){
+      .ip-card{flex-direction:column;align-items:flex-start}
+      .stats{grid-template-columns:1fr}
+      .stage-grid{grid-template-columns:1fr}
+    }
+  </style>
 </body>
 </html>

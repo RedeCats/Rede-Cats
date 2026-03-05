@@ -236,6 +236,92 @@ p{margin:0 0 10px;line-height:1.45}
   .mobile-nav.open{display:block}
   .stats{grid-template-columns:1fr}
   .stage-grid{grid-template-columns:1fr}
+
+  /* ===== REGRAS (estilo Neon: categorias + accordion) ===== */
+.spacer{height:16px}
+
+.rules-top{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  margin-top:14px;
+}
+.rules-badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+
+.rules-tabs{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.rule-tab{
+  padding:10px 12px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+}
+.rule-tab:hover{background:rgba(255,255,255,.07)}
+
+.rules-note{
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.03);
+  border-radius:16px;
+  padding:12px;
+}
+
+.rules-grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:12px;
+}
+.rules-list{margin:8px 0 0;padding-left:18px}
+.rules-list li{margin:6px 0}
+
+.rule-accordion{margin-top:12px}
+.rule-acc-btn{
+  width:100%;
+  text-align:left;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  cursor:pointer;
+  font-weight:900;
+  margin-bottom:10px;
+}
+.rule-acc-btn:hover{background:rgba(255,255,255,.07)}
+.rule-acc-panel{
+  display:none;
+  padding:12px 14px;
+  margin:-6px 0 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.20);
+}
+.rule-acc-panel.open{display:block}
+
+.rule-table{
+  margin-top:10px;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.10);
+}
+.rt-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 12px;
+  background:rgba(255,255,255,.03);
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.rt-row:first-child{border-top:0}
+.rt-row span:last-child{color:rgba(255,255,255,.85)}
+
+@media(max-width:900px){
+  .rules-grid-2{grid-template-columns:1fr}
+}
   .ip-card{flex-direction:column;align-items:flex-start}
   .ip-card__right{align-items:flex-start;width:100%}
   .ip-card__right .btn{width:100%}

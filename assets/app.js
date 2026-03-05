@@ -114,3 +114,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // atualiza a cada 60s
   setInterval(updateStatus, 60000);
 });
+
+// ===== Accordion (regras) =====
+document.querySelectorAll(".rule-acc-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const panel = btn.nextElementSibling;
+    if (!panel || !panel.classList.contains("rule-acc-panel")) return;
+    panel.classList.toggle("open");
+  });
+});

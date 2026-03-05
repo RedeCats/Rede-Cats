@@ -3,43 +3,215 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rede Cats</title>
+  <title>Doadores - Rede Cats</title>
+  <meta name="description" content="Ranking de doadores, meta do mês e agradecimentos da Rede Cats." />
   <link rel="stylesheet" href="assets/style.css" />
 </head>
 
 <body>
+  <div class="bg-animated">
+    <div class="bg-image"></div>
+    <div class="bg-glow"></div>
+  </div>
+
   <header class="topbar">
     <div class="container topbar__content">
       <div class="brand">
         <div class="logo">🐱</div>
-        <strong class="brand__name">REDE CATS</strong>
+        <div class="brand__text">
+          <strong class="brand__name">REDE CATS</strong>
+          <span class="brand__tag">Survival • RankUP • Sistemas</span>
+        </div>
       </div>
 
-      <nav class="nav">
+      <nav class="nav" aria-label="Navegação">
         <a href="index.html">Início</a>
+        <a href="regras.html">Regras</a>
+        <a href="sistemas.html">Sistemas</a>
         <a href="loja.html">Loja</a>
-        <a href="votar.html">Votar</a>
-        <a href="doadores.html">Doadores</a>
-        <a href="rgb.html">RGB</a>
+        <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+
+    <div class="container">
+      <nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile">
+        <a href="index.html">Início</a>
+        <a href="regras.html">Regras</a>
+        <a href="sistemas.html">Sistemas</a>
+        <a href="loja.html">Loja</a>
+        <div class="mobile-actions">
+          <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a>
+        </div>
       </nav>
     </div>
   </header>
 
-  <main class="section">
-    <div class="container">
-      <h1>TÍTULO DA PÁGINA</h1>
-      <p class="muted">
-        Conteúdo da página aqui.
-      </p>
-    </div>
+  <main class="site-content">
+    <section class="section">
+      <div class="container">
+
+        <div class="card premium-hover">
+          <div class="badge">💜 APOIADORES</div>
+          <h1 style="margin-top:10px">Doadores da Rede Cats</h1>
+          <p class="muted">
+            Obrigado por apoiar o servidor! Doações ajudam a manter a Rede Cats online e melhorando sempre.
+          </p>
+          <div class="spacer"></div>
+          <a class="btn" href="loja.html">Apoiar pela Loja</a>
+          <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Tirar dúvidas no Discord</a>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="don-layout">
+
+          <!-- TOP DOADORES -->
+          <div class="card premium-hover">
+            <h2>🏆 Top Doadores do Mês</h2>
+            <p class="muted">Atualize os nomes/valores quando quiser.</p>
+
+            <div class="don-list">
+              <div class="don-row"><span>🥇 PlayerOne</span><span>R$ 120</span></div>
+              <div class="don-row"><span>🥈 PlayerTwo</span><span>R$ 80</span></div>
+              <div class="don-row"><span>🥉 PlayerThree</span><span>R$ 50</span></div>
+              <div class="don-row"><span>⭐ PlayerFour</span><span>R$ 25</span></div>
+              <div class="don-row"><span>⭐ PlayerFive</span><span>R$ 20</span></div>
+              <div class="don-row"><span>⭐ PlayerSix</span><span>R$ 10</span></div>
+            </div>
+
+            <div class="spacer"></div>
+            <div class="badge">📌 Observação</div>
+            <p class="muted small">
+              Compras via ticket (temporário). Quando a loja direta estiver pronta, os rankings podem ser atualizados automaticamente.
+            </p>
+          </div>
+
+          <!-- META DO MÊS -->
+          <div class="card premium-hover">
+            <h2>🎯 Meta do Mês</h2>
+            <p class="muted small">Objetivo: melhorar a máquina e manter o servidor 24/7.</p>
+
+            <div class="goal">
+              <div class="goal-top">
+                <span class="muted small">R$ <span id="goalCurrent">220</span> / R$ <span id="goalTarget">500</span></span>
+                <span class="badge"><span id="goalPct">44</span>%</span>
+              </div>
+              <div class="goal-bar">
+                <div class="goal-fill" id="goalFill" style="width:44%"></div>
+              </div>
+            </div>
+
+            <div class="spacer"></div>
+
+            <div class="stage-item premium-hover">
+              <div class="stage-item__title">🔧 Para onde vai o apoio?</div>
+              <ul class="muted small" style="margin:8px 0 0;padding-left:18px">
+                <li>Hospedagem / máquina</li>
+                <li>Otimizações e melhorias</li>
+                <li>Eventos e recompensas</li>
+              </ul>
+            </div>
+
+            <div class="spacer"></div>
+            <a class="btn" href="loja.html">Apoiar agora</a>
+          </div>
+
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="card premium-hover">
+          <h2>📸 Mural de agradecimentos</h2>
+          <p class="muted">
+            Aqui você pode colocar prints do spawn, eventos e jogadores (opcional).  
+            Depois a gente adiciona imagens reais.
+          </p>
+
+          <div class="mural-grid">
+            <div class="mural-item premium-hover"><span class="muted small">Print 1</span></div>
+            <div class="mural-item premium-hover"><span class="muted small">Print 2</span></div>
+            <div class="mural-item premium-hover"><span class="muted small">Print 3</span></div>
+            <div class="mural-item premium-hover"><span class="muted small">Print 4</span></div>
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <footer class="footer">
+          <div class="container footer__content">
+            <span class="muted small">© <span id="year"></span> Rede Cats</span>
+            <span class="muted small">Discord: discord.gg/GQZGduc9</span>
+          </div>
+        </footer>
+
+      </div>
+    </section>
   </main>
 
-  <footer class="footer">
-    <div class="container footer__content">
-      <span class="muted small">© <span id="year"></span> Rede Cats</span>
-    </div>
-  </footer>
-
+  <div class="toast" id="toast">OK</div>
   <script src="assets/app.js" defer></script>
+
+  <style>
+    .don-layout{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .don-list{
+      margin-top:12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .don-row{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.03);
+    }
+    .don-row span:last-child{font-weight:900;color:rgba(255,255,255,.88)}
+    .mural-grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+    }
+    .mural-item{
+      min-height:110px;
+      border-radius:16px;
+      border:1px dashed rgba(255,255,255,.18);
+      background:rgba(255,255,255,.03);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    @media(max-width:900px){
+      .don-layout{grid-template-columns:1fr}
+      .mural-grid{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const current = 220;
+      const target = 500;
+      const pct = Math.max(0, Math.min(100, Math.round((current/target)*100)));
+
+      const goalCurrent = document.getElementById("goalCurrent");
+      const goalTarget = document.getElementById("goalTarget");
+      const goalPct = document.getElementById("goalPct");
+      const goalFill = document.getElementById("goalFill");
+
+      if(goalCurrent) goalCurrent.textContent = String(current);
+      if(goalTarget) goalTarget.textContent = String(target);
+      if(goalPct) goalPct.textContent = String(pct);
+      if(goalFill) goalFill.style.width = pct + "%";
+    });
+  </script>
 </body>
 </html>

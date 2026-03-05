@@ -3,43 +3,338 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rede Cats</title>
+  <title>Loja - Rede Cats</title>
+  <meta name="description" content="Loja oficial da Rede Cats: VIPs, vantagens e suporte." />
   <link rel="stylesheet" href="assets/style.css" />
 </head>
 
 <body>
+  <!-- FUNDO ANIMADO -->
+  <div class="bg-animated">
+    <div class="bg-image"></div>
+    <div class="bg-glow"></div>
+  </div>
+
   <header class="topbar">
     <div class="container topbar__content">
       <div class="brand">
         <div class="logo">🐱</div>
-        <strong class="brand__name">REDE CATS</strong>
+        <div class="brand__text">
+          <strong class="brand__name">REDE CATS</strong>
+          <span class="brand__tag">Survival • RankUP • Sistemas</span>
+        </div>
       </div>
 
-      <nav class="nav">
+      <nav class="nav" aria-label="Navegação">
         <a href="index.html">Início</a>
+        <a href="regras.html">Regras</a>
+        <a href="sistemas.html">Sistemas</a>
         <a href="loja.html">Loja</a>
-        <a href="votar.html">Votar</a>
-        <a href="doadores.html">Doadores</a>
-        <a href="rgb.html">RGB</a>
+        <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+
+    <div class="container">
+      <nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile">
+        <a href="index.html">Início</a>
+        <a href="regras.html">Regras</a>
+        <a href="sistemas.html">Sistemas</a>
+        <a href="loja.html">Loja</a>
+        <div class="mobile-actions">
+          <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a>
+        </div>
       </nav>
     </div>
   </header>
 
-  <main class="section">
-    <div class="container">
-      <h1>TÍTULO DA PÁGINA</h1>
-      <p class="muted">
-        Conteúdo da página aqui.
-      </p>
-    </div>
+  <main class="site-content">
+    <section class="section">
+      <div class="container">
+
+        <!-- FAIXA CUPOM -->
+        <div class="shop-coupon card premium-hover">
+          <div>
+            <div class="badge">🔥 CUPOM ATIVO</div>
+            <h1 style="margin-top:10px">Loja Oficial</h1>
+            <p class="muted">Compre VIPs e apoie a Rede Cats. Pagamento via ticket no Discord (por enquanto).</p>
+          </div>
+
+          <div class="shop-coupon__right">
+            <div class="coupon-box">
+              <div class="label">Cupom</div>
+              <div class="coupon-code" id="couponCode">CATS10</div>
+              <div class="muted small">10% OFF em VIPs (por ticket)</div>
+              <button class="btn" id="copyCouponBtn">Copiar cupom</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="shop-layout">
+
+          <!-- SIDEBAR -->
+          <aside class="shop-sidebar">
+
+            <div class="card premium-hover">
+              <h2>Categorias</h2>
+
+              <div class="shop-cats">
+                <a class="shop-cat is-active" href="#vips">💎 VIPs</a>
+                <a class="shop-cat" href="#cash">🪙 Cash</a>
+                <a class="shop-cat" href="#itens">📦 Itens</a>
+                <a class="shop-cat" href="#unban">🛡️ Unban</a>
+              </div>
+
+              <p class="muted small" style="margin-top:10px">
+                * No momento, compras são feitas via ticket no Discord.
+              </p>
+
+              <a class="btn" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Abrir ticket</a>
+            </div>
+
+            <div class="spacer"></div>
+
+            <div class="card premium-hover">
+              <h2>Top Doadores</h2>
+              <div class="donors">
+                <div class="donor"><span>🥇 PlayerOne</span><span>R$ 120</span></div>
+                <div class="donor"><span>🥈 PlayerTwo</span><span>R$ 80</span></div>
+                <div class="donor"><span>🥉 PlayerThree</span><span>R$ 50</span></div>
+                <div class="donor"><span>⭐ PlayerFour</span><span>R$ 25</span></div>
+              </div>
+              <p class="muted small" style="margin-top:10px">Quer aparecer aqui? Apoie o servidor 💜</p>
+            </div>
+
+            <div class="spacer"></div>
+
+            <div class="card premium-hover">
+              <h2>Meta do mês</h2>
+              <p class="muted small">Objetivo: melhorar a máquina e manter 24/7.</p>
+              <div class="goal">
+                <div class="goal-top">
+                  <span class="muted small">R$ <span id="goalCurrent">220</span> / R$ <span id="goalTarget">500</span></span>
+                  <span class="badge"><span id="goalPct">44</span>%</span>
+                </div>
+                <div class="goal-bar">
+                  <div class="goal-fill" id="goalFill" style="width:44%"></div>
+                </div>
+              </div>
+              <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Ajudar na meta</a>
+            </div>
+
+          </aside>
+
+          <!-- MAIN -->
+          <section class="shop-main">
+
+            <!-- DESTAQUE -->
+            <div class="card premium-hover shop-feature">
+              <div>
+                <div class="badge">⭐ DESTAQUE</div>
+                <h2 style="margin-top:10px">VIP SUPREMO</h2>
+                <p class="muted">O pacote mais completo, feito pra quem quer vantagem e estilo.</p>
+                <ul class="muted small shop-bullets">
+                  <li>Tag exclusiva no chat</li>
+                  <li>Mais homes e /ec</li>
+                  <li>Kit diário + bônus de coins</li>
+                </ul>
+              </div>
+              <div class="shop-feature__cta">
+                <div class="price">R$ 39,90</div>
+                <a class="btn" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Comprar via Discord</a>
+                <span class="muted small">Use o cupom <b>CATS10</b></span>
+              </div>
+            </div>
+
+            <div class="spacer"></div>
+
+            <!-- VIPS -->
+            <div class="card premium-hover" id="vips">
+              <h2>VIPs disponíveis</h2>
+              <p class="muted">Escolha seu VIP e compre via ticket no Discord.</p>
+
+              <div class="shop-grid">
+                <!-- VIP 1 -->
+                <div class="shop-item premium-hover">
+                  <div class="shop-item__top">
+                    <div class="badge">💎 VIP</div>
+                    <h3>VIP BRONZE</h3>
+                    <p class="muted small">Entrada no mundo VIP + benefícios básicos.</p>
+                  </div>
+
+                  <ul class="muted small shop-bullets">
+                    <li>Tag VIP no chat</li>
+                    <li>+2 homes extras</li>
+                    <li>Kit semanal</li>
+                  </ul>
+
+                  <div class="shop-item__bottom">
+                    <div class="price">R$ 14,90</div>
+                    <a class="btn" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Comprar</a>
+                    <span class="muted small">Cupom: <b>CATS10</b></span>
+                  </div>
+                </div>
+
+                <!-- VIP 2 -->
+                <div class="shop-item premium-hover">
+                  <div class="shop-item__top">
+                    <div class="badge">✨ VIP</div>
+                    <h3>VIP PRATA</h3>
+                    <p class="muted small">Mais comando, mais recursos, mais respeito.</p>
+                  </div>
+
+                  <ul class="muted small shop-bullets">
+                    <li>Tag VIP + cor no chat</li>
+                    <li>+5 homes extras</li>
+                    <li>Kit semanal + bônus de coins</li>
+                  </ul>
+
+                  <div class="shop-item__bottom">
+                    <div class="price">R$ 24,90</div>
+                    <a class="btn" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Comprar</a>
+                    <span class="muted small">Cupom: <b>CATS10</b></span>
+                  </div>
+                </div>
+
+                <!-- VIP 3 -->
+                <div class="shop-item premium-hover">
+                  <div class="shop-item__top">
+                    <div class="badge">👑 VIP</div>
+                    <h3>VIP SUPREMO</h3>
+                    <p class="muted small">O melhor VIP da Rede Cats (pacote completo).</p>
+                  </div>
+
+                  <ul class="muted small shop-bullets">
+                    <li>Tag exclusiva + destaque</li>
+                    <li>+10 homes extras + /ec</li>
+                    <li>Kit diário + bônus alto de coins</li>
+                  </ul>
+
+                  <div class="shop-item__bottom">
+                    <div class="price">R$ 39,90</div>
+                    <a class="btn" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Comprar</a>
+                    <span class="muted small">Cupom: <b>CATS10</b></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="spacer"></div>
+
+            <!-- OUTRAS CATEGORIAS (EM BREVE) -->
+            <div class="card premium-hover" id="cash">
+              <h2>Cash</h2>
+              <p class="muted">Em breve: pacotes de cash e moedas da loja.</p>
+              <span class="badge">🚧 Em construção</span>
+            </div>
+
+            <div class="spacer"></div>
+
+            <div class="card premium-hover" id="itens">
+              <h2>Itens</h2>
+              <p class="muted">Em breve: itens cosméticos, pets e raridades.</p>
+              <span class="badge">🚧 Em construção</span>
+            </div>
+
+            <div class="spacer"></div>
+
+            <div class="card premium-hover" id="unban">
+              <h2>Unban</h2>
+              <p class="muted">Se sua punição for revisável, abra ticket para análise.</p>
+              <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Abrir ticket</a>
+            </div>
+
+          </section>
+
+        </div>
+
+        <div class="spacer"></div>
+
+        <footer class="footer">
+          <div class="container footer__content">
+            <span class="muted small">© <span id="year"></span> Rede Cats</span>
+            <span class="muted small">Discord: discord.gg/GQZGduc9</span>
+          </div>
+        </footer>
+      </div>
+    </section>
   </main>
 
-  <footer class="footer">
-    <div class="container footer__content">
-      <span class="muted small">© <span id="year"></span> Rede Cats</span>
-    </div>
-  </footer>
-
+  <div class="toast" id="toast">OK</div>
   <script src="assets/app.js" defer></script>
+
+  <!-- Script pequeno só dessa página (pode ficar aqui mesmo) -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const toast = document.getElementById("toast");
+
+      function showToast(msg){
+        if(!toast) return;
+        toast.textContent = msg;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1400);
+      }
+
+      async function copyText(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch {
+          try {
+            const temp = document.createElement("input");
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand("copy");
+            temp.remove();
+            return true;
+          } catch {
+            return false;
+          }
+        }
+      }
+
+      // copiar cupom
+      const copyCouponBtn = document.getElementById("copyCouponBtn");
+      const couponCode = document.getElementById("couponCode");
+      if(copyCouponBtn && couponCode){
+        copyCouponBtn.addEventListener("click", async () => {
+          const ok = await copyText(couponCode.textContent.trim());
+          showToast(ok ? "Cupom copiado!" : "Não consegui copiar :(");
+        });
+      }
+
+      // rolagem suave nas categorias
+      document.querySelectorAll(".shop-cat").forEach((a) => {
+        a.addEventListener("click", (e) => {
+          const href = a.getAttribute("href");
+          if (!href || !href.startsWith("#")) return;
+          e.preventDefault();
+          const el = document.querySelector(href);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+          document.querySelectorAll(".shop-cat").forEach(x => x.classList.remove("is-active"));
+          a.classList.add("is-active");
+        });
+      });
+
+      // meta do mês (você pode mudar números aqui)
+      const current = 220;
+      const target = 500;
+      const pct = Math.max(0, Math.min(100, Math.round((current/target)*100)));
+
+      const goalCurrent = document.getElementById("goalCurrent");
+      const goalTarget = document.getElementById("goalTarget");
+      const goalPct = document.getElementById("goalPct");
+      const goalFill = document.getElementById("goalFill");
+
+      if(goalCurrent) goalCurrent.textContent = String(current);
+      if(goalTarget) goalTarget.textContent = String(target);
+      if(goalPct) goalPct.textContent = String(pct);
+      if(goalFill) goalFill.style.width = pct + "%";
+    });
+  </script>
 </body>
 </html>

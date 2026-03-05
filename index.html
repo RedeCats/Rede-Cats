@@ -26,13 +26,34 @@
         </div>
       </div>
 
-      <nav class="nav">
+      <!-- NAV DESKTOP -->
+      <nav class="nav" aria-label="Navegação">
         <a href="index.html">Início</a>
         <a href="loja.html">Loja</a>
         <a href="votar.html">Votar</a>
         <a href="doadores.html">Doadores</a>
         <a href="rgb.html">RGB</a>
+        <!-- troque SEUCONVITE -->
         <a class="btn btn--outline" href="https://discord.gg/SEUCONVITE" target="_blank" rel="noopener">Discord</a>
+      </nav>
+
+      <!-- BOTÃO MOBILE -->
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">
+        ☰
+      </button>
+    </div>
+
+    <!-- NAV MOBILE -->
+    <div class="container">
+      <nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile">
+        <a href="index.html">Início</a>
+        <a href="loja.html">Loja</a>
+        <a href="votar.html">Votar</a>
+        <a href="doadores.html">Doadores</a>
+        <a href="rgb.html">RGB</a>
+        <div class="mobile-actions">
+          <a class="btn btn--outline" href="https://discord.gg/SEUCONVITE" target="_blank" rel="noopener">Entrar no Discord</a>
+        </div>
       </nav>
     </div>
   </header>
@@ -46,7 +67,7 @@
             Servidor Minecraft com vibe neon, sistemas avançados e evolução constante.
           </p>
 
-          <div class="card ip-card">
+          <div class="card ip-card premium-hover">
             <div>
               <div class="label">IP do servidor</div>
               <div class="ip" id="serverIp">redecats.jogar.in</div>
@@ -54,6 +75,7 @@
             </div>
             <div class="ip-card__right">
               <button class="btn" id="copyIpBtn">Copiar IP</button>
+              <a class="btn btn--outline" href="https://discord.gg/SEUCONVITE" target="_blank" rel="noopener">Discord</a>
             </div>
           </div>
 
@@ -64,22 +86,29 @@
         </div>
 
         <div class="hero__side">
-          <div class="banner">
+          <div class="banner premium-hover">
             <div class="banner__title">⚡ Sistemas exclusivos</div>
             <p class="muted">Eventos, ranks, missões e recompensas.</p>
+
             <div class="stats">
               <div class="stat">
-                <div class="stat__num">Online</div>
+                <div class="stat__num" id="statusText">—</div>
                 <div class="stat__label muted">Status</div>
+              </div>
+              <div class="stat">
+                <div class="stat__num" id="playersText">—</div>
+                <div class="stat__label muted">Players</div>
               </div>
               <div class="stat">
                 <div class="stat__num">24/7</div>
                 <div class="stat__label muted">Uptime</div>
               </div>
-              <div class="stat">
-                <div class="stat__num">💜</div>
-                <div class="stat__label muted">Neon</div>
-              </div>
+            </div>
+
+            <div style="margin-top:12px">
+              <span class="badge">💜 Tema Neon</span>
+              <span class="badge">🏆 Eventos</span>
+              <span class="badge">⚔️ Progressão</span>
             </div>
           </div>
         </div>
@@ -93,48 +122,48 @@
         <aside class="home-links">
           <h2>Atalhos rápidos</h2>
 
-          <a class="card link-card" href="introducao.html">
-            <img src="assets/icon_card_1_introducao.png">
+          <a class="card link-card premium-hover" href="introducao.html">
+            <img src="assets/icon_card_1_introducao.png" alt="Introdução">
             <div>
               <h3>Introdução</h3>
               <p class="muted small">Conheça a proposta do servidor.</p>
             </div>
           </a>
 
-          <a class="card link-card" href="como-entrar.html">
-            <img src="assets/icon_card_2_como_entrar.png">
+          <a class="card link-card premium-hover" href="como-entrar.html">
+            <img src="assets/icon_card_2_como_entrar.png" alt="Como entrar">
             <div>
               <h3>Como entrar</h3>
               <p class="muted small">Java e Bedrock.</p>
             </div>
           </a>
 
-          <a class="card link-card" href="regras.html">
-            <img src="assets/icon_card_3_regras.png">
+          <a class="card link-card premium-hover" href="regras.html">
+            <img src="assets/icon_card_3_regras.png" alt="Regras">
             <div>
               <h3>Regras</h3>
               <p class="muted small">Jogue sem punições.</p>
             </div>
           </a>
 
-          <a class="card link-card" href="sistemas.html">
-            <img src="assets/icon_card_4_sistemas.png">
+          <a class="card link-card premium-hover" href="sistemas.html">
+            <img src="assets/icon_card_4_sistemas.png" alt="Sistemas">
             <div>
               <h3>Sistemas</h3>
               <p class="muted small">Ranks, economia, missões.</p>
             </div>
           </a>
 
-          <a class="card link-card" href="vips.html">
-            <img src="assets/icon_card_5_vips.png">
+          <a class="card link-card premium-hover" href="vips.html">
+            <img src="assets/icon_card_5_vips.png" alt="VIPs">
             <div>
               <h3>VIPs</h3>
               <p class="muted small">Vantagens exclusivas.</p>
             </div>
           </a>
 
-          <a class="card link-card" href="suporte.html">
-            <img src="assets/icon_card_6_suporte.png">
+          <a class="card link-card premium-hover" href="suporte.html">
+            <img src="assets/icon_card_6_suporte.png" alt="Suporte">
             <div>
               <h3>Suporte</h3>
               <p class="muted small">Fale com a equipe.</p>
@@ -143,13 +172,32 @@
         </aside>
 
         <section class="home-stage">
-          <div class="card stage-card">
+          <div class="card stage-card premium-hover">
             <h2>Destaques do servidor</h2>
             <p class="muted">
-              Aqui entram banners, novidades, eventos e imagens do spawn.
+              Novidades, eventos e os principais sistemas. (Depois a gente coloca imagens reais aqui.)
             </p>
-            <div class="stage-placeholder">
-              <span class="muted small">Área de destaque</span>
+
+            <div class="stage-grid">
+              <div class="stage-item premium-hover">
+                <div class="stage-item__title">🏆 Eventos semanais</div>
+                <p class="muted small">Torneios, drops, desafios e recompensas.</p>
+              </div>
+
+              <div class="stage-item premium-hover">
+                <div class="stage-item__title">⚔️ Progressão e ranks</div>
+                <p class="muted small">Evolua, desbloqueie perks e suba no topo.</p>
+              </div>
+
+              <div class="stage-item premium-hover">
+                <div class="stage-item__title">💰 Economia viva</div>
+                <p class="muted small">Loja, mercado e farm balanceado.</p>
+              </div>
+
+              <div class="stage-item premium-hover">
+                <div class="stage-item__title">🧭 Conteúdo novo sempre</div>
+                <p class="muted small">Atualizações constantes e sistemas inéditos.</p>
+              </div>
             </div>
           </div>
         </section>
@@ -160,7 +208,7 @@
     <footer class="footer">
       <div class="container footer__content">
         <span class="muted small">© <span id="year"></span> Rede Cats</span>
-        <span class="muted small">discord.gg/SEUCONVITE</span>
+        <span class="muted small">Discord: discord.gg/SEUCONVITE</span>
       </div>
     </footer>
   </main>

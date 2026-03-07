@@ -19,15 +19,39 @@
     <div class="container topbar__content">
       <div class="brand">
         <div class="logo">🐱</div>
-        <strong class="brand__name">REDE CATS</strong>
+        <div class="brand__text">
+          <strong class="brand__name">REDE CATS</strong>
+        </div>
       </div>
 
-      <nav class="nav">
+      <nav class="nav" aria-label="Navegação">
         <a href="index.html">Início</a>
+        <a href="regras.html">Regras</a>
+        <a href="sistemas.html">Sistemas</a>
         <a href="loja.html">Loja</a>
-        <a href="votar.html">Votar</a>
+        <a href="vips.html">VIPs</a>
         <a href="doadores.html">Doadores</a>
         <a href="rgb.html">RGB</a>
+        <a href="suporte.html">Suporte</a>
+        <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+
+    <div class="container">
+      <nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile">
+        <a href="index.html">Início</a>
+        <a href="regras.html">Regras</a>
+        <a href="sistemas.html">Sistemas</a>
+        <a href="loja.html">Loja</a>
+        <a href="vips.html">VIPs</a>
+        <a href="doadores.html">Doadores</a>
+        <a href="rgb.html">RGB</a>
+        <a href="suporte.html">Suporte</a>
+        <div class="mobile-actions">
+          <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a>
+        </div>
       </nav>
     </div>
   </header>

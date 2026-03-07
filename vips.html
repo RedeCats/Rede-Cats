@@ -4,198 +4,103 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>VIPs - Rede Cats</title>
-  <meta name="description" content="Conheça os VIPs Elite, Prime e Ultra da Rede Cats (mensal e vitalício)." />
+  <meta name="description" content="Compare os VIPs da Rede Cats e adicione mensal ou vitalício ao carrinho." />
   <link rel="stylesheet" href="assets/style.css?v=20260305" />
 </head>
-
 <body class="subpage">
-  <div class="bg-animated">
-    <div class="bg-image"></div>
-    <div class="bg-glow"></div>
-  </div>
-
+  <div class="bg-animated"><div class="bg-image"></div><div class="bg-glow"></div></div>
   <header class="topbar">
     <div class="container topbar__content">
-      <div class="brand">
-        <div class="logo">🐱</div>
-        <div class="brand__text">
-          <strong class="brand__name">REDE CATS</strong>
-        </div>
-      </div>
-
-      <nav class="nav" aria-label="Navegação">
-        <a href="index.html">Início</a>
-        <a href="regras.html">Regras</a>
-        <a href="sistemas.html">Sistemas</a>
-        <a href="loja.html">Loja</a>
-        <a href="vips.html">VIPs</a>
-        <a href="doadores.html">Doadores</a>
-        <a href="rgb.html">RGB</a>
-        <a href="suporte.html">Suporte</a>
-        <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
-      </nav>
-
+      <div class="brand"><div class="logo">🐱</div><div class="brand__text"><strong class="brand__name">REDE CATS</strong></div></div>
+      <nav class="nav" aria-label="Navegação"><a href="index.html">Início</a><a href="regras.html">Regras</a><a href="sistemas.html">Sistemas</a><a href="loja.html">Loja</a><a href="vips.html" class="is-active">VIPs</a><a href="doadores.html">Doadores</a><a href="rgb.html">RGB</a><a href="suporte.html">Suporte</a><a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a></nav>
       <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">☰</button>
     </div>
-
-    <div class="container">
-      <nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile">
-        <a href="index.html">Início</a>
-        <a href="regras.html">Regras</a>
-        <a href="sistemas.html">Sistemas</a>
-        <a href="loja.html">Loja</a>
-        <a href="vips.html">VIPs</a>
-        <a href="doadores.html">Doadores</a>
-        <a href="rgb.html">RGB</a>
-        <a href="suporte.html">Suporte</a>
-        <div class="mobile-actions">
-          <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a>
-          </div>
-      </nav>
-    </div>
+    <div class="container"><nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile"><a href="index.html">Início</a><a href="regras.html">Regras</a><a href="sistemas.html">Sistemas</a><a href="loja.html">Loja</a><a href="vips.html">VIPs</a><a href="doadores.html">Doadores</a><a href="rgb.html">RGB</a><a href="suporte.html">Suporte</a><div class="mobile-actions"><a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a></div></nav></div>
   </header>
-
   <main class="site-content">
-    <section class="section">
-      <div class="container">
-
-        <div class="card premium-hover page-hero-card">
-          <div class="badge">💎 VIPs</div>
-          <h1 style="margin-top:10px">VIPs da Rede Cats</h1>
-          <p class="muted">
-            VIPs mensais e vitalícios. Por enquanto a compra é via ticket no Discord, mas em breve terá compra direta.
-          </p>
-          <div class="spacer"></div>
-          <div class="page-intro-actions">
-            <a class="btn" href="loja.html">Comprar na Loja</a>
-            <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a>
+    <section class="section"><div class="container">
+      <div class="card premium-hover page-hero-card">
+        <div class="vip-hero-banner">
+          <div>
+            <div class="badge">💎 PLANOS VIP</div>
+            <h1 style="margin-top:10px">Escolha o VIP ideal</h1>
+            <p class="muted">Veja o que cada plano entrega, compare lado a lado e já adicione mensal ou vitalício ao carrinho.</p>
+            <div class="page-intro-actions"><a class="btn" href="#vipcards">Ver planos</a><a class="btn btn--outline" href="loja.html">Ir para loja</a></div>
           </div>
+          <div class="vip-hero-side"><img src="assets/felino-neon.png" alt="Mascote da Rede Cats"></div>
         </div>
-
-        <div class="spacer"></div>
-
-        <!-- COMPARATIVO -->
-        <div class="card premium-hover">
-          <h2>Comparativo</h2>
-          <p class="muted">Escolha o VIP ideal pra sua evolução.</p>
-
-          <div class="vip-grid">
-            <div class="vip-card premium-hover">
-              <div class="badge">💎 Elite</div>
-              <h3 style="margin-top:10px">VIP ELITE</h3>
-              <p class="muted small">Entrada, custo baixo e benefícios essenciais.</p>
-              <div class="vip-prices">
-                <div class="price">R$ 15/mês</div>
-                <div class="muted small">R$ 135 vitalício</div>
-              </div>
-              <ul class="muted small vip-list">
-                <li>Tag VIP Elite</li>
-                <li>Homes extras</li>
-                <li>Kit semanal</li>
-              </ul>
-              <a class="btn" href="loja.html">Ver na Loja</a>
-            </div>
-
-            <div class="vip-card premium-hover">
-              <div class="badge">✨ Prime</div>
-              <h3 style="margin-top:10px">VIP PRIME</h3>
-              <p class="muted small">Equilíbrio perfeito entre custo e vantagens.</p>
-              <div class="vip-prices">
-                <div class="price">R$ 50/mês</div>
-                <div class="muted small">R$ 450 vitalício</div>
-              </div>
-              <ul class="muted small vip-list">
-                <li>Tag Prime + destaque</li>
-                <li>Mais homes extras</li>
-                <li>Kit semanal + bônus</li>
-              </ul>
-              <a class="btn" href="loja.html">Ver na Loja</a>
-            </div>
-
-            <div class="vip-card premium-hover">
-              <div class="badge">👑 Ultra</div>
-              <h3 style="margin-top:10px">VIP ULTRA</h3>
-              <p class="muted small">O melhor VIP, máximo de vantagens.</p>
-              <div class="vip-prices">
-                <div class="price">R$ 75/mês</div>
-                <div class="muted small">R$ 675 vitalício</div>
-              </div>
-              <ul class="muted small vip-list">
-                <li>Tag exclusiva</li>
-                <li>Mais benefícios e comandos</li>
-                <li>Kit diário + bônus alto</li>
-              </ul>
-              <a class="btn" href="loja.html">Ver na Loja</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="spacer"></div>
-
-        <!-- FAQ -->
-        <div class="card premium-hover">
-          <h2>Dúvidas frequentes</h2>
-
-          <div class="rule-accordion">
-            <button class="rule-acc-btn" type="button">VIP é mensal ou vitalício?</button>
-            <div class="rule-acc-panel">
-              <p class="muted small">Temos os dois: mensal e vitalício. Você escolhe na loja.</p>
-            </div>
-
-            <button class="rule-acc-btn" type="button">Como compro por enquanto?</button>
-            <div class="rule-acc-panel">
-              <p class="muted small">Clique em “Comprar” na loja e abra um ticket no Discord. Em breve compra direta.</p>
-            </div>
-
-            <button class="rule-acc-btn" type="button">Posso trocar de VIP depois?</button>
-            <div class="rule-acc-panel">
-              <p class="muted small">Sim, dá pra fazer upgrade. Fale com a staff no ticket.</p>
-            </div>
-          </div>
-
-          <div class="spacer"></div>
-          <a class="btn" href="loja.html">Ir para Loja</a>
-          <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Abrir ticket</a>
-        </div>
-
-        <div class="spacer"></div>
-
-        <footer class="footer">
-          <div class="container footer__content">
-            <span class="muted small">© <span id="year"></span> Rede Cats</span>
-            <span class="muted small">Discord: discord.gg/GQZGduc9</span>
-          </div>
-        </footer>
-
       </div>
-    </section>
+      <div class="spacer"></div>
+
+      <div class="card premium-hover" id="vipcards">
+        <div class="shop-section-head"><div><h2>Planos disponíveis</h2><p class="muted">Todos os planos abaixo podem ser enviados direto para o carrinho.</p></div><span class="badge">VIP + CARRINHO</span></div>
+        <div class="vip-products-grid">
+          <div class="vip-product-card premium-hover">
+            <div class="vip-product-top"><span class="product-tag">💎 ENTRADA</span><span class="badge">Elite</span></div>
+            <div class="vip-title">VIP ELITE</div>
+            <div class="vip-copy">Perfeito para começar com benefícios essenciais e custo leve.</div>
+            <ul class="shop-bullets muted small"><li>Tag VIP Elite</li><li>Homes extras</li><li>Kit semanal</li><li>Acesso mais confortável ao começo do servidor</li></ul>
+            <div class="vip-price-stack"><div class="price-line"><span>Mensal</span><strong>R$ 15</strong></div><div class="price-line"><span>Vitalício</span><strong>R$ 135</strong></div></div>
+            <div class="product-actions"><button class="btn" data-addcart data-id="vips-page-elite-mensal" data-category="VIP" data-name="VIP Elite Mensal" data-price="15" data-img="assets/felino-neon.png">Adicionar mensal</button><button class="btn btn--outline" data-addcart data-id="vips-page-elite-vitalicio" data-category="VIP" data-name="VIP Elite Vitalício" data-price="135" data-img="assets/felino-neon.png">Adicionar vitalício</button></div>
+          </div>
+          <div class="vip-product-card premium-hover">
+            <div class="vip-product-top"><span class="product-tag is-hot">✨ MAIS VENDIDO</span><span class="badge">Prime</span></div>
+            <div class="vip-title">VIP PRIME</div>
+            <div class="vip-copy">Plano equilibrado para quem quer subir mais rápido e com mais destaque.</div>
+            <ul class="shop-bullets muted small"><li>Tag Prime + destaque</li><li>Mais homes extras</li><li>Kit semanal + bônus</li><li>Melhor equilíbrio custo x benefício</li></ul>
+            <div class="vip-price-stack"><div class="price-line"><span>Mensal</span><strong>R$ 50</strong></div><div class="price-line"><span>Vitalício</span><strong>R$ 450</strong></div></div>
+            <div class="product-actions"><button class="btn" data-addcart data-id="vips-page-prime-mensal" data-category="VIP" data-name="VIP Prime Mensal" data-price="50" data-img="assets/felino-neon.png">Adicionar mensal</button><button class="btn btn--outline" data-addcart data-id="vips-page-prime-vitalicio" data-category="VIP" data-name="VIP Prime Vitalício" data-price="450" data-img="assets/felino-neon.png">Adicionar vitalício</button></div>
+          </div>
+          <div class="vip-product-card premium-hover">
+            <div class="vip-product-top"><span class="product-tag is-max">👑 MELHOR PACOTE</span><span class="badge">Ultra</span></div>
+            <div class="vip-title">VIP ULTRA</div>
+            <div class="vip-copy">A escolha para quem quer o pacote mais forte, completo e visualmente mais marcante.</div>
+            <ul class="shop-bullets muted small"><li>Tag Ultra exclusiva</li><li>Mais benefícios e comandos</li><li>Kit diário + bônus alto</li><li>Suporte prioritário</li></ul>
+            <div class="vip-price-stack"><div class="price-line"><span>Mensal</span><strong>R$ 75</strong></div><div class="price-line"><span>Vitalício</span><strong>R$ 675</strong></div></div>
+            <div class="product-actions"><button class="btn" data-addcart data-id="vips-page-ultra-mensal" data-category="VIP" data-name="VIP Ultra Mensal" data-price="75" data-img="assets/felino-neon.png">Adicionar mensal</button><button class="btn btn--outline" data-addcart data-id="vips-page-ultra-vitalicio" data-category="VIP" data-name="VIP Ultra Vitalício" data-price="675" data-img="assets/felino-neon.png">Adicionar vitalício</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="card premium-hover">
+        <h2>Comparação rápida</h2>
+        <p class="muted">Resumo direto do que evolui entre os planos.</p>
+        <table class="compare-table">
+          <thead><tr><th>Benefício</th><th>Elite</th><th>Prime</th><th>Ultra</th></tr></thead>
+          <tbody>
+            <tr><td>Tag exclusiva</td><td class="compare-mid">Básica</td><td class="compare-good">Destaque</td><td class="compare-best">Exclusiva</td></tr>
+            <tr><td>Homes extras</td><td class="compare-mid">Sim</td><td class="compare-good">Mais homes</td><td class="compare-best">Máximo</td></tr>
+            <tr><td>Kits</td><td class="compare-mid">Semanal</td><td class="compare-good">Semanal + bônus</td><td class="compare-best">Diário + bônus alto</td></tr>
+            <tr><td>Comandos</td><td class="compare-mid">Base</td><td class="compare-good">Mais recursos</td><td class="compare-best">Mais completo</td></tr>
+            <tr><td>Prioridade</td><td>—</td><td>—</td><td class="compare-best">Suporte prioritário</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="card premium-hover">
+        <h2>Dúvidas frequentes</h2>
+        <div class="rule-accordion">
+          <button class="rule-acc-btn" type="button">VIP é mensal ou vitalício?</button>
+          <div class="rule-acc-panel"><p class="muted small">Temos os dois. Você pode adicionar qualquer versão ao carrinho.</p></div>
+          <button class="rule-acc-btn" type="button">Como compro por enquanto?</button>
+          <div class="rule-acc-panel"><p class="muted small">Adicione os produtos no carrinho, finalize e cole o resumo no ticket do Discord.</p></div>
+          <button class="rule-acc-btn" type="button">Posso fazer upgrade?</button>
+          <div class="rule-acc-panel"><p class="muted small">Sim. Fale com a equipe no ticket e informe seu plano atual.</p></div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <footer class="footer"><div class="container footer__content"><span class="muted small">© <span id="year"></span> Rede Cats</span><span class="muted small">Discord: discord.gg/GQZGduc9</span></div></footer>
+    </div></section>
   </main>
 
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Carrinho"><div class="cart-head"><div class="cart-title">CARRINHO</div><button class="cart-close" id="cartClose" aria-label="Fechar">✕</button></div><div class="cart-body" id="cartItems"></div><div class="cart-foot"><div class="cart-total-row"><span>Total:</span><strong id="cartTotal">R$ 0,00</strong></div><div class="cart-actions"><button class="btn btn--outline" id="cartContinue">Continuar comprando</button><button class="btn" id="cartFinish">Finalizar compra</button></div><div class="muted small" style="margin-top:10px">Finalizar abre o Discord e copia o resumo do pedido.</div></div></aside>
+  <button class="cart-fab" id="cartFab" aria-label="Abrir carrinho">🛒 <span class="cart-badge" id="cartBadge" style="display:none">0</span></button>
   <div class="toast" id="toast">OK</div>
   <script src="assets/app.js?v=20260305" defer></script>
-
-  <style>
-    .vip-grid{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:14px;
-    }
-    .vip-card{
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.04);
-      padding:14px;
-      display:flex;
-      flex-direction:column;
-      min-height:340px;
-    }
-    .vip-prices{margin-top:10px}
-    .vip-list{margin:12px 0 0;padding-left:18px}
-    .vip-list li{margin:6px 0}
-    @media(max-width:900px){
-      .vip-grid{grid-template-columns:1fr}
-    }
-  </style>
+  <script src="assets/shop-cart.js?v=20260305" defer></script>
 </body>
 </html>

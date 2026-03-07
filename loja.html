@@ -4,453 +4,147 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Loja - Rede Cats</title>
-  <meta name="description" content="Loja oficial da Rede Cats: VIPs, vantagens e suporte." />
+  <meta name="description" content="Loja oficial da Rede Cats: VIPs, Cash e vantagens com carrinho." />
   <link rel="stylesheet" href="assets/style.css?v=20260305" />
 </head>
-
 <body class="subpage">
-  <!-- FUNDO ANIMADO -->
-  <div class="bg-animated">
-    <div class="bg-image"></div>
-    <div class="bg-glow"></div>
-  </div>
-
+  <div class="bg-animated"><div class="bg-image"></div><div class="bg-glow"></div></div>
   <header class="topbar">
     <div class="container topbar__content">
-      <div class="brand">
-        <div class="logo">🐱</div>
-        <div class="brand__text">
-          <strong class="brand__name">REDE CATS</strong>
-        </div>
-      </div>
-
+      <div class="brand"><div class="logo">🐱</div><div class="brand__text"><strong class="brand__name">REDE CATS</strong></div></div>
       <nav class="nav" aria-label="Navegação">
-        <a href="index.html">Início</a>
-        <a href="regras.html">Regras</a>
-        <a href="sistemas.html">Sistemas</a>
-        <a href="loja.html">Loja</a>
-        <a href="vips.html">VIPs</a>
-        <a href="doadores.html">Doadores</a>
-        <a href="rgb.html">RGB</a>
-        <a href="suporte.html">Suporte</a>
-        <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
+        <a href="index.html">Início</a><a href="regras.html">Regras</a><a href="sistemas.html">Sistemas</a><a href="loja.html" class="is-active">Loja</a><a href="vips.html">VIPs</a><a href="doadores.html">Doadores</a><a href="rgb.html">RGB</a><a href="suporte.html">Suporte</a><a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
       </nav>
-
       <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">☰</button>
     </div>
-
-    <div class="container">
-      <nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile">
-        <a href="index.html">Início</a>
-        <a href="regras.html">Regras</a>
-        <a href="sistemas.html">Sistemas</a>
-        <a href="loja.html">Loja</a>
-        <a href="vips.html">VIPs</a>
-        <a href="doadores.html">Doadores</a>
-        <a href="rgb.html">RGB</a>
-        <a href="suporte.html">Suporte</a>
-        <div class="mobile-actions">
-          <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a>
-        </div>
-      </nav>
-    </div>
+    <div class="container"><nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile"><a href="index.html">Início</a><a href="regras.html">Regras</a><a href="sistemas.html">Sistemas</a><a href="loja.html">Loja</a><a href="vips.html">VIPs</a><a href="doadores.html">Doadores</a><a href="rgb.html">RGB</a><a href="suporte.html">Suporte</a><div class="mobile-actions"><a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a></div></nav></div>
   </header>
-
   <main class="site-content">
-    <section class="section">
-      <div class="container">
-
-        <!-- FAIXA CUPOM -->
-        <div class="shop-coupon card premium-hover page-hero-card">
+    <section class="section"><div class="container">
+      <div class="card premium-hover page-hero-card">
+        <div class="vip-hero-banner">
           <div>
-            <div class="badge">🚀 CUPOM DE ABERTURA</div>
-            <h1 style="margin-top:10px">Loja Oficial</h1>
-            <p class="muted">Compre VIPs e apoie a Rede Cats. No momento, a compra é via ticket no Discord.</p>
+            <div class="badge">🛒 LOJA OFICIAL</div>
+            <h1 style="margin-top:10px">VIPs, Cash e vantagens</h1>
+            <p class="muted">Tudo que você pode comprar na Rede Cats em um só lugar. Veja o produto, entenda o benefício, adicione ao carrinho e finalize pelo Discord.</p>
+            <div class="page-intro-actions"><a class="btn" href="#vipstore">Ver VIPs</a><a class="btn btn--outline" href="#cash">Ver Cash</a></div>
           </div>
-
-          <div class="shop-coupon__right">
-            <div class="coupon-box">
-              <div class="label">Cupom</div>
-              <div class="coupon-code" id="couponCode">ABERTURA30</div>
-              <div class="muted small">-30% OFF na abertura (por tempo limitado)</div>
-              <button class="btn" id="copyCouponBtn">Copiar cupom</button>
-            </div>
-          </div>
+          <div class="vip-hero-side"><img src="assets/felino-neon.png" alt="Mascote da Rede Cats"></div>
         </div>
-
-        <div class="spacer"></div>
-
-        <div class="shop-layout">
-
-          <!-- SIDEBAR -->
-          <aside class="shop-sidebar">
-
-            <div class="card premium-hover">
-              <h2>Categorias</h2>
-
-              <div class="shop-cats">
-                <a class="shop-cat is-active" href="#vips">💎 VIPs</a>
-                <a class="shop-cat" href="#cash">🪙 Cash</a>
-                <a class="shop-cat" href="#itens">📦 Itens</a>
-                <a class="shop-cat" href="#unban">🛡️ Unban</a>
-              </div>
-
-              <p class="muted small" style="margin-top:10px">
-                * Compras via ticket no Discord (temporário). Depois teremos compra direta.
-              </p>
-
-              <a class="btn" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Abrir ticket</a>
-            </div>
-
-            <div class="spacer"></div>
-
-            <div class="card premium-hover">
-              <h2>Top Doadores</h2>
-              <div class="donors">
-                <div class="donor"><span>🥇 PlayerOne</span><span>R$ 120</span></div>
-                <div class="donor"><span>🥈 PlayerTwo</span><span>R$ 80</span></div>
-                <div class="donor"><span>🥉 PlayerThree</span><span>R$ 50</span></div>
-                <div class="donor"><span>⭐ PlayerFour</span><span>R$ 25</span></div>
-              </div>
-              <p class="muted small" style="margin-top:10px">Quer aparecer aqui? Apoie o servidor 💜</p>
-            </div>
-
-            <div class="spacer"></div>
-
-            <div class="card premium-hover">
-              <h2>Meta do mês</h2>
-              <p class="muted small">Objetivo: melhorar a máquina e manter o servidor 24/7.</p>
-              <div class="goal">
-                <div class="goal-top">
-                  <span class="muted small">R$ <span id="goalCurrent">220</span> / R$ <span id="goalTarget">500</span></span>
-                  <span class="badge"><span id="goalPct">44</span>%</span>
-                </div>
-                <div class="goal-bar">
-                  <div class="goal-fill" id="goalFill" style="width:44%"></div>
-                </div>
-              </div>
-              <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Ajudar na meta</a>
-            </div>
-
-          </aside>
-
-          <!-- MAIN -->
-          <section class="shop-main">
-
-            <!-- DESTAQUE -->
-            <div class="card premium-hover shop-feature">
-              <div>
-                <div class="badge">⭐ DESTAQUE</div>
-                <h2 style="margin-top:10px">VIP ULTRA</h2>
-                <p class="muted">O melhor VIP da Rede Cats: mais vantagens, mais recursos e mais estilo.</p>
-                <ul class="muted small shop-bullets">
-                  <li>Tag exclusiva + destaque</li>
-                  <li>Mais benefícios e comandos</li>
-                  <li>Suporte prioritário (via ticket)</li>
-                </ul>
-              </div>
-              <div class="shop-feature__cta">
-                <div class="price">A partir de R$ 75/mês</div>
-                <a class="btn" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Comprar via Discord</a>
-                <span class="muted small">Use o cupom <b>ABERTURA30</b></span>
-              </div>
-            </div>
-
-            <div class="spacer"></div>
-
-            <!-- VIPS -->
-            <div class="card premium-hover" id="vips">
-              <h2>VIPs disponíveis</h2>
-              <p class="muted">Escolha seu VIP e compre via ticket no Discord.</p>
-
-              <div class="shop-grid">
-
-                <!-- VIP ELITE -->
-                <div class="shop-item premium-hover">
-                  <div class="shop-item__top">
-                    <div class="badge">💎 VIP</div>
-                    <h3>VIP ELITE</h3>
-                    <p class="muted small">VIP mais fraco (entrada) — ideal pra começar.</p>
-                  </div>
-
-                  <ul class="muted small shop-bullets">
-                    <li>Tag VIP Elite no chat</li>
-                    <li>Homes extras</li>
-                    <li>Kit semanal</li>
-                  </ul>
-
-                  <div class="shop-item__bottom">
-                    <div class="price">Mensal: R$ 15</div>
-                    <a class="btn" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Comprar Mensal</a>
-
-                    <div class="price">Vitalício: R$ 135</div>
-                    <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Comprar Vitalício</a>
-
-                    <span class="muted small">Cupom: <b>ABERTURA30</b></span>
-                  </div>
-                </div>
-
-                <!-- VIP PRIME -->
-                <div class="shop-item premium-hover">
-                  <div class="shop-item__top">
-                    <div class="badge">✨ VIP</div>
-                    <h3>VIP PRIME</h3>
-                    <p class="muted small">VIP médio — equilíbrio entre custo e vantagens.</p>
-                  </div>
-
-                  <ul class="muted small shop-bullets">
-                    <li>Tag VIP Prime + destaque</li>
-                    <li>Mais homes extras</li>
-                    <li>Kit semanal + bônus de coins</li>
-                  </ul>
-
-                  <div class="shop-item__bottom">
-                    <div class="price">Mensal: R$ 50</div>
-                    <a class="btn" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Comprar Mensal</a>
-
-                    <div class="price">Vitalício: R$ 450</div>
-                    <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Comprar Vitalício</a>
-
-                    <span class="muted small">Cupom: <b>ABERTURA30</b></span>
-                  </div>
-                </div>
-
-                <!-- VIP ULTRA -->
-                <div class="shop-item premium-hover">
-                  <div class="shop-item__top">
-                    <div class="badge">👑 VIP</div>
-                    <h3>VIP ULTRA</h3>
-                    <p class="muted small">VIP melhor — pacote completo e mais vantagens.</p>
-                  </div>
-
-                  <ul class="muted small shop-bullets">
-                    <li>Tag VIP Ultra exclusiva</li>
-                    <li>Mais benefícios e comandos</li>
-                    <li>Kit diário + bônus alto (se aplicável)</li>
-                  </ul>
-
-                  <div class="shop-item__bottom">
-                    <div class="price">Mensal: R$ 75</div>
-                    <a class="btn" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Comprar Mensal</a>
-
-                    <div class="price">Vitalício: R$ 675</div>
-                    <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Comprar Vitalício</a>
-
-                    <span class="muted small">Cupom: <b>ABERTURA30</b></span>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="spacer"></div>
-
-            <!-- CASH (COM CARRINHO) -->
-
-            <div class="card premium-hover" id="cash">
-              <div class="shop-section-head">
-                <div>
-                  <h2>Cash</h2>
-                  <p class="muted">Pacotes de Cash para usar na economia do servidor. Compra via ticket no Discord (por enquanto).</p>
-                </div>
-                <span class="badge">🪙 CASH</span>
-              </div>
-
-              <div class="shop-products">
-                <div class="product-card premium-hover">
-                  <img class="product-img" src="assets/img/cash500.png" alt="500 CASH">
-                  <div class="product-meta">
-                    <strong>500 CASH</strong>
-                    <div class="muted small">R$ 5,00</div>
-                  </div>
-                  <button class="btn" data-addcash data-id="cash500" data-name="500 CASH" data-price="5" data-img="assets/img/cash500.png">Adicionar ao carrinho</button>
-                </div>
-
-                <div class="product-card premium-hover">
-                  <img class="product-img" src="assets/img/cash1000.png" alt="1000 CASH">
-                  <div class="product-meta">
-                    <strong>1000 CASH</strong>
-                    <div class="muted small">R$ 10,00</div>
-                  </div>
-                  <button class="btn" data-addcash data-id="cash1000" data-name="1000 CASH" data-price="10" data-img="assets/img/cash1000.png">Adicionar ao carrinho</button>
-                </div>
-
-                <div class="product-card premium-hover">
-                  <img class="product-img" src="assets/img/cash5000.png" alt="5000 CASH">
-                  <div class="product-meta">
-                    <strong>5000 CASH</strong>
-                    <div class="muted small">R$ 40,00</div>
-                  </div>
-                  <button class="btn" data-addcash data-id="cash5000" data-name="5000 CASH" data-price="40" data-img="assets/img/cash5000.png">Adicionar ao carrinho</button>
-                </div>
-
-                <div class="product-card premium-hover">
-                  <img class="product-img" src="assets/img/cash10000.png" alt="10000 CASH">
-                  <div class="product-meta">
-                    <strong>10000 CASH</strong>
-                    <div class="muted small">R$ 80,00</div>
-                  </div>
-                  <button class="btn" data-addcash data-id="cash10000" data-name="10000 CASH" data-price="80" data-img="assets/img/cash10000.png">Adicionar ao carrinho</button>
-                </div>
-
-                <div class="product-card premium-hover">
-                  <img class="product-img" src="assets/img/cash20000.png" alt="20000 CASH">
-                  <div class="product-meta">
-                    <strong>20000 CASH</strong>
-                    <div class="muted small">R$ 150,00</div>
-                  </div>
-                  <button class="btn" data-addcash data-id="cash20000" data-name="20000 CASH" data-price="150" data-img="assets/img/cash20000.png">Adicionar ao carrinho</button>
-                </div>
-
-                <div class="product-card premium-hover">
-                  <img class="product-img" src="assets/img/cash50000.png" alt="50000 CASH">
-                  <div class="product-meta">
-                    <strong>50000 CASH</strong>
-                    <div class="muted small">R$ 350,00</div>
-                  </div>
-                  <button class="btn" data-addcash data-id="cash50000" data-name="50000 CASH" data-price="350" data-img="assets/img/cash50000.png">Adicionar ao carrinho</button>
-                </div>
-              </div>
-
-              <p class="muted small" style="margin-top:12px">
-                Ao finalizar, o site copia o resumo do pedido para você colar no ticket do Discord.
-              </p>
-            </div>
-
-<div class="spacer"></div>
-
-            <div class="card premium-hover" id="itens">
-              <h2>Itens</h2>
-              <p class="muted">Em breve: itens cosméticos, pets e raridades.</p>
-              <span class="badge">🚧 Em construção</span>
-            </div>
-
-            <div class="spacer"></div>
-
-            <div class="card premium-hover" id="unban">
-              <h2>Unban</h2>
-              <p class="muted">Se sua punição for revisável, abra ticket para análise.</p>
-              <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Abrir ticket</a>
-            </div>
-
-          </section>
-
-        </div>
-
-        <div class="spacer"></div>
-
-        <footer class="footer">
-          <div class="container footer__content">
-            <span class="muted small">© <span id="year"></span> Rede Cats</span>
-            <span class="muted small">Discord: discord.gg/GQZGduc9</span>
-          </div>
-        </footer>
       </div>
-    </section>
+      <div class="spacer"></div>
+
+      <div class="store-split" id="vipstore">
+        <div class="card premium-hover">
+          <div class="product-tag is-hot">⭐ MAIS PROCURADO</div>
+          <h2 style="margin-top:12px">VIP ULTRA em destaque</h2>
+          <p class="muted">O melhor pacote da Rede Cats para quem quer chegar no servidor já com mais presença, mais comandos e mais benefícios.</p>
+          <div class="store-feature-list">
+            <div class="store-feature-row">👑 Tag exclusiva e destaque visual no chat</div>
+            <div class="store-feature-row">⚙️ Mais benefícios e comandos úteis</div>
+            <div class="store-feature-row">🛡️ Suporte prioritário via ticket</div>
+          </div>
+          <div class="product-actions" style="margin-top:16px">
+            <button class="btn" data-addcart data-id="vip-ultra-mensal" data-category="VIP" data-name="VIP Ultra Mensal" data-price="75" data-img="assets/felino-neon.png">Adicionar mensal</button>
+            <button class="btn btn--outline" data-addcart data-id="vip-ultra-vitalicio" data-category="VIP" data-name="VIP Ultra Vitalício" data-price="675" data-img="assets/felino-neon.png">Adicionar vitalício</button>
+          </div>
+          <div class="product-mini-note">Use o cupom <b>ABERTURA30</b> como referência no atendimento.</div>
+        </div>
+
+        <div class="card premium-hover">
+          <div class="badge">🚀 CUPOM DE ABERTURA</div>
+          <h2 style="margin-top:12px">ABERTURA30</h2>
+          <p class="muted">Avise no ticket que quer usar o cupom promocional. Enquanto a compra direta não entra, o carrinho ajuda você a organizar o pedido.</p>
+          <div class="coupon-box" style="margin-top:16px"><div class="label">Cupom</div><div class="coupon-code" id="couponCode">ABERTURA30</div><div class="muted small">-30% OFF na abertura (tempo limitado)</div><button class="btn" id="copyCouponBtn" style="margin-top:10px">Copiar cupom</button></div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="card premium-hover">
+        <div class="shop-section-head"><div><h2>VIPs disponíveis</h2><p class="muted">Cada pacote mostra o valor e o que entrega. Todos podem ir para o carrinho.</p></div><a class="badge" href="vips.html">Comparar VIPs</a></div>
+        <div class="vip-products-grid">
+          <div class="vip-product-card premium-hover">
+            <div class="vip-product-top"><span class="product-tag">💎 ENTRADA</span><span class="badge">Elite</span></div>
+            <div class="vip-title">VIP ELITE</div>
+            <div class="vip-copy">Pacote ideal para começar no servidor com benefícios essenciais e custo baixo.</div>
+            <ul class="shop-bullets muted small"><li>Tag Elite no chat</li><li>Homes extras</li><li>Kit semanal</li></ul>
+            <div class="vip-price-stack"><div class="price-line"><span>Mensal</span><strong>R$ 15</strong></div><div class="price-line"><span>Vitalício</span><strong>R$ 135</strong></div></div>
+            <div class="product-actions"><button class="btn" data-addcart data-id="vip-elite-mensal" data-category="VIP" data-name="VIP Elite Mensal" data-price="15" data-img="assets/felino-neon.png">Adicionar mensal</button><button class="btn btn--outline" data-addcart data-id="vip-elite-vitalicio" data-category="VIP" data-name="VIP Elite Vitalício" data-price="135" data-img="assets/felino-neon.png">Adicionar vitalício</button></div>
+          </div>
+
+          <div class="vip-product-card premium-hover">
+            <div class="vip-product-top"><span class="product-tag is-hot">✨ MAIS VENDIDO</span><span class="badge">Prime</span></div>
+            <div class="vip-title">VIP PRIME</div>
+            <div class="vip-copy">Equilíbrio entre custo e vantagem. Ótimo para quem quer subir com mais conforto e destaque.</div>
+            <ul class="shop-bullets muted small"><li>Tag Prime + destaque</li><li>Mais homes</li><li>Kit semanal + bônus</li></ul>
+            <div class="vip-price-stack"><div class="price-line"><span>Mensal</span><strong>R$ 50</strong></div><div class="price-line"><span>Vitalício</span><strong>R$ 450</strong></div></div>
+            <div class="product-actions"><button class="btn" data-addcart data-id="vip-prime-mensal" data-category="VIP" data-name="VIP Prime Mensal" data-price="50" data-img="assets/felino-neon.png">Adicionar mensal</button><button class="btn btn--outline" data-addcart data-id="vip-prime-vitalicio" data-category="VIP" data-name="VIP Prime Vitalício" data-price="450" data-img="assets/felino-neon.png">Adicionar vitalício</button></div>
+          </div>
+
+          <div class="vip-product-card premium-hover">
+            <div class="vip-product-top"><span class="product-tag is-max">👑 MELHOR PACOTE</span><span class="badge">Ultra</span></div>
+            <div class="vip-title">VIP ULTRA</div>
+            <div class="vip-copy">O pacote completo para quem quer o máximo da Rede Cats desde o começo.</div>
+            <ul class="shop-bullets muted small"><li>Tag Ultra exclusiva</li><li>Mais comandos e vantagens</li><li>Kit diário + bônus alto</li></ul>
+            <div class="vip-price-stack"><div class="price-line"><span>Mensal</span><strong>R$ 75</strong></div><div class="price-line"><span>Vitalício</span><strong>R$ 675</strong></div></div>
+            <div class="product-actions"><button class="btn" data-addcart data-id="vip-ultra-mensal-2" data-category="VIP" data-name="VIP Ultra Mensal" data-price="75" data-img="assets/felino-neon.png">Adicionar mensal</button><button class="btn btn--outline" data-addcart data-id="vip-ultra-vitalicio-2" data-category="VIP" data-name="VIP Ultra Vitalício" data-price="675" data-img="assets/felino-neon.png">Adicionar vitalício</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="cash-highlight-grid" id="cash">
+        <div class="card premium-hover cash-highlight-card">
+          <div class="product-tag">🪙 CASH</div>
+          <h2 style="margin-top:12px">Pacotes de Cash</h2>
+          <p class="muted">Compre exatamente o valor que precisa. Os pacotes abaixo vão direto para o carrinho.</p>
+          <div class="cash-pack-spotlight">
+            <img src="assets/cash10000.png" alt="10000 Cash">
+            <div>
+              <h3>10000 CASH</h3>
+              <p>Melhor equilíbrio entre preço e quantidade. Excelente para quem já quer comprar bem sem ir no pacote máximo.</p>
+              <div class="cash-badges"><span class="badge">🔥 Melhor custo</span><span class="badge">R$ 80,00</span></div>
+              <div class="product-actions" style="margin-top:14px"><button class="btn" data-addcart data-id="cash10000" data-category="Cash" data-name="10000 CASH" data-price="80" data-img="assets/cash10000.png">Adicionar ao carrinho</button><button class="btn btn--outline" data-addcart data-id="cash50000" data-category="Cash" data-name="50000 CASH" data-price="350" data-img="assets/cash50000.png">Pacote máximo</button></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card premium-hover">
+          <div class="shop-products">
+            <div class="product-card premium-hover"><img class="product-img" src="assets/cash500.png" alt="500 CASH"><div class="product-meta"><strong>500 CASH</strong><span class="badge">R$ 5,00</span></div><div class="muted small">Pacote rápido para começar.</div><button class="btn" data-addcart data-id="cash500" data-category="Cash" data-name="500 CASH" data-price="5" data-img="assets/cash500.png">Adicionar</button></div>
+            <div class="product-card premium-hover"><img class="product-img" src="assets/cash1000.png" alt="1000 CASH"><div class="product-meta"><strong>1000 CASH</strong><span class="badge">R$ 10,00</span></div><div class="muted small">Bom para pequenas compras.</div><button class="btn" data-addcart data-id="cash1000" data-category="Cash" data-name="1000 CASH" data-price="10" data-img="assets/cash1000.png">Adicionar</button></div>
+            <div class="product-card premium-hover"><img class="product-img" src="assets/cash5000.png" alt="5000 CASH"><div class="product-meta"><strong>5000 CASH</strong><span class="badge">R$ 40,00</span></div><div class="muted small">Pacote intermediário.</div><button class="btn" data-addcart data-id="cash5000" data-category="Cash" data-name="5000 CASH" data-price="40" data-img="assets/cash5000.png">Adicionar</button></div>
+            <div class="product-card premium-hover"><img class="product-img" src="assets/cash10000.png" alt="10000 CASH"><div class="product-meta"><strong>10000 CASH</strong><span class="badge">R$ 80,00</span></div><div class="muted small">Melhor custo-benefício.</div><button class="btn" data-addcart data-id="cash10000b" data-category="Cash" data-name="10000 CASH" data-price="80" data-img="assets/cash10000.png">Adicionar</button></div>
+            <div class="product-card premium-hover"><img class="product-img" src="assets/cash20000.png" alt="20000 CASH"><div class="product-meta"><strong>20000 CASH</strong><span class="badge">R$ 150,00</span></div><div class="muted small">Pacote forte para quem já sabe o que quer.</div><button class="btn" data-addcart data-id="cash20000" data-category="Cash" data-name="20000 CASH" data-price="150" data-img="assets/cash20000.png">Adicionar</button></div>
+            <div class="product-card premium-hover"><img class="product-img" src="assets/cash50000.png" alt="50000 CASH"><div class="product-meta"><strong>50000 CASH</strong><span class="badge">R$ 350,00</span></div><div class="muted small">Pacote máximo para compra pesada.</div><button class="btn" data-addcart data-id="cash50000b" data-category="Cash" data-name="50000 CASH" data-price="350" data-img="assets/cash50000.png">Adicionar</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="card premium-hover" id="itens"><h2>Itens</h2><p class="muted">Em breve: itens cosméticos, pets e raridades.</p><span class="badge">🚧 Em construção</span></div>
+      <div class="spacer"></div>
+      <div class="card premium-hover" id="unban"><h2>Unban</h2><p class="muted">Se sua punição for revisável, abra ticket para análise.</p><a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Abrir ticket</a></div>
+      <div class="spacer"></div>
+      <footer class="footer"><div class="container footer__content"><span class="muted small">© <span id="year"></span> Rede Cats</span><span class="muted small">Discord: discord.gg/GQZGduc9</span></div></footer>
+    </div></section>
   </main>
 
-
-  <!-- CARRINHO -->
   <div class="cart-overlay" id="cartOverlay"></div>
-
-  <aside class="cart-drawer" id="cartDrawer" aria-label="Carrinho">
-    <div class="cart-head">
-      <div class="cart-title">CARRINHO</div>
-      <button class="cart-close" id="cartClose" aria-label="Fechar">✕</button>
-    </div>
-
-    <div class="cart-body" id="cartItems"></div>
-
-    <div class="cart-foot">
-      <div class="cart-total-row">
-        <span>Total:</span>
-        <strong id="cartTotal">R$ 0,00</strong>
-      </div>
-      <div class="cart-actions">
-        <button class="btn btn--outline" id="cartContinue">Continuar comprando</button>
-        <button class="btn" id="cartFinish">Finalizar compra</button>
-      </div>
-      <div class="muted small" style="margin-top:10px">
-        Finalizar abre o Discord e copia o resumo do pedido.
-      </div>
-    </div>
-  </aside>
-
-  <button class="cart-fab" id="cartFab" aria-label="Abrir carrinho">
-    🛒 <span class="cart-badge" id="cartBadge" style="display:none">0</span>
-  </button>
-
-
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Carrinho"><div class="cart-head"><div class="cart-title">CARRINHO</div><button class="cart-close" id="cartClose" aria-label="Fechar">✕</button></div><div class="cart-body" id="cartItems"></div><div class="cart-foot"><div class="cart-total-row"><span>Total:</span><strong id="cartTotal">R$ 0,00</strong></div><div class="cart-actions"><button class="btn btn--outline" id="cartContinue">Continuar comprando</button><button class="btn" id="cartFinish">Finalizar compra</button></div><div class="muted small" style="margin-top:10px">Finalizar abre o Discord e copia o resumo do pedido.</div></div></aside>
+  <button class="cart-fab" id="cartFab" aria-label="Abrir carrinho">🛒 <span class="cart-badge" id="cartBadge" style="display:none">0</span></button>
   <div class="toast" id="toast">OK</div>
   <script src="assets/app.js?v=20260305" defer></script>
-
-  <!-- Script pequeno só dessa página -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const toast = document.getElementById("toast");
-      function showToast(msg){
-        if(!toast) return;
-        toast.textContent = msg;
-        toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 1400);
-      }
-
-      async function copyText(text) {
-        try {
-          await navigator.clipboard.writeText(text);
-          return true;
-        } catch {
-          try {
-            const temp = document.createElement("input");
-            temp.value = text;
-            document.body.appendChild(temp);
-            temp.select();
-            document.execCommand("copy");
-            temp.remove();
-            return true;
-          } catch {
-            return false;
-          }
-        }
-      }
-
-      // copiar cupom
+      function showToast(msg){ if(!toast) return; toast.textContent = msg; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 1400); }
+      async function copyText(text) { try { await navigator.clipboard.writeText(text); return true; } catch { return false; } }
       const copyCouponBtn = document.getElementById("copyCouponBtn");
       const couponCode = document.getElementById("couponCode");
-      if(copyCouponBtn && couponCode){
-        copyCouponBtn.addEventListener("click", async () => {
-          const ok = await copyText(couponCode.textContent.trim());
-          showToast(ok ? "Cupom copiado!" : "Não consegui copiar :(");
-        });
-      }
-
-      // rolagem suave nas categorias
-      document.querySelectorAll(".shop-cat").forEach((a) => {
-        a.addEventListener("click", (e) => {
-          const href = a.getAttribute("href");
-          if (!href || !href.startsWith("#")) return;
-          e.preventDefault();
-          const el = document.querySelector(href);
-          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-          document.querySelectorAll(".shop-cat").forEach(x => x.classList.remove("is-active"));
-          a.classList.add("is-active");
-        });
-      });
-
-      // meta do mês (você pode mudar números aqui)
-      const current = 220;
-      const target = 500;
-      const pct = Math.max(0, Math.min(100, Math.round((current/target)*100)));
-
-      const goalCurrent = document.getElementById("goalCurrent");
-      const goalTarget = document.getElementById("goalTarget");
-      const goalPct = document.getElementById("goalPct");
-      const goalFill = document.getElementById("goalFill");
-
-      if(goalCurrent) goalCurrent.textContent = String(current);
-      if(goalTarget) goalTarget.textContent = String(target);
-      if(goalPct) goalPct.textContent = String(pct);
-      if(goalFill) goalFill.style.width = pct + "%";
+      if(copyCouponBtn && couponCode){ copyCouponBtn.addEventListener("click", async () => { const ok = await copyText(couponCode.textContent.trim()); showToast(ok ? "Cupom copiado!" : "Não consegui copiar :("); }); }
     });
   </script>
   <script src="assets/shop-cart.js?v=20260305" defer></script>

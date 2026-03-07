@@ -30,20 +30,18 @@
       box-shadow: 0 20px 80px rgba(0,0,0,.45);
       position:relative;
       isolation:isolate;
-      overflow:hidden;
     }
 
     .home-hero-card::before{
       content:"";
       position:absolute;
       inset:0;
-      border-radius:inherit;
       background:
         radial-gradient(circle at 50% 50%, rgba(168, 85, 247, .14), transparent 45%),
         url("assets/spawn.png") center/cover no-repeat;
-      opacity:.18;
-      transform:scale(1.01);
-      animation: heroPan 18s ease-in-out infinite alternate;
+      opacity:.16;
+      mix-blend-mode:screen;
+      animation: heroPan 30s ease-in-out infinite alternate;
       z-index:-2;
     }
 
@@ -57,8 +55,8 @@
     }
 
     @keyframes heroPan{
-      from{transform:scale(1.01) translateX(0) translateY(0)}
-      to{transform:scale(1.04) translateX(-8px) translateY(-6px)}
+      from{transform:scale(1) translateX(0) translateY(0)}
+      to{transform:scale(1.06) translateX(-18px) translateY(-12px)}
     }
 
     .hero-copy{

@@ -859,3 +859,27 @@ body.subpage .cta-actions{
 .cart-item__cat{color:rgba(255,255,255,.58);font-size:12px;margin-top:2px}
 @media(max-width:1100px){.vip-products-grid{grid-template-columns:1fr}.store-split,.cash-highlight-grid,.vip-hero-banner{grid-template-columns:1fr}.cash-pack-spotlight{grid-template-columns:1fr}.cash-pack-spotlight img{width:100%;height:auto;max-width:180px}.compare-table{display:block;overflow:auto}}
 @media(max-width:760px){.product-actions{grid-template-columns:1fr}.vip-title{font-size:1.6rem}}
+
+
+/* ===== CARRINHO COM CUPOM ===== */
+.cart-coupon-box{margin-bottom:14px;padding:12px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+.cart-coupon-row{display:flex;gap:8px;margin-top:8px}
+.cart-coupon-input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px 14px;color:#fff;outline:none}
+.cart-coupon-input::placeholder{color:rgba(255,255,255,.45)}
+.cart-coupon-feedback{margin-top:8px}
+.cart-totals-box{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);margin-bottom:14px}
+.cart-discount-row strong{color:#74f7b4}
+.cart-final-row strong{font-size:1.08rem}
+
+/* ===== VIPS DETAIS ===== */
+.compare-wrap{overflow:auto;margin-top:12px}
+.compare-table-detailed th,.compare-table-detailed td{white-space:nowrap}
+.vip-detail-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.vip-detail-card h3{margin-top:10px;margin-bottom:10px}
+.detail-list{margin:0;padding-left:18px;color:rgba(255,255,255,.82);line-height:1.55}
+.detail-list li{margin:0 0 8px}
+
+@media(max-width:900px){
+  .cart-coupon-row{flex-direction:column}
+  .vip-detail-grid{grid-template-columns:1fr}
+}

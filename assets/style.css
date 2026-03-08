@@ -883,3 +883,29 @@ body.subpage .cta-actions{
   .cart-coupon-row{flex-direction:column}
   .vip-detail-grid{grid-template-columns:1fr}
 }
+
+
+/* ===== VIPS cores e refinamento ===== */
+.compare-table-detailed thead th{font-size:1rem;letter-spacing:.02em}
+.compare-table-detailed tbody td{font-size:.97rem}
+.compare-table-detailed tbody td:nth-child(2){color:#f7df8a;font-weight:700}
+.compare-table-detailed tbody td:nth-child(3){color:#d28cff;font-weight:700}
+.compare-table-detailed tbody td:nth-child(4){color:#ff8e8e;font-weight:700}
+.compare-benefit-head{color:#ffffff !important}
+.compare-elite-head{color:#f4d35e !important}
+.compare-prime-head{color:#c084fc !important}
+.compare-ultra-head{color:#ff6b6b !important}
+.shine-elite{background:linear-gradient(90deg,#fff1a6,#d4a73b,#fff7c7);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900}
+.shine-prime{background:linear-gradient(90deg,#f2d1ff,#b06cff,#6b21ff);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900}
+.shine-ultra{background:linear-gradient(90deg,#ffd3d3,#ff5757,#b80000);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900}
+.badge-elite{background:linear-gradient(135deg,rgba(255,240,175,.22),rgba(201,153,46,.18));border-color:rgba(244,211,94,.35)}
+.badge-prime{background:linear-gradient(135deg,rgba(192,132,252,.22),rgba(109,40,217,.20));border-color:rgba(192,132,252,.35)}
+.badge-ultra{background:linear-gradient(135deg,rgba(255,107,107,.22),rgba(185,28,28,.18));border-color:rgba(255,107,107,.35)}
+.vip-detail-card{position:relative;overflow:hidden}
+.vip-detail-card::before{content:"";position:absolute;inset:0 auto auto 0;width:100%;height:4px;opacity:.9}
+.vip-detail-elite::before{background:linear-gradient(90deg,#fff0a8,#c9952e)}
+.vip-detail-prime::before{background:linear-gradient(90deg,#f0c7ff,#7c3aed)}
+.vip-detail-ultra::before{background:linear-gradient(90deg,#ffc1c1,#dc2626)}
+.vip-detail-card h3{font-size:1.2rem;letter-spacing:.01em}
+.detail-list li strong{color:#fff}
+.vip-copy{font-size:1rem}

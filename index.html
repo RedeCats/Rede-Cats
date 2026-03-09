@@ -333,6 +333,75 @@
       flex-wrap:wrap;
     }
 
+    .hero-royal-wrap{
+      position:relative;
+      overflow:visible;
+      min-height:520px;
+      isolation:isolate;
+    }
+
+    .hero-royal-wrap::before{
+      content:"";
+      position:absolute;
+      inset:8% 8% 10% 8%;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,184,60,.20) 0%, rgba(255,120,0,.14) 26%, rgba(255,70,0,.08) 48%, rgba(255,0,0,0) 72%);
+      filter:blur(18px);
+      animation:royalAura 3.2s ease-in-out infinite alternate;
+      z-index:0;
+      pointer-events:none;
+    }
+
+    .hero-royal-wrap::after{
+      content:"";
+      position:absolute;
+      width:78%;
+      height:78%;
+      left:50%;
+      top:52%;
+      transform:translate(-50%,-50%);
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,214,120,.15) 0%, rgba(255,160,40,.10) 22%, rgba(255,90,0,.06) 42%, rgba(255,0,0,0) 68%);
+      filter:blur(24px);
+      animation:royalFire 2.4s ease-in-out infinite alternate;
+      z-index:0;
+      pointer-events:none;
+    }
+
+    .royal-flame-animada{
+      position:relative;
+      z-index:2;
+      width:min(48vw, 720px) !important;
+      max-width:100%;
+      height:auto;
+      object-fit:contain;
+      transform-origin:center center;
+      animation:royalFloat 5.5s ease-in-out infinite, royalPulse 2.8s ease-in-out infinite alternate;
+      filter:drop-shadow(0 0 16px rgba(255, 120, 0, 0.72)) drop-shadow(0 0 36px rgba(255, 90, 0, 0.52)) drop-shadow(0 0 82px rgba(255, 60, 0, 0.30));
+      opacity:1;
+    }
+
+    @keyframes royalFloat{
+      0%{transform:translateY(0px) scale(1);}
+      50%{transform:translateY(-12px) scale(1.012);}
+      100%{transform:translateY(0px) scale(1);}
+    }
+
+    @keyframes royalPulse{
+      0%{filter:drop-shadow(0 0 16px rgba(255,120,0,.68)) drop-shadow(0 0 36px rgba(255,90,0,.46)) drop-shadow(0 0 72px rgba(255,60,0,.22));}
+      100%{filter:drop-shadow(0 0 20px rgba(255,150,0,.92)) drop-shadow(0 0 46px rgba(255,90,0,.74)) drop-shadow(0 0 96px rgba(255,40,0,.42));}
+    }
+
+    @keyframes royalAura{
+      0%{transform:scale(.98); opacity:.72;}
+      100%{transform:scale(1.05); opacity:1;}
+    }
+
+    @keyframes royalFire{
+      0%{transform:translate(-50%,-50%) scale(.96); opacity:.56;}
+      100%{transform:translate(-50%,-50%) scale(1.06); opacity:.92;}
+    }
+
     @media (max-width: 1100px){
       .home-hero-card{
         grid-template-columns:1fr;
@@ -350,6 +419,10 @@
 
       .hero-mascot img{
         max-height:420px;
+      }
+
+      .royal-flame-animada{
+        width:min(70vw, 520px) !important;
       }
 
       .quick-grid{
@@ -407,6 +480,10 @@
 
       .hero-statbar{
         grid-template-columns:1fr 1fr;
+      }
+
+      .royal-flame-animada{
+        width:min(82vw, 420px) !important;
       }
 
       .quick-grid{
@@ -515,8 +592,8 @@
             </div>
           </div>
 
-          <div class="hero-mascot">
-            <img src="assets/royal-flame.png" alt="Royal Flame em destaque na Rede Cats">
+          <div class="hero-mascot hero-royal-wrap">
+            <img src="assets/royal-flame.webp" alt="Royal Flame em destaque na Rede Cats" class="royal-flame-animada">
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@
   const COUPONS = {
     "ABERTURA30": { code: "ABERTURA30", type: "percent", value: 30, label: "30% OFF na abertura" }
   };
+  const DISCORD_URL = "https://discord.gg/GQZGduc9";
 
   const $ = (sel, root=document) => root.querySelector(sel);
   const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
@@ -237,6 +238,25 @@
     render();
     toast(`Cupom ${coupon.code} aplicado!`);
   }
+
+  window.RedeCatsCart = {
+    loadCart,
+    saveCart,
+    loadCoupon,
+    saveCoupon,
+    subtotal,
+    couponDiscount,
+    normalizeCoupon,
+    orderSummary,
+    brl,
+    coupons: COUPONS,
+    discordUrl: DISCORD_URL,
+    clear(){
+      saveCart([]);
+      saveCoupon(null);
+      render();
+    }
+  };
 
   function init(){
     bindAdd('[data-addcash], [data-addcart]');

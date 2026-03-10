@@ -27,7 +27,7 @@
           <div>
             <div class="badge">🔒 CHECKOUT REDE CATS</div>
             <h1 style="margin-top:10px">Finalizar pedido</h1>
-            <p class="muted">Agora a loja já possui uma etapa final própria, com dados do jogador, resumo do pedido, cupom e seleção de pagamento em um só lugar.</p>
+            <p class="muted">Agora a loja já possui checkout próprio, criação de pedido e uma tela separada de pagamento pronta para ser ligada ao backend.</p>
           </div>
           <div class="checkout-hero__actions">
             <a class="btn btn--outline" href="loja.html">Continuar comprando</a>
@@ -89,7 +89,7 @@
 
               <div class="checkout-section-head section-top-space">
                 <h2>Forma de pagamento</h2>
-                <p class="muted small">Nesta etapa visual, o layout já está pronto para Pix, Mercado Pago e PicPay. A ligação real com o gateway entra no backend na próxima fase.</p>
+                <p class="muted small">Escolha como deseja pagar. Esta etapa já cria o pedido e envia para o backend quando ele estiver configurado.</p>
               </div>
 
               <div class="payment-methods" id="paymentMethods">
@@ -158,9 +158,10 @@
               </div>
 
               <div class="trust-box">
-                <div class="trust-pill">🔒 Ambiente organizado para checkout</div>
+                <div class="trust-pill">🔒 Pedido estruturado para backend próprio</div>
                 <div class="trust-pill">⚡ Preparado para Pix, Mercado Pago e PicPay</div>
                 <div class="trust-pill">🎮 Fluxo pensado para entrega por nick</div>
+                <div class="trust-pill" id="backendStatus">Modo demonstração ativo.</div>
               </div>
             </div>
           </aside>
@@ -171,27 +172,10 @@
 
   <div class="toast" id="toast">OK</div>
 
-  <section class="checkout-modal" id="orderModal" aria-hidden="true">
-    <div class="checkout-modal__overlay" id="orderModalOverlay"></div>
-    <div class="checkout-modal__card card">
-      <div class="checkout-modal__head">
-        <div>
-          <div class="badge">ETAPA 1 CONCLUÍDA</div>
-          <h2 id="modalTitle">Pedido montado com sucesso</h2>
-        </div>
-        <button class="cart-close" id="closeOrderModal" type="button" aria-label="Fechar">✕</button>
-      </div>
-      <p class="muted" id="modalText">Seu checkout visual já foi validado. Na próxima etapa, vamos ligar isso ao backend para gerar Pix real, Mercado Pago e confirmação automática.</p>
-      <div class="checkout-preview" id="orderPreview"></div>
-      <div class="checkout-actions-row">
-        <button class="btn btn--outline" id="modalCopyBtn" type="button">Copiar resumo</button>
-        <a class="btn" id="modalDiscordBtn" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Abrir Discord</a>
-      </div>
-    </div>
-  </section>
 
   <script src="assets/app.js?v=20260310" defer></script>
-  <script src="assets/shop-cart.js?v=20260310" defer></script>
-  <script src="assets/checkout.js?v=20260310" defer></script>
+  <script src="assets/shop-cart.js?v=20260310b" defer></script>
+  <script src="assets/api-config.js?v=20260310b" defer></script>
+  <script src="assets/checkout.js?v=20260310b" defer></script>
 </body>
 </html>

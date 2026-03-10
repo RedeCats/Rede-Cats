@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pagamento - Rede Cats</title>
+  <meta name="description" content="Acompanhe o pagamento do seu pedido da Rede Cats." />
+  <link rel="stylesheet" href="assets/style.css?v=20260310b" />
+</head>
+<body class="subpage checkout-page">
+  <div class="bg-animated"><div class="bg-image"></div><div class="bg-glow"></div></div>
+  <header class="topbar">
+    <div class="container topbar__content">
+      <div class="brand"><div class="logo">🐱</div><div class="brand__text"><strong class="brand__name">REDE CATS</strong></div></div>
+      <nav class="nav" aria-label="Navegação">
+        <a href="index.html">Início</a><a href="loja.html">Loja</a><a href="vips.html">VIPs</a><a href="suporte.html">Suporte</a><a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
+      </nav>
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+    <div class="container"><nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile"><a href="index.html">Início</a><a href="loja.html">Loja</a><a href="vips.html">VIPs</a><a href="suporte.html">Suporte</a></nav></div>
+  </header>
+
+  <main class="site-content">
+    <section class="section">
+      <div class="container">
+        <div id="missingOrder" class="card premium-hover hidden">
+          <div class="badge">PEDIDO NÃO ENCONTRADO</div>
+          <h1 style="margin-top:10px">Nenhum pedido em aberto</h1>
+          <p class="muted">Volte para a loja, adicione itens ao carrinho e siga para o checkout.</p>
+          <a class="btn" href="loja.html">Ir para a loja</a>
+        </div>
+
+        <div id="paymentContent" class="checkout-grid hidden">
+          <section class="card premium-hover checkout-form-card">
+            <div class="checkout-section-head">
+              <div class="badge" id="paymentStatusBadge">PENDENTE</div>
+              <h1 id="paymentStatusTitle" style="margin-top:10px">Aguardando pagamento</h1>
+              <p class="muted" id="paymentStatusText">Seu pedido foi criado.</p>
+            </div>
+
+            <div class="summary-box">
+              <div class="summary-line"><span>Pedido</span><strong id="paymentOrderId">-</strong></div>
+              <div class="summary-line"><span>Método</span><strong id="paymentMethod">-</strong></div>
+              <div class="summary-line"><span>Nick</span><strong id="paymentCustomer">-</strong></div>
+              <div class="summary-line"><span>E-mail</span><strong id="paymentEmail">-</strong></div>
+            </div>
+
+            <div class="checkout-section-head section-top-space">
+              <h2>Pagamento</h2>
+              <p class="muted small" id="paymentInstructions">Siga as instruções do pagamento.</p>
+            </div>
+
+            <div class="pix-payment-box">
+              <div id="qrCodeWrap" class="pix-qr-wrap"></div>
+              <label class="checkout-field full" for="pixCode" style="margin-top:14px">
+                <span>Código Pix copia e cola</span>
+                <textarea id="pixCode" rows="4" readonly></textarea>
+              </label>
+              <div class="checkout-actions-row">
+                <button class="btn" id="copyPixBtn" type="button">Copiar código Pix</button>
+                <a class="btn btn--outline hidden" id="externalCheckoutBtn" href="#" target="_blank" rel="noopener">Abrir checkout externo</a>
+                <button class="btn btn--outline" id="simulateApprovalBtn" type="button">Simular aprovação</button>
+              </div>
+            </div>
+          </section>
+
+          <aside class="card premium-hover checkout-summary-card">
+            <div class="checkout-section-head">
+              <h2>Resumo do pedido</h2>
+              <p class="muted small">Na fase final, esta coluna poderá consultar o pedido pelo backend.</p>
+            </div>
+
+            <div id="paymentItems" class="checkout-items"></div>
+
+            <div class="summary-box">
+              <div class="summary-line"><span>Subtotal</span><strong id="paymentSubtotal">R$ 0,00</strong></div>
+              <div class="summary-line summary-line--discount"><span>Desconto</span><strong id="paymentDiscount">- R$ 0,00</strong></div>
+              <div class="summary-line summary-line--total"><span>Total</span><strong id="paymentTotal">R$ 0,00</strong></div>
+            </div>
+
+            <div class="trust-box">
+              <div class="trust-pill">🧾 Pedido armazenado no navegador para teste</div>
+              <div class="trust-pill">🔗 Pronto para backend separado</div>
+              <div class="trust-pill">⚙️ Estrutura pensada para webhook</div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast">OK</div>
+
+  <script src="assets/app.js?v=20260310b" defer></script>
+  <script src="assets/payment.js?v=20260310b" defer></script>
+</body>
+</html>

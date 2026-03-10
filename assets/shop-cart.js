@@ -281,16 +281,13 @@
     });
 
     if(finishBtn){
-      finishBtn.addEventListener("click", async () => {
+      finishBtn.addEventListener("click", () => {
         const items = loadCart();
         if(!items.length){
           toast("Carrinho vazio.");
           return;
         }
-        const summary = orderSummary(items);
-        const ok = await copy(summary);
-        toast(ok ? "Resumo copiado! Cole no ticket." : "Não consegui copiar :(");
-        window.open("https://discord.gg/GQZGduc9", "_blank", "noopener");
+        window.location.href = "checkout.html";
       });
     }
 

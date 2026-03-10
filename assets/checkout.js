@@ -1,5 +1,7 @@
 (function () {
   const CART = window.RedeCatsCart;
+  const API_CONFIG = window.RedeCatsApiConfig || {};
+  const PAYMENT_SESSION_KEY = 'redecats_payment_session_v1';
 
   function $(sel, root=document){ return root.querySelector(sel); }
   function $$(sel, root=document){ return Array.from(root.querySelectorAll(sel)); }
@@ -9,26 +11,7 @@
     if(!el) return;
     el.textContent = message;
     el.classList.add("show");
-    setTimeout(() => el.classList.remove("show"), 1600);
-  }
-
-  async function copyText(text){
-    try {
-      await navigator.clipboard.writeText(text);
-      return true;
-    } catch {
-      try {
-        const t = document.createElement("textarea");
-        t.value = text;
-        document.body.appendChild(t);
-        t.select();
-        document.execCommand("copy");
-        t.remove();
-        return true;
-      } catch {
-        return false;
-      }
-    }
+    setTimeout(() => el.classList.remove("show"), 1800);
   }
 
   function selectedPayment(){
@@ -37,11 +20,7 @@
   }
 
   function paymentLabel(value){
-    const labels = {
-      pix: 'Pix',
-      mercadopago: 'Mercado Pago',
-      picpay: 'PicPay'
-    };
+    const labels = { pix: 'Pix', mercadopago: 'Mercado Pago', picpay: 'PicPay' };
     return labels[value] || value;
   }
 
@@ -54,13 +33,7 @@
     const coupon = CART.loadCoupon();
     const sub = subtotal(items);
     const discount = CART.couponDiscount(sub, coupon);
-    return {
-      items,
-      coupon,
-      subtotal: sub,
-      discount,
-      total: Math.max(0, sub - discount)
-    };
+    return { items, coupon, subtotal: sub, discount, total: Math.max(0, sub - discount) };
   }
 
   function renderSummary(){
@@ -93,8 +66,7 @@
           <strong>${item.name}</strong>
           <span>${item.category || 'Produto digital'}</span>
           <small>${item.qty}x ${CART.brl(item.price)} = ${CART.brl(item.qty * item.price)}</small>
-        </div>
-      `;
+        </div>`;
       itemsEl.appendChild(row);
     });
 
@@ -103,9 +75,7 @@
     $('#summaryTotal').textContent = CART.brl(total);
     couponLabel.textContent = coupon ? coupon.code : 'Nenhum';
     if(feedback){
-      feedback.textContent = coupon
-        ? `Cupom ${coupon.code} aplicado com sucesso.`
-        : 'Use ABERTURA30 para 30% OFF.';
+      feedback.textContent = coupon ? `Cupom ${coupon.code} aplicado com sucesso.` : 'Use ABERTURA30 para 30% OFF.';
     }
   }
 
@@ -135,38 +105,6 @@
     });
   }
 
-  function buildOrderText(formData){
-    const { items, coupon, subtotal, discount, total } = currentTotals();
-    const lines = [];
-    lines.push('🛒 Pedido - Rede Cats');
-    lines.push(`Pedido gerado em: ${new Date().toLocaleString('pt-BR')}`);
-    lines.push('');
-    lines.push('Jogador');
-    lines.push(`Nick: ${formData.playerNick}`);
-    lines.push(`Nome: ${formData.firstName} ${formData.lastName}`);
-    lines.push(`E-mail: ${formData.email}`);
-    if(formData.discordNick) lines.push(`Discord: ${formData.discordNick}`);
-    if(formData.phone) lines.push(`Telefone: ${formData.phone}`);
-    lines.push(`Pagamento desejado: ${paymentLabel(formData.paymentMethod)}`);
-    lines.push('');
-    lines.push('Itens');
-    items.forEach(item => {
-      lines.push(`• [${item.category || 'Produto'}] ${item.name} — ${item.qty}x — ${CART.brl(item.qty * item.price)}`);
-    });
-    lines.push('');
-    lines.push(`Subtotal: ${CART.brl(subtotal)}`);
-    if(coupon) lines.push(`Cupom: ${coupon.code}`);
-    lines.push(`Desconto: -${CART.brl(discount)}`);
-    lines.push(`Total: ${CART.brl(total)}`);
-    if(formData.notes) {
-      lines.push('');
-      lines.push(`Observações: ${formData.notes}`);
-    }
-    lines.push('');
-    lines.push('Status atual: checkout visual pronto, aguardando integração do gateway/backend.');
-    return lines.join('\n');
-  }
-
   function validateForm(form){
     if(!form.reportValidity()) return false;
     const items = CART.loadCart();
@@ -181,30 +119,124 @@
     return true;
   }
 
-  function openModal(summaryText){
-    $('#orderPreview').textContent = summaryText;
-    const modal = $('#orderModal');
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden', 'false');
+  function apiBase(){
+    return String(API_CONFIG.apiBaseUrl || '').trim().replace(/\/$/, '');
   }
 
-  function closeModal(){
-    const modal = $('#orderModal');
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden', 'true');
+  function getFormData(form){
+    const fd = new FormData(form);
+    const data = Object.fromEntries(fd.entries());
+    data.paymentMethod = selectedPayment();
+    return data;
+  }
+
+  function makeOrderPayload(formData){
+    const { items, coupon, subtotal, discount, total } = currentTotals();
+    return {
+      customer: {
+        playerNick: formData.playerNick,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        fullName: `${formData.firstName} ${formData.lastName}`.trim(),
+        email: formData.email,
+        discordNick: formData.discordNick || '',
+        phone: formData.phone || '',
+        notes: formData.notes || ''
+      },
+      paymentMethod: formData.paymentMethod,
+      coupon: coupon ? coupon.code : null,
+      cart: items,
+      totals: { subtotal, discount, total }
+    };
+  }
+
+  function generateMockPixCode(order){
+    const amount = Number(order?.totals?.total || 0).toFixed(2);
+    const id = order.orderId || `RC${Date.now()}`;
+    return `00020126580014BR.GOV.BCB.PIX0136checkout@redecats.ex520400005303986540${amount.replace('.', '')}5802BR5920REDE CATS6008GOIANIA62070503***6304${id.slice(-4)}`;
+  }
+
+  function persistPaymentSession(orderResponse){
+    localStorage.setItem(PAYMENT_SESSION_KEY, JSON.stringify(orderResponse));
+  }
+
+  async function submitOrder(payload){
+    const base = apiBase();
+    if(!base){
+      const fakeOrderId = `RC-${new Date().getFullYear()}-${Date.now().toString().slice(-8)}`;
+      const response = {
+        mode: 'demo',
+        orderId: fakeOrderId,
+        status: 'pending',
+        storeName: API_CONFIG.storeName || 'Rede Cats',
+        supportUrl: API_CONFIG.supportUrl || 'https://discord.gg/GQZGduc9',
+        createdAt: new Date().toISOString(),
+        paymentMethod: payload.paymentMethod,
+        customer: payload.customer,
+        items: payload.cart,
+        coupon: payload.coupon,
+        totals: payload.totals,
+        payment: {
+          expiresInMinutes: 30,
+          qrCodeText: generateMockPixCode({ orderId: fakeOrderId, totals: payload.totals }),
+          qrCodeBase64: '',
+          externalUrl: payload.paymentMethod === 'mercadopago' ? 'https://www.mercadopago.com.br/' : '',
+          instructions: payload.paymentMethod === 'pix'
+            ? 'Modo demonstração: conecte o backend para gerar QR Pix real do Mercado Pago.'
+            : 'Modo demonstração: conecte o backend para abrir o checkout real.'
+        }
+      };
+      return response;
+    }
+
+    const res = await fetch(`${base}/api/orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if(!res.ok) throw new Error(data.error || 'Falha ao criar o pedido.');
+    return data;
+  }
+
+  async function handleSubmit(form, submitBtn){
+    if(!validateForm(form)) return;
+    const oldText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Criando pedido...';
+
+    try {
+      const payload = makeOrderPayload(getFormData(form));
+      const orderResponse = await submitOrder(payload);
+      persistPaymentSession(orderResponse);
+      window.location.href = 'payment.html';
+    } catch (err) {
+      console.error(err);
+      toast(err.message || 'Erro ao criar pedido.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = oldText;
+    }
   }
 
   function init(){
-    if(!window.RedeCatsCart){
-      console.warn('Carrinho da Rede Cats não carregou.');
-      return;
-    }
-
+    if(!window.RedeCatsCart) return;
     renderSummary();
     updatePaymentCards();
 
     const couponBtn = $('#applyCheckoutCoupon');
     const couponInput = $('#couponCode');
+    const form = $('#checkoutForm');
+    const submitBtn = $('#placeOrderBtn');
+    const backendStatus = $('#backendStatus');
+    const apiInfo = apiBase();
+    if(backendStatus){
+      backendStatus.textContent = apiInfo
+        ? `Backend configurado: ${apiInfo}`
+        : 'Modo demonstração ativo. Configure assets/api-config.js e suba o backend para pagamentos reais.';
+    }
+
     if(couponBtn) couponBtn.addEventListener('click', applyCoupon);
     if(couponInput) couponInput.addEventListener('keydown', (e) => {
       if(e.key === 'Enter'){
@@ -213,48 +245,23 @@
       }
     });
 
-    $$('.payment-option input').forEach(input => {
-      input.addEventListener('change', updatePaymentCards);
-    });
+    $$('.payment-option input').forEach(input => input.addEventListener('change', updatePaymentCards));
 
-    const form = $('#checkoutForm');
-    const copyBtn = $('#copyOrderBtn');
-    let latestSummary = '';
-
-    function collectData(){
-      const fd = new FormData(form);
-      const data = Object.fromEntries(fd.entries());
-      data.paymentMethod = selectedPayment();
-      return data;
-    }
-
-    if(copyBtn){
-      copyBtn.addEventListener('click', async () => {
-        if(!validateForm(form)) return;
-        latestSummary = buildOrderText(collectData());
-        const ok = await copyText(latestSummary);
-        toast(ok ? 'Resumo copiado.' : 'Não consegui copiar.');
-      });
-    }
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    $('#copyOrderBtn')?.addEventListener('click', async () => {
       if(!validateForm(form)) return;
-      latestSummary = buildOrderText(collectData());
-      openModal(latestSummary);
-      toast('Pedido montado com sucesso.');
+      const payload = makeOrderPayload(getFormData(form));
+      const summary = JSON.stringify(payload, null, 2);
+      try {
+        await navigator.clipboard.writeText(summary);
+        toast('Resumo técnico copiado.');
+      } catch {
+        toast('Não consegui copiar.');
+      }
     });
 
-    $('#modalCopyBtn').addEventListener('click', async () => {
-      if(!latestSummary) return;
-      const ok = await copyText(latestSummary);
-      toast(ok ? 'Resumo copiado.' : 'Não consegui copiar.');
-    });
-
-    $('#closeOrderModal').addEventListener('click', closeModal);
-    $('#orderModalOverlay').addEventListener('click', closeModal);
-    document.addEventListener('keydown', (e) => {
-      if(e.key === 'Escape') closeModal();
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      handleSubmit(form, submitBtn);
     });
   }
 

@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checkout - Rede Cats</title>
+  <meta name="description" content="Finalize seu pedido na loja da Rede Cats com checkout organizado, cupom e escolha de pagamento." />
+  <link rel="stylesheet" href="assets/style.css?v=20260310" />
+</head>
+<body class="subpage checkout-page">
+  <div class="bg-animated"><div class="bg-image"></div><div class="bg-glow"></div></div>
+  <header class="topbar">
+    <div class="container topbar__content">
+      <div class="brand"><div class="logo">🐱</div><div class="brand__text"><strong class="brand__name">REDE CATS</strong></div></div>
+      <nav class="nav" aria-label="Navegação">
+        <a href="index.html">Início</a><a href="regras.html">Regras</a><a href="sistemas.html">Sistemas</a><a href="loja.html">Loja</a><a href="vips.html">VIPs</a><a href="doadores.html">Doadores</a><a href="rgb.html">RGB</a><a href="suporte.html">Suporte</a><a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
+      </nav>
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+    <div class="container"><nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile"><a href="index.html">Início</a><a href="regras.html">Regras</a><a href="sistemas.html">Sistemas</a><a href="loja.html">Loja</a><a href="vips.html">VIPs</a><a href="doadores.html">Doadores</a><a href="rgb.html">RGB</a><a href="suporte.html">Suporte</a><div class="mobile-actions"><a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Entrar no Discord</a></div></nav></div>
+  </header>
+
+  <main class="site-content">
+    <section class="section">
+      <div class="container">
+        <div class="card premium-hover checkout-hero">
+          <div>
+            <div class="badge">🔒 CHECKOUT REDE CATS</div>
+            <h1 style="margin-top:10px">Finalizar pedido</h1>
+            <p class="muted">Agora a loja já possui uma etapa final própria, com dados do jogador, resumo do pedido, cupom e seleção de pagamento em um só lugar.</p>
+          </div>
+          <div class="checkout-hero__actions">
+            <a class="btn btn--outline" href="loja.html">Continuar comprando</a>
+          </div>
+        </div>
+
+        <div class="checkout-grid">
+          <section class="card premium-hover checkout-form-card">
+            <div class="checkout-section-head">
+              <h2>Informações do jogador</h2>
+              <p class="muted small">Preencha somente o necessário para registrar o pedido corretamente.</p>
+            </div>
+
+            <form id="checkoutForm" class="checkout-form" novalidate>
+              <div class="checkout-field full">
+                <label for="playerNick">Nick no servidor <span>*</span></label>
+                <input id="playerNick" name="playerNick" type="text" maxlength="16" placeholder="Seu nick exato no Minecraft" required />
+                <small class="muted">Entregas automáticas no futuro vão depender deste nick.</small>
+              </div>
+
+              <div class="checkout-field">
+                <label for="firstName">Nome <span>*</span></label>
+                <input id="firstName" name="firstName" type="text" placeholder="Seu nome" required />
+              </div>
+
+              <div class="checkout-field">
+                <label for="lastName">Sobrenome <span>*</span></label>
+                <input id="lastName" name="lastName" type="text" placeholder="Seu sobrenome" required />
+              </div>
+
+              <div class="checkout-field">
+                <label for="email">E-mail <span>*</span></label>
+                <input id="email" name="email" type="email" placeholder="seuemail@gmail.com" required />
+              </div>
+
+              <div class="checkout-field">
+                <label for="discordNick">Discord</label>
+                <input id="discordNick" name="discordNick" type="text" placeholder="usuario#0000 ou @usuario" />
+              </div>
+
+              <div class="checkout-field">
+                <label for="phone">Telefone</label>
+                <input id="phone" name="phone" type="tel" placeholder="(00) 00000-0000" />
+              </div>
+
+              <div class="checkout-field">
+                <label for="couponCode">Cupom</label>
+                <div class="inline-input-row">
+                  <input id="couponCode" name="couponCode" type="text" placeholder="Digite seu cupom" />
+                  <button class="btn btn--outline" id="applyCheckoutCoupon" type="button">Aplicar</button>
+                </div>
+                <small class="muted" id="checkoutCouponFeedback">Use ABERTURA30 para 30% OFF.</small>
+              </div>
+
+              <div class="checkout-field">
+                <label for="notes">Observações do pedido</label>
+                <textarea id="notes" name="notes" rows="4" placeholder="Ex.: entregar no nick sem abreviação, falar comigo no Discord, etc."></textarea>
+              </div>
+
+              <div class="checkout-section-head section-top-space">
+                <h2>Forma de pagamento</h2>
+                <p class="muted small">Nesta etapa visual, o layout já está pronto para Pix, Mercado Pago e PicPay. A ligação real com o gateway entra no backend na próxima fase.</p>
+              </div>
+
+              <div class="payment-methods" id="paymentMethods">
+                <label class="payment-option is-active">
+                  <input type="radio" name="paymentMethod" value="pix" checked />
+                  <span class="payment-icon">◆</span>
+                  <span>
+                    <strong>Pix</strong>
+                    <small>Aprovação rápida e fluxo principal da loja.</small>
+                  </span>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="mercadopago" />
+                  <span class="payment-icon">MP</span>
+                  <span>
+                    <strong>Mercado Pago</strong>
+                    <small>Ideal para cartão e checkout externo.</small>
+                  </span>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="picpay" />
+                  <span class="payment-icon">PP</span>
+                  <span>
+                    <strong>PicPay</strong>
+                    <small>Deixado preparado para a próxima etapa.</small>
+                  </span>
+                </label>
+              </div>
+
+              <label class="terms-box">
+                <input id="terms" type="checkbox" required />
+                <span>Eu li e concordo com os termos e entendo que a entrega depende da aprovação do pagamento.</span>
+              </label>
+
+              <div class="checkout-actions-row">
+                <button class="btn btn--outline" id="copyOrderBtn" type="button">Copiar resumo</button>
+                <button class="btn" id="placeOrderBtn" type="submit">Finalizar pedido</button>
+              </div>
+            </form>
+          </section>
+
+          <aside class="card premium-hover checkout-summary-card">
+            <div class="checkout-section-head">
+              <h2>Resumo do pedido</h2>
+              <p class="muted small">Seu carrinho da loja já chega aqui com quantidade, subtotal e desconto aplicado.</p>
+            </div>
+
+            <div id="checkoutEmptyState" class="checkout-empty hidden">
+              <strong>Seu carrinho está vazio.</strong>
+              <p class="muted small">Volte para a loja, adicione um VIP ou pacote de cash e depois continue por aqui.</p>
+              <a class="btn" href="loja.html">Ir para a loja</a>
+            </div>
+
+            <div id="checkoutSummaryContent">
+              <div id="checkoutItems" class="checkout-items"></div>
+
+              <div class="checkout-coupon-applied" id="checkoutCouponApplied">
+                <span>Cupom ativo</span>
+                <strong id="checkoutCouponLabel">Nenhum</strong>
+              </div>
+
+              <div class="summary-box">
+                <div class="summary-line"><span>Subtotal</span><strong id="summarySubtotal">R$ 0,00</strong></div>
+                <div class="summary-line summary-line--discount"><span>Desconto</span><strong id="summaryDiscount">- R$ 0,00</strong></div>
+                <div class="summary-line summary-line--total"><span>Total</span><strong id="summaryTotal">R$ 0,00</strong></div>
+              </div>
+
+              <div class="trust-box">
+                <div class="trust-pill">🔒 Ambiente organizado para checkout</div>
+                <div class="trust-pill">⚡ Preparado para Pix, Mercado Pago e PicPay</div>
+                <div class="trust-pill">🎮 Fluxo pensado para entrega por nick</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast">OK</div>
+
+  <section class="checkout-modal" id="orderModal" aria-hidden="true">
+    <div class="checkout-modal__overlay" id="orderModalOverlay"></div>
+    <div class="checkout-modal__card card">
+      <div class="checkout-modal__head">
+        <div>
+          <div class="badge">ETAPA 1 CONCLUÍDA</div>
+          <h2 id="modalTitle">Pedido montado com sucesso</h2>
+        </div>
+        <button class="cart-close" id="closeOrderModal" type="button" aria-label="Fechar">✕</button>
+      </div>
+      <p class="muted" id="modalText">Seu checkout visual já foi validado. Na próxima etapa, vamos ligar isso ao backend para gerar Pix real, Mercado Pago e confirmação automática.</p>
+      <div class="checkout-preview" id="orderPreview"></div>
+      <div class="checkout-actions-row">
+        <button class="btn btn--outline" id="modalCopyBtn" type="button">Copiar resumo</button>
+        <a class="btn" id="modalDiscordBtn" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Abrir Discord</a>
+      </div>
+    </div>
+  </section>
+
+  <script src="assets/app.js?v=20260310" defer></script>
+  <script src="assets/shop-cart.js?v=20260310" defer></script>
+  <script src="assets/checkout.js?v=20260310" defer></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+IMPORTANTE
+
+Para o GitHub Pages, o que importa agora é o frontend.
+Se você subir a pasta backend junto, ela não quebra o site, mas também não roda no GitHub Pages.
+
+O ajuste principal desta revisão é:
+- assets/shop-cart.js corrigido
+- botão Finalizar compra agora vai para checkout.html
+- cache-buster atualizado nas páginas para forçar o navegador a pegar a versão nova do JS
+
+Depois de subir, faça um teste em aba anônima.

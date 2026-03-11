@@ -124,6 +124,7 @@
       email: data.email || '',
       discordNick: data.discordNick || '',
       phone: data.phone || '',
+      cpf: data.cpf || '',
       notes: data.notes || '',
       paymentMethod: selectedPayment()
     };

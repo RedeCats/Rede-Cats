@@ -47,16 +47,38 @@
     }
   }
 
-  async function fetchOrder(orderId){
+  function persistLocalOrder(order){
+    if(!order?.orderId) return;
+    localStorage.setItem(`redecats_order_${order.orderId}`, JSON.stringify(order));
+    localStorage.setItem('redecats_last_order_id', order.orderId);
+  }
+
+  async function fetchOrder(orderId, refresh=false){
     const api = window.RedeCatsAPI || { configured:false };
     if(api.configured){
-      const res = await fetch(api.url(`/api/orders/${encodeURIComponent(orderId)}`));
+      const path = `/api/orders/${encodeURIComponent(orderId)}${refresh ? '?refresh=1' : ''}`;
+      const res = await fetch(api.url(path));
       if(!res.ok) throw new Error('Não foi possível consultar o pedido no backend.');
       return await res.json();
     }
     const local = getLocalOrder(orderId);
     if(!local) throw new Error('Pedido não encontrado no armazenamento local.');
     return local;
+  }
+
+  async function refreshPayment(orderId){
+    const api = window.RedeCatsAPI || { configured:false };
+    if(api.configured){
+      const res = await fetch(api.url(`/api/orders/${encodeURIComponent(orderId)}/refresh-payment`), { method:'POST' });
+      if(!res.ok){
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Não consegui atualizar o status do pagamento.');
+      }
+      return await res.json();
+    }
+    const order = getLocalOrder(orderId);
+    if(!order) throw new Error('Pedido local não encontrado.');
+    return order;
   }
 
   async function simulateApproval(orderId){
@@ -69,8 +91,14 @@
     const order = getLocalOrder(orderId);
     if(!order) throw new Error('Pedido local não encontrado.');
     order.status = 'approved';
+    order.payment = {
+      ...(order.payment || {}),
+      status: 'approved',
+      statusDetail: 'accredited',
+      instructions: 'Pagamento confirmado em modo de teste.'
+    };
     order.approvedAt = new Date().toISOString();
-    localStorage.setItem(`redecats_order_${orderId}`, JSON.stringify(order));
+    persistLocalOrder(order);
     return order;
   }
 
@@ -91,15 +119,47 @@
     });
   }
 
+  function statusBadgeText(status){
+    const v = String(status || '').toLowerCase();
+    if(v === 'approved') return 'APROVADO';
+    if(v === 'authorized') return 'AUTORIZADO';
+    if(v === 'failed') return 'FALHOU';
+    if(v === 'cancelled') return 'CANCELADO';
+    if(v === 'refunded') return 'ESTORNADO';
+    return 'PENDENTE';
+  }
+
+  function statusTitle(status){
+    const v = String(status || '').toLowerCase();
+    if(v === 'approved') return 'Pagamento confirmado';
+    if(v === 'authorized') return 'Pagamento autorizado';
+    if(v === 'failed') return 'Pagamento não aprovado';
+    if(v === 'cancelled') return 'Pagamento cancelado';
+    if(v === 'refunded') return 'Pagamento estornado';
+    return 'Aguardando pagamento';
+  }
+
+  function renderQr(order){
+    const qrWrap = $('#qrCodeWrap');
+    const base64 = order.payment?.qrCodeBase64 || '';
+    const pixCode = order.payment?.qrCodeText || '';
+    if(base64){
+      qrWrap.innerHTML = `<img class="pix-qr-img" alt="QR Code Pix" src="data:image/png;base64,${base64}">`;
+      return;
+    }
+    qrWrap.innerHTML = pixCode
+      ? `<div class="pix-qr-fake"><span>PIX</span><strong>${order.orderId}</strong><small>${brl(order.totals?.total || 0)}</small></div>`
+      : '<div class="pix-qr-fake"><span>SEM QR</span></div>';
+  }
+
   function renderOrder(order){
+    persistLocalOrder(order);
     $('#missingOrder').classList.add('hidden');
     $('#paymentContent').classList.remove('hidden');
 
-    const status = String(order.status || 'pending');
-    const paid = status === 'approved';
-
-    $('#paymentStatusBadge').textContent = paid ? 'APROVADO' : 'PENDENTE';
-    $('#paymentStatusTitle').textContent = paid ? 'Pagamento confirmado' : 'Aguardando pagamento';
+    const paid = String(order.status || '').toLowerCase() === 'approved';
+    $('#paymentStatusBadge').textContent = statusBadgeText(order.status);
+    $('#paymentStatusTitle').textContent = statusTitle(order.status);
     $('#paymentStatusText').textContent = paid
       ? 'Seu pagamento foi confirmado. A próxima etapa será a entrega automática no servidor.'
       : (order.payment?.instructions || 'Use o código Pix abaixo para concluir o pagamento.');
@@ -113,14 +173,8 @@
     $('#paymentTotal').textContent = brl(order.totals?.total || 0);
 
     renderItems(order.items || []);
-
-    const pixCode = order.payment?.qrCodeText || '';
-    const pixArea = $('#pixCode');
-    pixArea.value = pixCode;
-    const qrWrap = $('#qrCodeWrap');
-    qrWrap.innerHTML = pixCode
-      ? `<div class="pix-qr-fake"><span>PIX</span><strong>${order.orderId}</strong><small>${brl(order.totals?.total || 0)}</small></div>`
-      : '<div class="pix-qr-fake"><span>SEM QR</span></div>';
+    $('#pixCode').value = order.payment?.qrCodeText || '';
+    renderQr(order);
 
     const external = $('#externalCheckoutBtn');
     if(order.payment?.externalUrl){
@@ -130,10 +184,23 @@
       external.classList.add('hidden');
     }
 
+    const refreshBtn = $('#refreshPaymentBtn');
+    if(refreshBtn){
+      refreshBtn.classList.toggle('hidden', paid);
+    }
+
     const simulateBtn = $('#simulateApprovalBtn');
-    simulateBtn.classList.toggle('hidden', paid);
-    if(paid){
-      $('#paymentInstructions').textContent = 'Pedido confirmado com sucesso.';
+    const localMode = !((window.RedeCatsAPI || {}).configured);
+    simulateBtn.classList.toggle('hidden', paid || !localMode);
+
+    const trust = $('#paymentMetaInfo');
+    if(trust){
+      const details = [];
+      if(order.payment?.provider === 'mercadopago') details.push('🔗 Pix gerado pelo Mercado Pago');
+      else details.push('🧪 Modo de teste local');
+      if(order.payment?.paymentId) details.push(`🆔 paymentId ${order.payment.paymentId}`);
+      if(order.payment?.dateOfExpiration) details.push(`⏳ expira em ${new Date(order.payment.dateOfExpiration).toLocaleString('pt-BR')}`);
+      trust.innerHTML = details.map(v => `<div class="trust-pill">${v}</div>`).join('');
     }
   }
 
@@ -141,7 +208,7 @@
     const orderId = getOrderId();
     if(!orderId) return;
     try {
-      const order = await fetchOrder(orderId);
+      const order = await fetchOrder(orderId, true);
       renderOrder(order);
 
       $('#copyPixBtn').addEventListener('click', async () => {
@@ -149,7 +216,17 @@
         toast(ok ? 'Código Pix copiado.' : 'Não consegui copiar.');
       });
 
-      $('#simulateApprovalBtn').addEventListener('click', async () => {
+      $('#refreshPaymentBtn')?.addEventListener('click', async () => {
+        try {
+          const updated = await refreshPayment(orderId);
+          renderOrder(updated);
+          toast('Status atualizado.');
+        } catch (err) {
+          toast(err.message || 'Não consegui atualizar.');
+        }
+      });
+
+      $('#simulateApprovalBtn')?.addEventListener('click', async () => {
         try {
           const updated = await simulateApproval(orderId);
           renderOrder(updated);
@@ -158,6 +235,22 @@
           toast(err.message || 'Falha ao aprovar.');
         }
       });
+
+      if((window.RedeCatsAPI || {}).configured && String(order.status || '').toLowerCase() !== 'approved'){
+        let attempts = 0;
+        const timer = setInterval(async () => {
+          attempts += 1;
+          if(attempts > 20){
+            clearInterval(timer);
+            return;
+          }
+          try {
+            const updated = await refreshPayment(orderId);
+            renderOrder(updated);
+            if(String(updated.status || '').toLowerCase() === 'approved') clearInterval(timer);
+          } catch {}
+        }, 15000);
+      }
     } catch (err) {
       $('#missingOrder').classList.remove('hidden');
       $('#paymentContent').classList.add('hidden');

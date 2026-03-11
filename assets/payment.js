@@ -98,6 +98,12 @@
       instructions: 'Pagamento confirmado em modo de teste.'
     };
     order.approvedAt = new Date().toISOString();
+    order.delivery = {
+      status: 'needs_backend',
+      totalJobs: order.items?.length || 0,
+      counts: { pending:0, processing:0, delivered:0, failed:0, needs_config:0 },
+      jobs: []
+    };
     persistLocalOrder(order);
     return order;
   }
@@ -139,6 +145,34 @@
     return 'Aguardando pagamento';
   }
 
+  function deliveryStatusText(delivery){
+    const v = String(delivery?.status || '').toLowerCase();
+    if(v === 'delivered') return 'Entrega concluída';
+    if(v === 'queued') return 'Na fila de entrega';
+    if(v === 'failed') return 'Falha na entrega';
+    if(v === 'needs_config') return 'Catálogo precisa ser revisado';
+    if(v === 'needs_backend') return 'Configure o backend para automatizar';
+    return 'Aguardando pagamento';
+  }
+
+  function renderDelivery(order){
+    const delivery = order.delivery || { status:'not_generated', totalJobs:0, counts:{} };
+    $('#deliveryStatusText').textContent = deliveryStatusText(delivery);
+    $('#deliveryJobsCount').textContent = String(delivery.totalJobs || 0);
+    $('#deliveryDeliveredCount').textContent = String(delivery.counts?.delivered || 0);
+
+    const meta = $('#deliveryMetaInfo');
+    const pills = [];
+    const counts = delivery.counts || {};
+    if(delivery.status === 'queued') pills.push(`📦 ${counts.pending || 0} aguardando bridge`);
+    if(counts.processing) pills.push(`⚙️ ${counts.processing} em processamento`);
+    if(counts.failed) pills.push(`❌ ${counts.failed} com falha`);
+    if(counts.needs_config) pills.push(`🛠️ ${counts.needs_config} precisam de ajuste no catálogo`);
+    if(delivery.status === 'delivered') pills.push('✅ Todos os itens já foram entregues');
+    if(!pills.length) pills.push('📦 A fila de entrega será criada após a aprovação');
+    meta.innerHTML = pills.map(v => `<div class="trust-pill">${v}</div>`).join('');
+  }
+
   function renderQr(order){
     const qrWrap = $('#qrCodeWrap');
     const base64 = order.payment?.qrCodeBase64 || '';
@@ -161,7 +195,7 @@
     $('#paymentStatusBadge').textContent = statusBadgeText(order.status);
     $('#paymentStatusTitle').textContent = statusTitle(order.status);
     $('#paymentStatusText').textContent = paid
-      ? 'Seu pagamento foi confirmado. A próxima etapa será a entrega automática no servidor.'
+      ? 'Seu pagamento foi confirmado. A fila de entrega já pode ser enviada para o servidor.'
       : (order.payment?.instructions || 'Use o código Pix abaixo para concluir o pagamento.');
 
     $('#paymentOrderId').textContent = order.orderId || '-';
@@ -173,6 +207,7 @@
     $('#paymentTotal').textContent = brl(order.totals?.total || 0);
 
     renderItems(order.items || []);
+    renderDelivery(order);
     $('#pixCode').value = order.payment?.qrCodeText || '';
     renderQr(order);
 
@@ -186,7 +221,7 @@
 
     const refreshBtn = $('#refreshPaymentBtn');
     if(refreshBtn){
-      refreshBtn.classList.toggle('hidden', paid);
+      refreshBtn.classList.toggle('hidden', paid && String(order.delivery?.status || '') === 'delivered');
     }
 
     const simulateBtn = $('#simulateApprovalBtn');
@@ -200,6 +235,7 @@
       else details.push('🧪 Modo de teste local');
       if(order.payment?.paymentId) details.push(`🆔 paymentId ${order.payment.paymentId}`);
       if(order.payment?.dateOfExpiration) details.push(`⏳ expira em ${new Date(order.payment.dateOfExpiration).toLocaleString('pt-BR')}`);
+      if(order.delivery?.status === 'delivered') details.push('🎁 Entrega concluída no servidor');
       trust.innerHTML = details.map(v => `<div class="trust-pill">${v}</div>`).join('');
     }
   }
@@ -247,7 +283,8 @@
           try {
             const updated = await refreshPayment(orderId);
             renderOrder(updated);
-            if(String(updated.status || '').toLowerCase() === 'approved') clearInterval(timer);
+            const done = String(updated.status || '').toLowerCase() === 'approved' && ['queued','delivered','needs_config'].includes(String(updated.delivery?.status || '').toLowerCase());
+            if(done) clearInterval(timer);
           } catch {}
         }, 15000);
       }

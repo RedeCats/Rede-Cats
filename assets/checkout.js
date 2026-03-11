@@ -1,39 +1,28 @@
 (function () {
   const CART = window.RedeCatsCart;
-  const API_CONFIG = window.RedeCatsApiConfig || {};
-  const PAYMENT_SESSION_KEY = 'redecats_payment_session_v1';
 
   function $(sel, root=document){ return root.querySelector(sel); }
   function $$(sel, root=document){ return Array.from(root.querySelectorAll(sel)); }
 
   function toast(message){
-    const el = $("#toast");
+    const el = $('#toast');
     if(!el) return;
     el.textContent = message;
-    el.classList.add("show");
-    setTimeout(() => el.classList.remove("show"), 1800);
-  }
-
-  function selectedPayment(){
-    const checked = $('input[name="paymentMethod"]:checked');
-    return checked ? checked.value : 'pix';
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 1700);
   }
 
   function paymentLabel(value){
-    const labels = { pix: 'Pix', mercadopago: 'Mercado Pago', picpay: 'PicPay' };
-    return labels[value] || value;
-  }
-
-  function subtotal(items){
-    return items.reduce((sum, item) => sum + Number(item.price || 0) * Number(item.qty || 0), 0);
+    return ({ pix:'Pix', mercadopago:'Mercado Pago', picpay:'PicPay' })[value] || value;
   }
 
   function currentTotals(){
     const items = CART.loadCart();
     const coupon = CART.loadCoupon();
-    const sub = subtotal(items);
-    const discount = CART.couponDiscount(sub, coupon);
-    return { items, coupon, subtotal: sub, discount, total: Math.max(0, sub - discount) };
+    const subtotal = CART.subtotal(items);
+    const discount = CART.couponDiscount(subtotal, coupon);
+    const total = Math.max(0, subtotal - discount);
+    return { items, coupon, subtotal, discount, total };
   }
 
   function renderSummary(){
@@ -44,8 +33,11 @@
     const couponLabel = $('#checkoutCouponLabel');
     const couponInput = $('#couponCode');
     const feedback = $('#checkoutCouponFeedback');
+    const backendStatus = $('#backendStatus');
+    const api = window.RedeCatsAPI || { configured:false };
 
     if(couponInput) couponInput.value = coupon ? coupon.code : '';
+    if(backendStatus) backendStatus.textContent = api.configured ? 'Backend conectado.' : 'Modo demonstração local ativo.';
 
     if(!items.length){
       emptyEl.classList.remove('hidden');
@@ -73,10 +65,8 @@
     $('#summarySubtotal').textContent = CART.brl(subtotal);
     $('#summaryDiscount').textContent = `- ${CART.brl(discount)}`;
     $('#summaryTotal').textContent = CART.brl(total);
-    couponLabel.textContent = coupon ? coupon.code : 'Nenhum';
-    if(feedback){
-      feedback.textContent = coupon ? `Cupom ${coupon.code} aplicado com sucesso.` : 'Use ABERTURA30 para 30% OFF.';
-    }
+    if(couponLabel) couponLabel.textContent = coupon ? coupon.code : 'Nenhum';
+    if(feedback) feedback.textContent = coupon ? `Cupom ${coupon.code} aplicado com sucesso.` : 'Use ABERTURA30 para 30% OFF.';
   }
 
   function applyCoupon(){
@@ -105,10 +95,14 @@
     });
   }
 
+  function selectedPayment(){
+    const checked = $('input[name="paymentMethod"]:checked');
+    return checked ? checked.value : 'pix';
+  }
+
   function validateForm(form){
     if(!form.reportValidity()) return false;
-    const items = CART.loadCart();
-    if(!items.length){
+    if(!CART.loadCart().length){
       toast('Seu carrinho está vazio.');
       return false;
     }
@@ -119,124 +113,89 @@
     return true;
   }
 
-  function apiBase(){
-    return String(API_CONFIG.apiBaseUrl || '').trim().replace(/\/$/, '');
-  }
-
-  function getFormData(form){
+  function collectData(form){
     const fd = new FormData(form);
     const data = Object.fromEntries(fd.entries());
-    data.paymentMethod = selectedPayment();
-    return data;
-  }
-
-  function makeOrderPayload(formData){
-    const { items, coupon, subtotal, discount, total } = currentTotals();
     return {
-      customer: {
-        playerNick: formData.playerNick,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        fullName: `${formData.firstName} ${formData.lastName}`.trim(),
-        email: formData.email,
-        discordNick: formData.discordNick || '',
-        phone: formData.phone || '',
-        notes: formData.notes || ''
-      },
-      paymentMethod: formData.paymentMethod,
-      coupon: coupon ? coupon.code : null,
-      cart: items,
-      totals: { subtotal, discount, total }
+      playerNick: data.playerNick || '',
+      firstName: data.firstName || '',
+      lastName: data.lastName || '',
+      fullName: `${data.firstName || ''} ${data.lastName || ''}`.trim(),
+      email: data.email || '',
+      discordNick: data.discordNick || '',
+      phone: data.phone || '',
+      notes: data.notes || '',
+      paymentMethod: selectedPayment()
     };
   }
 
-  function generateMockPixCode(order){
-    const amount = Number(order?.totals?.total || 0).toFixed(2);
-    const id = order.orderId || `RC${Date.now()}`;
-    return `00020126580014BR.GOV.BCB.PIX0136checkout@redecats.ex520400005303986540${amount.replace('.', '')}5802BR5920REDE CATS6008GOIANIA62070503***6304${id.slice(-4)}`;
+  function persistLocalOrder(order){
+    localStorage.setItem(`redecats_order_${order.orderId}`, JSON.stringify(order));
+    localStorage.setItem('redecats_last_order_id', order.orderId);
   }
 
-  function persistPaymentSession(orderResponse){
-    localStorage.setItem(PAYMENT_SESSION_KEY, JSON.stringify(orderResponse));
+  function makeLocalOrder(customer){
+    const { items, coupon, subtotal, discount, total } = currentTotals();
+    const orderId = `RC-${new Date().getFullYear()}-${Date.now().toString().slice(-8)}`;
+    return {
+      orderId,
+      status: 'pending',
+      mode: 'local-demo',
+      createdAt: new Date().toISOString(),
+      paymentMethod: customer.paymentMethod,
+      customer,
+      items,
+      coupon: coupon || null,
+      totals: { subtotal, discount, total },
+      payment: {
+        expiresInMinutes: 30,
+        qrCodeText: `00020126580014BR.GOV.BCB.PIX0136checkout@redecats.ex520400005303986540${String(total.toFixed(2)).replace(/\D/g,'')}5802BR5920REDE CATS6008GOIANIA62070503***6304${orderId.slice(-4)}`,
+        qrCodeBase64: '',
+        externalUrl: customer.paymentMethod === 'mercadopago' ? 'https://www.mercadopago.com.br/' : '',
+        instructions: 'Pedido criado em modo local. Na próxima etapa, o Pix real virá do Mercado Pago.'
+      }
+    };
   }
 
-  async function submitOrder(payload){
-    const base = apiBase();
-    if(!base){
-      const fakeOrderId = `RC-${new Date().getFullYear()}-${Date.now().toString().slice(-8)}`;
-      const response = {
-        mode: 'demo',
-        orderId: fakeOrderId,
-        status: 'pending',
-        storeName: API_CONFIG.storeName || 'Rede Cats',
-        supportUrl: API_CONFIG.supportUrl || 'https://discord.gg/GQZGduc9',
-        createdAt: new Date().toISOString(),
-        paymentMethod: payload.paymentMethod,
-        customer: payload.customer,
-        items: payload.cart,
-        coupon: payload.coupon,
-        totals: payload.totals,
-        payment: {
-          expiresInMinutes: 30,
-          qrCodeText: generateMockPixCode({ orderId: fakeOrderId, totals: payload.totals }),
-          qrCodeBase64: '',
-          externalUrl: payload.paymentMethod === 'mercadopago' ? 'https://www.mercadopago.com.br/' : '',
-          instructions: payload.paymentMethod === 'pix'
-            ? 'Modo demonstração: conecte o backend para gerar QR Pix real do Mercado Pago.'
-            : 'Modo demonstração: conecte o backend para abrir o checkout real.'
-        }
-      };
-      return response;
-    }
-
-    const res = await fetch(`${base}/api/orders`, {
+  async function createRemoteOrder(payload){
+    const api = window.RedeCatsAPI || { configured:false };
+    if(!api.configured) return null;
+    const res = await fetch(api.url('/api/orders'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-
-    const data = await res.json().catch(() => ({}));
-    if(!res.ok) throw new Error(data.error || 'Falha ao criar o pedido.');
-    return data;
+    if(!res.ok){
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error || 'Falha ao criar o pedido no backend.');
+    }
+    return await res.json();
   }
 
-  async function handleSubmit(form, submitBtn){
-    if(!validateForm(form)) return;
-    const oldText = submitBtn.textContent;
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Criando pedido...';
+  async function createOrder(form){
+    const customer = collectData(form);
+    const { items, coupon, subtotal, discount, total } = currentTotals();
+    const payload = {
+      customer,
+      cart: items,
+      coupon,
+      paymentMethod: customer.paymentMethod,
+      totals: { subtotal, discount, total }
+    };
 
-    try {
-      const payload = makeOrderPayload(getFormData(form));
-      const orderResponse = await submitOrder(payload);
-      persistPaymentSession(orderResponse);
-      window.location.href = 'payment.html';
-    } catch (err) {
-      console.error(err);
-      toast(err.message || 'Erro ao criar pedido.');
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = oldText;
-    }
+    const remote = await createRemoteOrder(payload);
+    const order = remote || makeLocalOrder(customer);
+    persistLocalOrder(order);
+    return order;
   }
 
   function init(){
-    if(!window.RedeCatsCart) return;
+    if(!CART) return;
     renderSummary();
     updatePaymentCards();
 
     const couponBtn = $('#applyCheckoutCoupon');
     const couponInput = $('#couponCode');
-    const form = $('#checkoutForm');
-    const submitBtn = $('#placeOrderBtn');
-    const backendStatus = $('#backendStatus');
-    const apiInfo = apiBase();
-    if(backendStatus){
-      backendStatus.textContent = apiInfo
-        ? `Backend configurado: ${apiInfo}`
-        : 'Modo demonstração ativo. Configure assets/api-config.js e suba o backend para pagamentos reais.';
-    }
-
     if(couponBtn) couponBtn.addEventListener('click', applyCoupon);
     if(couponInput) couponInput.addEventListener('keydown', (e) => {
       if(e.key === 'Enter'){
@@ -247,21 +206,52 @@
 
     $$('.payment-option input').forEach(input => input.addEventListener('change', updatePaymentCards));
 
-    $('#copyOrderBtn')?.addEventListener('click', async () => {
+    const form = $('#checkoutForm');
+    const copyBtn = $('#copyOrderBtn');
+
+    copyBtn?.addEventListener('click', async () => {
       if(!validateForm(form)) return;
-      const payload = makeOrderPayload(getFormData(form));
-      const summary = JSON.stringify(payload, null, 2);
+      const customer = collectData(form);
+      const { items, coupon, subtotal, discount, total } = currentTotals();
+      const text = [
+        '🛒 Pedido - Rede Cats',
+        `Nick: ${customer.playerNick}`,
+        `Nome: ${customer.fullName}`,
+        `E-mail: ${customer.email}`,
+        `Pagamento: ${paymentLabel(customer.paymentMethod)}`,
+        '',
+        ...items.map(item => `• ${item.name} — ${item.qty}x — ${CART.brl(item.qty * item.price)}`),
+        '',
+        `Subtotal: ${CART.brl(subtotal)}`,
+        `Cupom: ${coupon ? coupon.code : 'Nenhum'}`,
+        `Desconto: -${CART.brl(discount)}`,
+        `Total: ${CART.brl(total)}`
+      ].join('\n');
       try {
-        await navigator.clipboard.writeText(summary);
-        toast('Resumo técnico copiado.');
+        await navigator.clipboard.writeText(text);
+        toast('Resumo copiado.');
       } catch {
         toast('Não consegui copiar.');
       }
     });
 
-    form?.addEventListener('submit', (e) => {
+    form?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      handleSubmit(form, submitBtn);
+      if(!validateForm(form)) return;
+      const btn = $('#placeOrderBtn');
+      const old = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Criando pedido...';
+      try {
+        const order = await createOrder(form);
+        window.location.href = `payment.html?order_id=${encodeURIComponent(order.orderId)}`;
+      } catch (err) {
+        console.error(err);
+        toast(err.message || 'Não foi possível criar o pedido.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = old;
+      }
     });
   }
 

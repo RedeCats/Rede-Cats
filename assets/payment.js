@@ -1,15 +1,12 @@
 (function () {
-  const KEY = 'redecats_payment_session_v1';
-
   function $(sel, root=document){ return root.querySelector(sel); }
 
-  function brl(v){
-    return Number(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-  }
-
-  function loadSession(){
-    try { return JSON.parse(localStorage.getItem(KEY) || 'null'); }
-    catch { return null; }
+  function toast(message){
+    const el = $('#toast');
+    if(!el) return;
+    el.textContent = message;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 1700);
   }
 
   async function copyText(text){
@@ -17,54 +14,70 @@
       await navigator.clipboard.writeText(text);
       return true;
     } catch {
-      return false;
+      try {
+        const t = document.createElement('textarea');
+        t.value = text;
+        document.body.appendChild(t);
+        t.select();
+        document.execCommand('copy');
+        t.remove();
+        return true;
+      } catch {
+        return false;
+      }
     }
   }
 
-  function setStatus(status, mode){
-    const badge = $('#paymentStatusBadge');
-    const title = $('#paymentStatusTitle');
-    const text = $('#paymentStatusText');
-    if(!badge || !title || !text) return;
-
-    if(status === 'approved'){
-      badge.textContent = 'PAGO';
-      title.textContent = 'Pagamento aprovado';
-      text.textContent = 'Pedido confirmado. Na fase final, este status virá do webhook do gateway e poderá liberar a entrega automática no servidor.';
-      return;
-    }
-
-    badge.textContent = mode === 'demo' ? 'DEMO' : 'PENDENTE';
-    title.textContent = 'Aguardando pagamento';
-    text.textContent = mode === 'demo'
-      ? 'Você está vendo o fluxo em modo demonstração. Quando o backend estiver online, esta tela mostrará o QR Pix real ou o link externo de checkout.'
-      : 'Pedido criado. Aguarde a compensação ou finalize no checkout externo.';
+  function brl(v){
+    return Number(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
 
-  function render(){
-    const data = loadSession();
-    if(!data){
-      $('#missingOrder').classList.remove('hidden');
-      $('#paymentContent').classList.add('hidden');
-      return;
+  function getOrderId(){
+    const params = new URLSearchParams(window.location.search);
+    return params.get('order_id') || localStorage.getItem('redecats_last_order_id') || '';
+  }
+
+  function getLocalOrder(orderId){
+    if(!orderId) return null;
+    try {
+      const raw = localStorage.getItem(`redecats_order_${orderId}`);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
     }
+  }
 
-    $('#missingOrder').classList.add('hidden');
-    $('#paymentContent').classList.remove('hidden');
+  async function fetchOrder(orderId){
+    const api = window.RedeCatsAPI || { configured:false };
+    if(api.configured){
+      const res = await fetch(api.url(`/api/orders/${encodeURIComponent(orderId)}`));
+      if(!res.ok) throw new Error('Não foi possível consultar o pedido no backend.');
+      return await res.json();
+    }
+    const local = getLocalOrder(orderId);
+    if(!local) throw new Error('Pedido não encontrado no armazenamento local.');
+    return local;
+  }
 
-    setStatus(data.status, data.mode);
-    $('#paymentOrderId').textContent = data.orderId || '-';
-    $('#paymentMethod').textContent = (data.paymentMethod || '-').toUpperCase();
-    $('#paymentCustomer').textContent = data.customer?.playerNick || '-';
-    $('#paymentEmail').textContent = data.customer?.email || '-';
-    $('#paymentTotal').textContent = brl(data.totals?.total || 0);
-    $('#paymentSubtotal').textContent = brl(data.totals?.subtotal || 0);
-    $('#paymentDiscount').textContent = `- ${brl(data.totals?.discount || 0)}`;
-    $('#paymentInstructions').textContent = data.payment?.instructions || 'Siga as instruções do pagamento.';
+  async function simulateApproval(orderId){
+    const api = window.RedeCatsAPI || { configured:false };
+    if(api.configured){
+      const res = await fetch(api.url(`/api/orders/${encodeURIComponent(orderId)}/simulate-approve`), { method:'POST' });
+      if(!res.ok) throw new Error('Falha ao simular aprovação no backend.');
+      return await res.json();
+    }
+    const order = getLocalOrder(orderId);
+    if(!order) throw new Error('Pedido local não encontrado.');
+    order.status = 'approved';
+    order.approvedAt = new Date().toISOString();
+    localStorage.setItem(`redecats_order_${orderId}`, JSON.stringify(order));
+    return order;
+  }
 
-    const itemsEl = $('#paymentItems');
-    itemsEl.innerHTML = '';
-    (data.items || []).forEach(item => {
+  function renderItems(items){
+    const wrap = $('#paymentItems');
+    wrap.innerHTML = '';
+    (items || []).forEach(item => {
       const row = document.createElement('div');
       row.className = 'checkout-item';
       row.innerHTML = `
@@ -74,40 +87,83 @@
           <span>${item.category || 'Produto digital'}</span>
           <small>${item.qty}x ${brl(item.price)} = ${brl(item.qty * item.price)}</small>
         </div>`;
-      itemsEl.appendChild(row);
-    });
-
-    const qrText = data.payment?.qrCodeText || '';
-    $('#pixCode').value = qrText;
-    const qrWrap = $('#qrCodeWrap');
-    if(data.payment?.qrCodeBase64){
-      qrWrap.innerHTML = `<img class="pix-qr-image" src="data:image/png;base64,${data.payment.qrCodeBase64}" alt="QR Code Pix">`;
-    } else {
-      qrWrap.innerHTML = `<div class="pix-qr-placeholder"><strong>QR Pix</strong><small>${data.mode === 'demo' ? 'Demonstração' : 'Aguardando imagem do gateway'}</small></div>`;
-    }
-
-    const externalLink = $('#externalCheckoutBtn');
-    if(data.payment?.externalUrl){
-      externalLink.href = data.payment.externalUrl;
-      externalLink.classList.remove('hidden');
-    } else {
-      externalLink.classList.add('hidden');
-    }
-
-    $('#copyPixBtn')?.addEventListener('click', async () => {
-      const ok = await copyText(qrText);
-      const toast = $('#toast');
-      toast.textContent = ok ? 'Código Pix copiado.' : 'Não consegui copiar.';
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 1500);
-    });
-
-    $('#simulateApprovalBtn')?.addEventListener('click', () => {
-      data.status = 'approved';
-      localStorage.setItem(KEY, JSON.stringify(data));
-      setStatus('approved', data.mode);
+      wrap.appendChild(row);
     });
   }
 
-  document.addEventListener('DOMContentLoaded', render);
+  function renderOrder(order){
+    $('#missingOrder').classList.add('hidden');
+    $('#paymentContent').classList.remove('hidden');
+
+    const status = String(order.status || 'pending');
+    const paid = status === 'approved';
+
+    $('#paymentStatusBadge').textContent = paid ? 'APROVADO' : 'PENDENTE';
+    $('#paymentStatusTitle').textContent = paid ? 'Pagamento confirmado' : 'Aguardando pagamento';
+    $('#paymentStatusText').textContent = paid
+      ? 'Seu pagamento foi confirmado. A próxima etapa será a entrega automática no servidor.'
+      : (order.payment?.instructions || 'Use o código Pix abaixo para concluir o pagamento.');
+
+    $('#paymentOrderId').textContent = order.orderId || '-';
+    $('#paymentMethod').textContent = order.paymentMethod || '-';
+    $('#paymentCustomer').textContent = order.customer?.playerNick || '-';
+    $('#paymentEmail').textContent = order.customer?.email || '-';
+    $('#paymentSubtotal').textContent = brl(order.totals?.subtotal || 0);
+    $('#paymentDiscount').textContent = `- ${brl(order.totals?.discount || 0)}`;
+    $('#paymentTotal').textContent = brl(order.totals?.total || 0);
+
+    renderItems(order.items || []);
+
+    const pixCode = order.payment?.qrCodeText || '';
+    const pixArea = $('#pixCode');
+    pixArea.value = pixCode;
+    const qrWrap = $('#qrCodeWrap');
+    qrWrap.innerHTML = pixCode
+      ? `<div class="pix-qr-fake"><span>PIX</span><strong>${order.orderId}</strong><small>${brl(order.totals?.total || 0)}</small></div>`
+      : '<div class="pix-qr-fake"><span>SEM QR</span></div>';
+
+    const external = $('#externalCheckoutBtn');
+    if(order.payment?.externalUrl){
+      external.href = order.payment.externalUrl;
+      external.classList.remove('hidden');
+    } else {
+      external.classList.add('hidden');
+    }
+
+    const simulateBtn = $('#simulateApprovalBtn');
+    simulateBtn.classList.toggle('hidden', paid);
+    if(paid){
+      $('#paymentInstructions').textContent = 'Pedido confirmado com sucesso.';
+    }
+  }
+
+  async function init(){
+    const orderId = getOrderId();
+    if(!orderId) return;
+    try {
+      const order = await fetchOrder(orderId);
+      renderOrder(order);
+
+      $('#copyPixBtn').addEventListener('click', async () => {
+        const ok = await copyText($('#pixCode').value || '');
+        toast(ok ? 'Código Pix copiado.' : 'Não consegui copiar.');
+      });
+
+      $('#simulateApprovalBtn').addEventListener('click', async () => {
+        try {
+          const updated = await simulateApproval(orderId);
+          renderOrder(updated);
+          toast('Pedido aprovado em modo de teste.');
+        } catch (err) {
+          toast(err.message || 'Falha ao aprovar.');
+        }
+      });
+    } catch (err) {
+      $('#missingOrder').classList.remove('hidden');
+      $('#paymentContent').classList.add('hidden');
+      console.error(err);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
 })();

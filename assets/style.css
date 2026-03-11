@@ -1050,13 +1050,3 @@ body.subpage .cta-actions{
   .checkout-actions-row{flex-direction:column}
   .checkout-actions-row .btn{width:100%}
 }
-
-
-.pix-payment-box{display:grid;gap:14px}
-.pix-qr-wrap{display:grid;place-items:center;min-height:220px;border:1px dashed rgba(255,255,255,.16);border-radius:18px;background:rgba(10,16,25,.72);padding:18px}
-.pix-qr-image{width:min(100%,260px);height:auto;border-radius:14px;background:#fff;padding:10px}
-.pix-qr-placeholder{width:min(100%,260px);aspect-ratio:1;border-radius:18px;background:linear-gradient(135deg, rgba(0,255,170,.12), rgba(0,195,255,.12));border:1px solid rgba(0,255,170,.28);display:grid;place-items:center;text-align:center;padding:20px}
-.pix-qr-placeholder strong{font-size:1.2rem}
-.pix-qr-placeholder small{display:block;color:var(--muted);margin-top:6px}
-#pixCode{width:100%;resize:vertical;min-height:110px}
-.checkout-form-card .summary-box{margin-top:10px}

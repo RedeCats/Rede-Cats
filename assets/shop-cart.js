@@ -281,13 +281,14 @@
     });
 
     if(finishBtn){
-      finishBtn.addEventListener("click", () => {
+      finishBtn.addEventListener("click", async () => {
         const items = loadCart();
         if(!items.length){
           toast("Carrinho vazio.");
           return;
         }
-        window.location.href = "checkout.html";
+        const target = 'checkout.html';
+        window.location.href = target;
       });
     }
 

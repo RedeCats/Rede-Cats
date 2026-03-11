@@ -1,33 +1,78 @@
-# Rede Cats backend
+# Backend da loja Rede Cats
 
-Etapa 3A: pedido próprio + página de pagamento própria.
+Esta etapa liga o checkout próprio ao **Pix real do Mercado Pago**.
 
 ## O que já faz
-- cria pedido em `POST /api/orders`
+- cria pedidos próprios em `POST /api/orders`
+- gera **Pix real** via Mercado Pago quando `MERCADOPAGO_ACCESS_TOKEN` está configurado
 - consulta pedido em `GET /api/orders/:orderId`
-- simula aprovação em `POST /api/orders/:orderId/simulate-approve`
-- recebe placeholder de webhook em `POST /api/webhooks/mercadopago`
+- atualiza status em `POST /api/orders/:orderId/refresh-payment`
+- recebe webhook em `POST /api/webhooks/mercadopago`
+- salva pedidos em `storage/orders.json`
+- salva os últimos webhooks em `storage/webhooks-last.json`
 
-## Rodar localmente
+## Como rodar localmente
 ```bash
 cd backend
 npm install
 npm run dev
 ```
 
-## Variáveis
-Copie `.env.example` para `.env`.
+## Variáveis de ambiente
+Copie `.env.example` para `.env` e preencha:
 
-## Frontend
-Quando o backend estiver publicado, passe a base da API na URL:
+- `FRONTEND_ORIGIN`: domínio do seu site
+- `PUBLIC_BACKEND_URL`: URL pública do backend (necessária para webhook)
+- `MERCADOPAGO_ACCESS_TOKEN`: Access Token do Mercado Pago
 
-```text
-https://seusite.github.io/Rede-Cats/checkout.html?api=https://seu-backend.onrender.com
+## Fluxo esperado
+1. O checkout envia o pedido para `POST /api/orders`
+2. O backend cria o pedido da Rede Cats
+3. Se houver token do Mercado Pago, o backend cria um **pagamento Pix real**
+4. O frontend abre `payment.html?order_id=...`
+5. A página mostra QR Code/código Pix
+6. O backend recebe o webhook do Mercado Pago e atualiza o pedido
+7. A página pode atualizar o status usando `refresh-payment`
+
+## Rotas
+### `GET /api/health`
+Retorna status do backend e se o Mercado Pago foi configurado.
+
+### `POST /api/orders`
+Body esperado:
+```json
+{
+  "customer": {
+    "playerNick": "LDL_Silas_",
+    "firstName": "Silas",
+    "lastName": "Teste",
+    "fullName": "Silas Teste",
+    "email": "email@exemplo.com",
+    "cpf": "00000000000"
+  },
+  "cart": [],
+  "coupon": null,
+  "paymentMethod": "pix",
+  "totals": {
+    "subtotal": 100,
+    "discount": 0,
+    "total": 100
+  }
+}
 ```
 
-ou salve manualmente em `localStorage.redecats_api_base`.
+### `GET /api/orders/:orderId?refresh=1`
+Consulta o pedido. Com `refresh=1`, tenta sincronizar o pagamento no Mercado Pago.
 
-## Próxima etapa
-- integrar Pix real do Mercado Pago
-- validar webhook
-- confirmar pagamento automaticamente
+### `POST /api/orders/:orderId/refresh-payment`
+Força nova consulta no Mercado Pago usando o `paymentId` salvo.
+
+### `POST /api/webhooks/mercadopago`
+URL para cadastrar nos Webhooks do Mercado Pago.
+
+## Observações
+- O Mercado Pago exige `X-Idempotency-Key` na criação de pagamentos. Esta integração já envia esse header. citeturn642437search6turn642437search12
+- O Pix pode ser criado pela API de pagamentos (`POST /v1/payments`) com `payment_method_id = pix`. citeturn898719search0turn898719search11
+- O Mercado Pago envia notificações por webhook e inclui assinatura secreta para validar origem. citeturn221401search0turn642437search1turn642437search11
+
+Nesta etapa, a validação criptográfica da assinatura secreta ficou separada para a próxima revisão fina. O webhook já recebe, registra e sincroniza o pagamento pelo `paymentId`.

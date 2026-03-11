@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Checkout - Rede Cats</title>
   <meta name="description" content="Finalize seu pedido na loja da Rede Cats com checkout organizado, cupom e escolha de pagamento." />
-  <link rel="stylesheet" href="assets/style.css?v=20260310c" />
+  <link rel="stylesheet" href="assets/style.css?v=20260310d" />
 </head>
 <body class="subpage checkout-page">
   <div class="bg-animated"><div class="bg-image"></div><div class="bg-glow"></div></div>
@@ -74,6 +74,12 @@
               </div>
 
               <div class="checkout-field">
+                <label for="cpf">CPF</label>
+                <input id="cpf" name="cpf" type="text" inputmode="numeric" placeholder="000.000.000-00" />
+                <small class="muted">Opcional, mas ajuda em algumas validações do gateway.</small>
+              </div>
+
+              <div class="checkout-field">
                 <label for="couponCode">Cupom</label>
                 <div class="inline-input-row">
                   <input id="couponCode" name="couponCode" type="text" placeholder="Digite seu cupom" />
@@ -89,7 +95,7 @@
 
               <div class="checkout-section-head section-top-space">
                 <h2>Forma de pagamento</h2>
-                <p class="muted small">Escolha como deseja pagar. Esta etapa já cria o pedido de verdade: no backend quando conectado ou em modo local para teste.</p>
+                <p class="muted small">Escolha como deseja pagar. Esta etapa já cria o pedido de verdade e, quando o backend estiver com token, gera o Pix real do Mercado Pago.</p>
               </div>
 
               <div class="payment-methods" id="paymentMethods">
@@ -159,7 +165,7 @@
 
               <div class="trust-box">
                 <div class="trust-pill">🔒 Pedido estruturado para backend próprio</div>
-                <div class="trust-pill">⚡ Preparado para Pix, Mercado Pago e PicPay</div>
+                <div class="trust-pill">⚡ Pix real via Mercado Pago quando o backend estiver conectado</div>
                 <div class="trust-pill">🎮 Fluxo pensado para entrega por nick</div>
                 <div class="trust-pill" id="backendStatus">Modo local ativo até conectar o backend.</div>
               </div>
@@ -173,9 +179,9 @@
   <div class="toast" id="toast">OK</div>
 
 
-  <script src="assets/app.js?v=20260310c" defer></script>
-  <script src="assets/shop-cart.js?v=20260310c" defer></script>
-  <script src="assets/api-config.js?v=20260310c" defer></script>
-  <script src="assets/checkout.js?v=20260310c" defer></script>
+  <script src="assets/app.js?v=20260310d" defer></script>
+  <script src="assets/shop-cart.js?v=20260310d" defer></script>
+  <script src="assets/api-config.js?v=20260310d" defer></script>
+  <script src="assets/checkout.js?v=20260310d" defer></script>
 </body>
 </html>

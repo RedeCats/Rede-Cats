@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Pagamento - Rede Cats</title>
   <meta name="description" content="Acompanhe o pagamento do seu pedido da Rede Cats." />
-  <link rel="stylesheet" href="assets/style.css?v=20260310c" />
+  <link rel="stylesheet" href="assets/style.css?v=20260310d" />
 </head>
 <body class="subpage checkout-page">
   <div class="bg-animated"><div class="bg-image"></div><div class="bg-glow"></div></div>
@@ -59,6 +59,7 @@
               <div class="checkout-actions-row">
                 <button class="btn" id="copyPixBtn" type="button">Copiar código Pix</button>
                 <a class="btn btn--outline hidden" id="externalCheckoutBtn" href="#" target="_blank" rel="noopener">Abrir checkout externo</a>
+                <button class="btn btn--outline" id="refreshPaymentBtn" type="button">Atualizar status</button>
                 <button class="btn btn--outline" id="simulateApprovalBtn" type="button">Simular aprovação</button>
               </div>
             </div>
@@ -67,7 +68,7 @@
           <aside class="card premium-hover checkout-summary-card">
             <div class="checkout-section-head">
               <h2>Resumo do pedido</h2>
-              <p class="muted small">Na fase final, esta coluna poderá consultar o pedido pelo backend.</p>
+              <p class="muted small">Agora esta coluna já lê o pedido e pode sincronizar o status real do Pix no backend.</p>
             </div>
 
             <div id="paymentItems" class="checkout-items"></div>
@@ -78,10 +79,9 @@
               <div class="summary-line summary-line--total"><span>Total</span><strong id="paymentTotal">R$ 0,00</strong></div>
             </div>
 
-            <div class="trust-box">
-              <div class="trust-pill">🧾 Pedido armazenado no navegador para teste</div>
-              <div class="trust-pill">🔗 Pronto para backend separado</div>
-              <div class="trust-pill">⚙️ Estrutura pensada para webhook</div>
+            <div class="trust-box" id="paymentMetaInfo">
+              <div class="trust-pill">🔗 Pronto para sincronizar com o Mercado Pago</div>
+              <div class="trust-pill">⚙️ Estrutura pronta para webhook</div>
             </div>
           </aside>
         </div>
@@ -91,8 +91,8 @@
 
   <div class="toast" id="toast">OK</div>
 
-  <script src="assets/app.js?v=20260310c" defer></script>
-  <script src="assets/api-config.js?v=20260310c" defer></script>
-  <script src="assets/payment.js?v=20260310c" defer></script>
+  <script src="assets/app.js?v=20260310d" defer></script>
+  <script src="assets/api-config.js?v=20260310d" defer></script>
+  <script src="assets/payment.js?v=20260310d" defer></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 # Backend da loja Rede Cats
 
-Esta etapa liga o checkout próprio ao **Pix real do Mercado Pago**.
+Esta etapa liga o checkout próprio ao **Pix real do Mercado Pago** e já deixa a base da **entrega automática** pronta.
 
 ## O que já faz
 - cria pedidos próprios em `POST /api/orders`
@@ -8,7 +8,9 @@ Esta etapa liga o checkout próprio ao **Pix real do Mercado Pago**.
 - consulta pedido em `GET /api/orders/:orderId`
 - atualiza status em `POST /api/orders/:orderId/refresh-payment`
 - recebe webhook em `POST /api/webhooks/mercadopago`
+- cria fila de entrega automática quando o pedido fica **approved**
 - salva pedidos em `storage/orders.json`
+- salva jobs de entrega em `storage/deliveries.json`
 - salva os últimos webhooks em `storage/webhooks-last.json`
 
 ## Como rodar localmente
@@ -22,57 +24,70 @@ npm run dev
 Copie `.env.example` para `.env` e preencha:
 
 - `FRONTEND_ORIGIN`: domínio do seu site
-- `PUBLIC_BACKEND_URL`: URL pública do backend (necessária para webhook)
+- `PUBLIC_BACKEND_URL`: URL pública do backend
 - `MERCADOPAGO_ACCESS_TOKEN`: Access Token do Mercado Pago
+- `DELIVERY_BRIDGE_TOKEN`: token secreto usado pela bridge do servidor para buscar e confirmar entregas
 
-## Fluxo esperado
-1. O checkout envia o pedido para `POST /api/orders`
-2. O backend cria o pedido da Rede Cats
-3. Se houver token do Mercado Pago, o backend cria um **pagamento Pix real**
-4. O frontend abre `payment.html?order_id=...`
-5. A página mostra QR Code/código Pix
-6. O backend recebe o webhook do Mercado Pago e atualiza o pedido
-7. A página pode atualizar o status usando `refresh-payment`
+## Catálogo de entrega
+Edite `delivery-catalog.json` com os comandos reais do seu servidor.
 
-## Rotas
-### `GET /api/health`
-Retorna status do backend e se o Mercado Pago foi configurado.
-
-### `POST /api/orders`
-Body esperado:
+Exemplo:
 ```json
 {
-  "customer": {
-    "playerNick": "LDL_Silas_",
-    "firstName": "Silas",
-    "lastName": "Teste",
-    "fullName": "Silas Teste",
-    "email": "email@exemplo.com",
-    "cpf": "00000000000"
-  },
-  "cart": [],
-  "coupon": null,
-  "paymentMethod": "pix",
-  "totals": {
-    "subtotal": 100,
-    "discount": 0,
-    "total": 100
+  "products": {
+    "vip-elite-mensal": {
+      "commandTemplates": [
+        "lp user {player} parent settemp elite 30d"
+      ]
+    },
+    "cash5000": {
+      "commandTemplates": [
+        "cash add {player} 5000"
+      ]
+    }
   }
 }
 ```
 
-### `GET /api/orders/:orderId?refresh=1`
-Consulta o pedido. Com `refresh=1`, tenta sincronizar o pagamento no Mercado Pago.
+Placeholders suportados:
+- `{player}`
+- `{orderId}`
+- `{qty}`
+- `{productName}`
+- `{price}`
+- `{total}`
+- `{cash}`
 
-### `POST /api/orders/:orderId/refresh-payment`
-Força nova consulta no Mercado Pago usando o `paymentId` salvo.
+## Fluxo esperado
+1. O checkout envia o pedido para `POST /api/orders`
+2. O backend cria o pedido da Rede Cats
+3. O backend cria o Pix do Mercado Pago
+4. Quando o Pix é aprovado, o webhook sincroniza o pedido
+5. O backend cria os **jobs de entrega**
+6. A bridge do servidor consome o próximo job pendente
+7. Depois de executar o comando no Minecraft, a bridge marca o job como entregue
 
-### `POST /api/webhooks/mercadopago`
-URL para cadastrar nos Webhooks do Mercado Pago.
+## Rotas principais
+### `GET /api/health`
+Retorna status do backend e se o Mercado Pago / bridge foram configurados.
 
-## Observações
-- O Mercado Pago exige `X-Idempotency-Key` na criação de pagamentos. Esta integração já envia esse header. citeturn642437search6turn642437search12
-- O Pix pode ser criado pela API de pagamentos (`POST /v1/payments`) com `payment_method_id = pix`. citeturn898719search0turn898719search11
-- O Mercado Pago envia notificações por webhook e inclui assinatura secreta para validar origem. citeturn221401search0turn642437search1turn642437search11
+### `GET /api/orders/:orderId`
+Consulta o pedido, incluindo o resumo da entrega.
 
-Nesta etapa, a validação criptográfica da assinatura secreta ficou separada para a próxima revisão fina. O webhook já recebe, registra e sincroniza o pagamento pelo `paymentId`.
+### `GET /api/orders/:orderId/delivery`
+Mostra os jobs de entrega daquele pedido.
+
+### `POST /api/orders/:orderId/create-delivery`
+Cria novamente a fila de entrega de um pedido aprovado.
+
+### `POST /api/delivery/bridge/claim-next`
+Bridge do servidor pega o próximo job pendente.
+
+### `POST /api/delivery/bridge/:jobId/complete`
+Bridge confirma entrega realizada.
+
+### `POST /api/delivery/bridge/:jobId/fail`
+Bridge informa falha e guarda o erro.
+
+## Observação importante
+Os comandos padrão do catálogo são apenas uma base. Revise os nomes de grupo e o comando real de cash antes de usar em produção.

@@ -1,0 +1,116 @@
+{
+  "products": {
+    "vip-elite-mensal": {
+      "notes": "Revise o nome do grupo LuckPerms antes de usar em produção.",
+      "commandTemplates": [
+        "lp user {player} parent settemp elite 30d"
+      ]
+    },
+    "vips-page-elite-mensal": {
+      "commandTemplates": [
+        "lp user {player} parent settemp elite 30d"
+      ]
+    },
+    "vip-elite-vitalicio": {
+      "commandTemplates": [
+        "lp user {player} parent set elite"
+      ]
+    },
+    "vips-page-elite-vitalicio": {
+      "commandTemplates": [
+        "lp user {player} parent set elite"
+      ]
+    },
+    "vip-prime-mensal": {
+      "commandTemplates": [
+        "lp user {player} parent settemp prime 30d"
+      ]
+    },
+    "vips-page-prime-mensal": {
+      "commandTemplates": [
+        "lp user {player} parent settemp prime 30d"
+      ]
+    },
+    "vip-prime-vitalicio": {
+      "commandTemplates": [
+        "lp user {player} parent set prime"
+      ]
+    },
+    "vips-page-prime-vitalicio": {
+      "commandTemplates": [
+        "lp user {player} parent set prime"
+      ]
+    },
+    "vip-ultra-mensal": {
+      "commandTemplates": [
+        "lp user {player} parent settemp ultra 30d"
+      ]
+    },
+    "vip-ultra-mensal-2": {
+      "commandTemplates": [
+        "lp user {player} parent settemp ultra 30d"
+      ]
+    },
+    "vips-page-ultra-mensal": {
+      "commandTemplates": [
+        "lp user {player} parent settemp ultra 30d"
+      ]
+    },
+    "vip-ultra-vitalicio": {
+      "commandTemplates": [
+        "lp user {player} parent set ultra"
+      ]
+    },
+    "vip-ultra-vitalicio-2": {
+      "commandTemplates": [
+        "lp user {player} parent set ultra"
+      ]
+    },
+    "vips-page-ultra-vitalicio": {
+      "commandTemplates": [
+        "lp user {player} parent set ultra"
+      ]
+    },
+    "cash500": {
+      "notes": "Troque pelo comando real do plugin de cash da sua rede.",
+      "commandTemplates": [
+        "cash add {player} 500"
+      ]
+    },
+    "cash1000": {
+      "commandTemplates": [
+        "cash add {player} 1000"
+      ]
+    },
+    "cash5000": {
+      "commandTemplates": [
+        "cash add {player} 5000"
+      ]
+    },
+    "cash10000": {
+      "commandTemplates": [
+        "cash add {player} 10000"
+      ]
+    },
+    "cash10000b": {
+      "commandTemplates": [
+        "cash add {player} 10000"
+      ]
+    },
+    "cash20000": {
+      "commandTemplates": [
+        "cash add {player} 20000"
+      ]
+    },
+    "cash50000": {
+      "commandTemplates": [
+        "cash add {player} 50000"
+      ]
+    },
+    "cash50000b": {
+      "commandTemplates": [
+        "cash add {player} 50000"
+      ]
+    }
+  }
+}

@@ -38,6 +38,7 @@ function ensureStorage(){
   if(!fs.existsSync(ORDERS_FILE)) fs.writeFileSync(ORDERS_FILE, '[]');
   if(!fs.existsSync(WEBHOOKS_FILE)) fs.writeFileSync(WEBHOOKS_FILE, '[]');
   if(!fs.existsSync(DELIVERIES_FILE)) fs.writeFileSync(DELIVERIES_FILE, '[]');
+  if(!fs.existsSync(CATALOG_FILE)) fs.writeFileSync(CATALOG_FILE, JSON.stringify({ products:{} }, null, 2));
 }
 function readJson(file, fallback){
   try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch { return fallback; }
@@ -119,7 +120,8 @@ function sanitizeKey(value=''){
 }
 function readCatalog(){
   const fallback = { products:{} };
-  return readJson(CATALOG_FILE, fallback) || fallback;
+  const cat = readJson(CATALOG_FILE, fallback);
+  return cat && cat.products ? cat : fallback;
 }
 function deliveryJobId(){
   return `DLV-${Date.now().toString(36)}-${crypto.randomBytes(3).toString('hex')}`;
@@ -154,34 +156,6 @@ function applyDeliveryOverview(order){
   const overview = getDeliveryOverview(order.orderId);
   return { ...order, delivery: overview };
 }
-function saveOrderWithDelivery(order){
-  return updateOrder(order.orderId, current => ({ ...current, ...order, delivery: getDeliveryOverview(order.orderId) }));
-}
-function mergeMercadoPagoPaymentIntoOrder(order, mpPayment){
-  const tx = mpPayment?.point_of_interaction?.transaction_data || {};
-  const paymentStatus = String(mpPayment?.status || '').toLowerCase();
-  return {
-    ...order,
-    status: paymentStatusToOrderStatus(paymentStatus),
-    approvedAt: paymentStatus === 'approved' ? (mpPayment.date_approved || order.approvedAt || nowIso()) : order.approvedAt,
-    payment: {
-      ...(order.payment || {}),
-      provider: 'mercadopago',
-      providerMode: 'pix',
-      paymentId: String(mpPayment?.id || order.payment?.paymentId || ''),
-      status: mpPayment?.status || order.payment?.status || 'pending',
-      statusDetail: mpPayment?.status_detail || order.payment?.statusDetail || '',
-      qrCodeText: tx?.qr_code || order.payment?.qrCodeText || '',
-      qrCodeBase64: tx?.qr_code_base64 || order.payment?.qrCodeBase64 || '',
-      externalUrl: tx?.ticket_url || order.payment?.externalUrl || '',
-      dateOfExpiration: mpPayment?.date_of_expiration || order.payment?.dateOfExpiration || '',
-      rawLastSyncAt: nowIso(),
-      instructions: paymentStatus === 'approved'
-        ? 'Pagamento confirmado pelo Mercado Pago.'
-        : 'Use o QR Code Pix ou o código copia e cola gerado pelo Mercado Pago para concluir o pagamento.'
-    }
-  };
-}
 function productCatalogEntry(item){
   const catalog = readCatalog();
   const aliases = [item.id, item.name, sanitizeKey(item.id), sanitizeKey(item.name)].filter(Boolean);
@@ -189,6 +163,10 @@ function productCatalogEntry(item){
     if(catalog.products?.[key]) return catalog.products[key];
   }
   return null;
+}
+function stripSlash(cmd){
+  const s = String(cmd || '').trim();
+  return s.startsWith('/') ? s.slice(1) : s;
 }
 function buildJobCommands(item, order, config){
   const player = order.customer?.playerNick || '';
@@ -200,16 +178,22 @@ function buildJobCommands(item, order, config){
     '{price}': String(Number(item.price || 0)),
     '{total}': String(Number((item.price || 0) * (item.qty || 1)))
   };
-  let commands = Array.isArray(config?.commandTemplates) ? [...config.commandTemplates] : [];
+
+  let points = 0;
   if(item.category === 'Cash'){
-    const amount = Number(String(item.name || '').replace(/\D/g, '') || 0);
-    replacements['{cash}'] = String(amount * Number(item.qty || 1));
+    const per = Number(String(item.name || '').replace(/\D/g, '') || 0);
+    points = per * Number(item.qty || 1);
+    replacements['{cash}'] = String(points);
+    replacements['{points}'] = String(points);
   }
+
+  let commands = Array.isArray(config?.commandTemplates) ? [...config.commandTemplates] : [];
   commands = commands.map(cmd => {
-    let out = String(cmd);
+    let out = stripSlash(cmd);
     Object.entries(replacements).forEach(([key, value]) => { out = out.split(key).join(String(value)); });
     return out;
-  });
+  }).filter(Boolean);
+
   return commands;
 }
 function createDeliveryJobsForOrder(order, { force=false } = {}){
@@ -225,9 +209,7 @@ function createDeliveryJobsForOrder(order, { force=false } = {}){
   for(const item of (order.items || [])){
     const config = productCatalogEntry(item);
     const commands = buildJobCommands(item, order, config || {});
-    const safeStatus = config ? 'pending' : 'needs_config';
-    const quantity = Math.max(1, Number(item.qty || 1));
-
+    const status = config ? 'pending' : 'needs_config';
     newJobs.push({
       jobId: deliveryJobId(),
       orderId: order.orderId,
@@ -235,9 +217,8 @@ function createDeliveryJobsForOrder(order, { force=false } = {}){
       productId: item.id,
       productName: item.name,
       category: item.category || 'Produto digital',
-      qty: quantity,
-      status: safeStatus,
-      provider: 'redecats-bridge',
+      qty: Math.max(1, Number(item.qty || 1)),
+      status,
       createdAt: nowIso(),
       attempts: 0,
       commands,
@@ -262,6 +243,7 @@ function maybeQueueDeliveryForOrder(order, opts={}){
   createDeliveryJobsForOrder(order, opts);
   return applyDeliveryOverview(order);
 }
+
 async function mercadopagoRequest(pathname, { method='GET', body, headers={} } = {}){
   if(!mercadopagoConfigured()) throw makeError(500, 'Mercado Pago não configurado no backend.');
   const res = await fetch(`${MP_API_BASE}${pathname}`, {
@@ -313,6 +295,32 @@ function buildMercadoPagoPayload(order){
 
   if(!payload.notification_url) delete payload.notification_url;
   return payload;
+}
+function mergeMercadoPagoPaymentIntoOrder(order, mpPayment){
+  const tx = mpPayment?.point_of_interaction?.transaction_data || {};
+  const paymentStatus = String(mpPayment?.status || '').toLowerCase();
+  const merged = {
+    ...order,
+    status: paymentStatusToOrderStatus(paymentStatus),
+    approvedAt: paymentStatus === 'approved' ? (mpPayment.date_approved || order.approvedAt || nowIso()) : order.approvedAt,
+    payment: {
+      ...(order.payment || {}),
+      provider: 'mercadopago',
+      providerMode: 'pix',
+      paymentId: String(mpPayment?.id || order.payment?.paymentId || ''),
+      status: mpPayment?.status || order.payment?.status || 'pending',
+      statusDetail: mpPayment?.status_detail || order.payment?.statusDetail || '',
+      qrCodeText: tx?.qr_code || order.payment?.qrCodeText || '',
+      qrCodeBase64: tx?.qr_code_base64 || order.payment?.qrCodeBase64 || '',
+      externalUrl: tx?.ticket_url || order.payment?.externalUrl || '',
+      dateOfExpiration: mpPayment?.date_of_expiration || order.payment?.dateOfExpiration || '',
+      rawLastSyncAt: nowIso(),
+      instructions: paymentStatus === 'approved'
+        ? 'Pagamento confirmado pelo Mercado Pago.'
+        : 'Use o QR Code Pix ou o código copia e cola gerado pelo Mercado Pago para concluir o pagamento.'
+    }
+  };
+  return maybeQueueDeliveryForOrder(merged);
 }
 async function createMercadoPagoPixPayment(order){
   const payload = buildMercadoPagoPayload(order);
@@ -413,7 +421,6 @@ app.get('/api/orders/:orderId', async (req, res, next) => {
     const wantsRefresh = String(req.query.refresh || '').trim() === '1';
     if(wantsRefresh && mercadopagoConfigured() && order.payment?.paymentId){
       order = await refreshOrderFromMercadoPago(order);
-      order = maybeQueueDeliveryForOrder(order);
       updateOrder(order.orderId, () => order);
     }
 
@@ -444,7 +451,6 @@ app.post('/api/orders/:orderId/refresh-payment', async (req, res, next) => {
     if(!mercadopagoConfigured()) throw makeError(400, 'Mercado Pago ainda não foi configurado no backend.');
     if(!order.payment?.paymentId) throw makeError(400, 'Este pedido ainda não tem paymentId do Mercado Pago.');
     order = await refreshOrderFromMercadoPago(order);
-    order = maybeQueueDeliveryForOrder(order);
     updateOrder(order.orderId, () => order);
     res.json(applyDeliveryOverview(order));
   } catch (err) {
@@ -465,7 +471,7 @@ app.post('/api/orders/:orderId/simulate-approve', (req, res) => {
   };
   order.approvedAt = nowIso();
   saveOrders(orders);
-  const withDelivery = maybeQueueDeliveryForOrder(order);
+  const withDelivery = maybeQueueDeliveryForOrder(order, { force: true });
   updateOrder(order.orderId, () => withDelivery);
   res.json(withDelivery);
 });
@@ -497,11 +503,7 @@ app.post('/api/webhooks/mercadopago', async (req, res) => {
       return res.status(200).json({ received:true, synced:false, reason:'missing-external-reference' });
     }
 
-    let updated = updateOrder(externalReference, (current) => mergeMercadoPagoPaymentIntoOrder(current, mpPayment));
-    if(updated){
-      updated = maybeQueueDeliveryForOrder(updated);
-      updateOrder(externalReference, () => updated);
-    }
+    const updated = updateOrder(externalReference, (current) => mergeMercadoPagoPaymentIntoOrder(current, mpPayment));
     return res.status(200).json({
       received: true,
       synced: !!updated,
@@ -521,8 +523,8 @@ app.post('/api/delivery/bridge/claim-next', requireBridge, (req, res) => {
   next.processingAt = nowIso();
   next.attempts = Number(next.attempts || 0) + 1;
   writeDeliveries(deliveries);
-  const order = updateOrder(next.orderId, current => ({ ...current, delivery: getDeliveryOverview(next.orderId) }));
-  res.json({ job: next, orderId: order?.orderId || next.orderId });
+  updateOrder(next.orderId, current => ({ ...current, delivery: getDeliveryOverview(next.orderId) }));
+  res.json({ job: next });
 });
 
 app.post('/api/delivery/bridge/:jobId/complete', requireBridge, (req, res) => {
@@ -535,8 +537,8 @@ app.post('/api/delivery/bridge/:jobId/complete', requireBridge, (req, res) => {
   job.serverResponse = String(req.body?.serverResponse || '').trim();
   job.lastError = '';
   writeDeliveries(deliveries);
-  const order = updateOrder(job.orderId, current => ({ ...current, delivery: getDeliveryOverview(job.orderId) }));
-  res.json({ ok:true, job, order });
+  updateOrder(job.orderId, current => ({ ...current, delivery: getDeliveryOverview(job.orderId) }));
+  res.json({ ok:true, job });
 });
 
 app.post('/api/delivery/bridge/:jobId/fail', requireBridge, (req, res) => {
@@ -548,8 +550,8 @@ app.post('/api/delivery/bridge/:jobId/fail', requireBridge, (req, res) => {
   job.serverResponse = String(req.body?.serverResponse || '').trim();
   job.processingAt = '';
   writeDeliveries(deliveries);
-  const order = updateOrder(job.orderId, current => ({ ...current, delivery: getDeliveryOverview(job.orderId) }));
-  res.json({ ok:true, job, order });
+  updateOrder(job.orderId, current => ({ ...current, delivery: getDeliveryOverview(job.orderId) }));
+  res.json({ ok:true, job });
 });
 
 app.use((err, req, res, next) => {

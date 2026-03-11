@@ -1,115 +1,135 @@
 {
+  "notes": "Comandos para console (sem /). Placeholders: {player} {points} {cash} {orderId}.",
   "products": {
     "vip-elite-mensal": {
-      "notes": "Revise o nome do grupo LuckPerms antes de usar em produção.",
+      "notes": "VIP Elite mensal: seta VIP + bônus de money.",
       "commandTemplates": [
-        "lp user {player} parent settemp elite 30d"
+        "lp user {player} parent addtemp elite 30d",
+        "eco give {player} 10000"
       ]
     },
     "vips-page-elite-mensal": {
       "commandTemplates": [
-        "lp user {player} parent settemp elite 30d"
-      ]
-    },
-    "vip-elite-vitalicio": {
-      "commandTemplates": [
-        "lp user {player} parent set elite"
-      ]
-    },
-    "vips-page-elite-vitalicio": {
-      "commandTemplates": [
-        "lp user {player} parent set elite"
+        "lp user {player} parent addtemp elite 30d",
+        "eco give {player} 10000"
       ]
     },
     "vip-prime-mensal": {
+      "notes": "Defina o bônus de money do VIP Prime aqui.",
       "commandTemplates": [
-        "lp user {player} parent settemp prime 30d"
+        "lp user {player} parent addtemp prime 30d",
+        "eco give {player} 0"
       ]
     },
     "vips-page-prime-mensal": {
       "commandTemplates": [
-        "lp user {player} parent settemp prime 30d"
-      ]
-    },
-    "vip-prime-vitalicio": {
-      "commandTemplates": [
-        "lp user {player} parent set prime"
-      ]
-    },
-    "vips-page-prime-vitalicio": {
-      "commandTemplates": [
-        "lp user {player} parent set prime"
+        "lp user {player} parent addtemp prime 30d",
+        "eco give {player} 0"
       ]
     },
     "vip-ultra-mensal": {
+      "notes": "VIP Ultra mensal: seta VIP + bônus de money.",
       "commandTemplates": [
-        "lp user {player} parent settemp ultra 30d"
+        "lp user {player} parent addtemp ultra 30d",
+        "eco give {player} 300000"
       ]
     },
     "vip-ultra-mensal-2": {
       "commandTemplates": [
-        "lp user {player} parent settemp ultra 30d"
+        "lp user {player} parent addtemp ultra 30d",
+        "eco give {player} 300000"
       ]
     },
     "vips-page-ultra-mensal": {
       "commandTemplates": [
-        "lp user {player} parent settemp ultra 30d"
+        "lp user {player} parent addtemp ultra 30d",
+        "eco give {player} 300000"
+      ]
+    },
+
+    "vip-elite-vitalicio": {
+      "notes": "Vitalício: ajuste se preferir parent set/add e bônus diferente.",
+      "commandTemplates": [
+        "lp user {player} parent add elite",
+        "eco give {player} 10000"
+      ]
+    },
+    "vips-page-elite-vitalicio": {
+      "commandTemplates": [
+        "lp user {player} parent add elite",
+        "eco give {player} 10000"
+      ]
+    },
+    "vip-prime-vitalicio": {
+      "commandTemplates": [
+        "lp user {player} parent add prime",
+        "eco give {player} 0"
+      ]
+    },
+    "vips-page-prime-vitalicio": {
+      "commandTemplates": [
+        "lp user {player} parent add prime",
+        "eco give {player} 0"
       ]
     },
     "vip-ultra-vitalicio": {
       "commandTemplates": [
-        "lp user {player} parent set ultra"
+        "lp user {player} parent add ultra",
+        "eco give {player} 300000"
       ]
     },
     "vip-ultra-vitalicio-2": {
       "commandTemplates": [
-        "lp user {player} parent set ultra"
+        "lp user {player} parent add ultra",
+        "eco give {player} 300000"
       ]
     },
     "vips-page-ultra-vitalicio": {
       "commandTemplates": [
-        "lp user {player} parent set ultra"
+        "lp user {player} parent add ultra",
+        "eco give {player} 300000"
       ]
     },
+
     "cash500": {
-      "notes": "Troque pelo comando real do plugin de cash da sua rede.",
+      "notes": "Cash via PlayerPoints: points give {player} {points}.",
       "commandTemplates": [
-        "cash add {player} 500"
+        "points give {player} {points}"
       ]
     },
     "cash1000": {
       "commandTemplates": [
-        "cash add {player} 1000"
+        "points give {player} {points}"
       ]
     },
     "cash5000": {
       "commandTemplates": [
-        "cash add {player} 5000"
+        "points give {player} {points}"
       ]
     },
     "cash10000": {
       "commandTemplates": [
-        "cash add {player} 10000"
+        "points give {player} {points}"
       ]
     },
     "cash10000b": {
       "commandTemplates": [
-        "cash add {player} 10000"
+        "points give {player} {points}"
       ]
     },
     "cash20000": {
       "commandTemplates": [
-        "cash add {player} 20000"
+        "points give {player} {points}"
       ]
     },
     "cash50000": {
       "commandTemplates": [
-        "cash add {player} 50000"
+        "points give {player} {points}"
       ]
     },
     "cash50000b": {
       "commandTemplates": [
-        "cash add {player} 50000"
+        "points give {player} {points}"
       ]
     }
   }

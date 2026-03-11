@@ -1,34 +1,33 @@
-# Backend da loja - Rede Cats
+# Rede Cats backend
 
-Esta etapa prepara um backend separado para o checkout.
+Etapa 3A: pedido próprio + página de pagamento própria.
 
-## O que ele faz nesta versão
-- cria pedidos em `/api/orders`
-- salva um JSON simples em `storage/orders.json`
-- retorna payload pronto para a tela `payment.html`
-- deixa webhook Mercado Pago separado em `/api/webhooks/mercadopago`
+## O que já faz
+- cria pedido em `POST /api/orders`
+- consulta pedido em `GET /api/orders/:orderId`
+- simula aprovação em `POST /api/orders/:orderId/simulate-approve`
+- recebe placeholder de webhook em `POST /api/webhooks/mercadopago`
 
-## Instalação
+## Rodar localmente
 ```bash
 cd backend
 npm install
-cp .env.example .env
 npm run dev
 ```
 
-## Configuração do frontend
-Edite `../assets/api-config.js` e preencha `apiBaseUrl` com a URL do backend.
+## Variáveis
+Copie `.env.example` para `.env`.
 
-Exemplo:
-```js
-window.RedeCatsApiConfig = {
-  apiBaseUrl: 'http://localhost:3000',
-  storeName: 'Rede Cats',
-  supportUrl: 'https://discord.gg/GQZGduc9'
-};
+## Frontend
+Quando o backend estiver publicado, passe a base da API na URL:
+
+```text
+https://seusite.github.io/Rede-Cats/checkout.html?api=https://seu-backend.onrender.com
 ```
 
-## Observações importantes
-- O fluxo já está preparado para Pix/checkout externo.
-- Ainda faltam as credenciais reais do gateway e a lógica de entrega no servidor.
-- Em produção, os preços devem ser recalculados no backend a partir de um catálogo próprio.
+ou salve manualmente em `localStorage.redecats_api_base`.
+
+## Próxima etapa
+- integrar Pix real do Mercado Pago
+- validar webhook
+- confirmar pagamento automaticamente

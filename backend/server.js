@@ -5,6 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import { fileURLToPath } from 'url';
+import { Rcon } from 'rcon-client';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,6 +32,35 @@ function deliveryBridgeToken(){
 }
 function publicBackendUrl(){
   return (process.env.PUBLIC_BACKEND_URL || '').trim().replace(/\/$/, '');
+}
+
+function rconConfigured(){
+  return !!((process.env.RCON_HOST || '').trim() && String(process.env.RCON_PORT || '').trim() && (process.env.RCON_PASSWORD || '').trim());
+}
+function rconOptions(){
+  return {
+    host: (process.env.RCON_HOST || '').trim(),
+    port: Number(process.env.RCON_PORT || 0),
+    password: (process.env.RCON_PASSWORD || '').trim(),
+    timeout: Number(process.env.RCON_TIMEOUT_MS || 10000)
+  };
+}
+async function runRconCommands(commands){
+  const opts = rconOptions();
+  if(!rconConfigured()) throw makeError(503, 'RCON ainda não configurado no backend.');
+  const conn = await Rcon.connect(opts);
+  const outputs = [];
+  try {
+    for(const raw of (commands || [])){
+      const cmd = stripSlash(raw);
+      if(!cmd) continue;
+      const response = await conn.send(cmd);
+      outputs.push({ command: cmd, response: String(response || '') });
+    }
+  } finally {
+    try { await conn.end(); } catch {}
+  }
+  return outputs;
 }
 
 function ensureStorage(){
@@ -244,6 +274,54 @@ function maybeQueueDeliveryForOrder(order, opts={}){
   return applyDeliveryOverview(order);
 }
 
+
+async function processDeliveryJob(job){
+  const deliveries = readDeliveries();
+  const idx = deliveries.findIndex(item => item.jobId === job.jobId);
+  if(idx === -1) throw makeError(404, 'Job não encontrado para processamento.');
+  const current = deliveries[idx];
+  if(current.status === 'delivered') return current;
+  current.status = 'processing';
+  current.processingAt = nowIso();
+  current.attempts = Number(current.attempts || 0) + 1;
+  writeDeliveries(deliveries);
+  updateOrder(current.orderId, order => ({ ...order, delivery: getDeliveryOverview(current.orderId) }));
+
+  try {
+    const outputs = await runRconCommands(current.commands || []);
+    current.status = 'delivered';
+    current.deliveredAt = nowIso();
+    current.completedBy = 'rcon';
+    current.serverResponse = outputs.map(x => `[${x.command}] ${x.response}`).join('\n').trim();
+    current.lastError = '';
+  } catch (error) {
+    current.status = 'failed';
+    current.lastError = String(error.message || error).trim();
+    current.serverResponse = '';
+    current.processingAt = '';
+  }
+
+  writeDeliveries(deliveries);
+  updateOrder(current.orderId, order => ({ ...order, delivery: getDeliveryOverview(current.orderId) }));
+  return current;
+}
+
+async function processPendingDeliveries({ orderId=null, limit=10 } = {}){
+  if(!rconConfigured()){
+    return { processed: 0, delivered: 0, failed: 0, skipped: true, reason: 'rcon-not-configured' };
+  }
+  const deliveries = readDeliveries();
+  const pending = deliveries.filter(job => job.status === 'pending' && (!orderId || job.orderId === orderId)).slice(0, Math.max(1, limit));
+  let delivered = 0;
+  let failed = 0;
+  for(const job of pending){
+    const result = await processDeliveryJob(job);
+    if(result.status === 'delivered') delivered += 1;
+    if(result.status === 'failed') failed += 1;
+  }
+  return { processed: pending.length, delivered, failed, skipped: false };
+}
+
 async function mercadopagoRequest(pathname, { method='GET', body, headers={} } = {}){
   if(!mercadopagoConfigured()) throw makeError(500, 'Mercado Pago não configurado no backend.');
   const res = await fetch(`${MP_API_BASE}${pathname}`, {
@@ -394,6 +472,9 @@ app.get('/api/health', (req, res) => {
     time: nowIso(),
     mercadopagoConfigured: mercadopagoConfigured(),
     deliveryBridgeConfigured: deliveryBridgeConfigured(),
+    rconConfigured: rconConfigured(),
+    rconHost: rconConfigured() ? (process.env.RCON_HOST || '').trim() : null,
+    rconPort: rconConfigured() ? Number(process.env.RCON_PORT || 0) : null,
     publicBackendUrl: publicBackendUrl() || null
   });
 });
@@ -407,7 +488,8 @@ app.post('/api/orders', async (req, res, next) => {
     const orders = readOrders();
     orders.push(order);
     saveOrders(orders);
-    res.status(201).json(applyDeliveryOverview(order));
+    if(String(order.status || '').toLowerCase() === 'approved') await processPendingDeliveries({ orderId: order.orderId, limit: 20 });
+    res.status(201).json(applyDeliveryOverview(findOrder(order.orderId) || order));
   } catch (err) {
     next(err);
   }
@@ -422,6 +504,8 @@ app.get('/api/orders/:orderId', async (req, res, next) => {
     if(wantsRefresh && mercadopagoConfigured() && order.payment?.paymentId){
       order = await refreshOrderFromMercadoPago(order);
       updateOrder(order.orderId, () => order);
+      if(String(order.status || '').toLowerCase() === 'approved') await processPendingDeliveries({ orderId: order.orderId, limit: 20 });
+      order = findOrder(order.orderId) || order;
     }
 
     res.json(applyDeliveryOverview(order));
@@ -452,7 +536,8 @@ app.post('/api/orders/:orderId/refresh-payment', async (req, res, next) => {
     if(!order.payment?.paymentId) throw makeError(400, 'Este pedido ainda não tem paymentId do Mercado Pago.');
     order = await refreshOrderFromMercadoPago(order);
     updateOrder(order.orderId, () => order);
-    res.json(applyDeliveryOverview(order));
+    if(String(order.status || '').toLowerCase() === 'approved') await processPendingDeliveries({ orderId: order.orderId, limit: 20 });
+    res.json(applyDeliveryOverview(findOrder(order.orderId) || order));
   } catch (err) {
     next(err);
   }
@@ -473,7 +558,8 @@ app.post('/api/orders/:orderId/simulate-approve', (req, res) => {
   saveOrders(orders);
   const withDelivery = maybeQueueDeliveryForOrder(order, { force: true });
   updateOrder(order.orderId, () => withDelivery);
-  res.json(withDelivery);
+  Promise.resolve(processPendingDeliveries({ orderId: order.orderId, limit: 20 })).catch(console.error).finally(() => {});
+  res.json(applyDeliveryOverview(findOrder(order.orderId) || withDelivery));
 });
 
 app.post('/api/webhooks/mercadopago', async (req, res) => {
@@ -504,6 +590,9 @@ app.post('/api/webhooks/mercadopago', async (req, res) => {
     }
 
     const updated = updateOrder(externalReference, (current) => mergeMercadoPagoPaymentIntoOrder(current, mpPayment));
+    if(updated && String(updated.status || '').toLowerCase() === 'approved') {
+      await processPendingDeliveries({ orderId: updated.orderId, limit: 20 });
+    }
     return res.status(200).json({
       received: true,
       synced: !!updated,
@@ -512,6 +601,28 @@ app.post('/api/webhooks/mercadopago', async (req, res) => {
     });
   } catch (error) {
     return res.status(200).json({ received:true, synced:false, error:error.message || 'Webhook sync failed.' });
+  }
+});
+
+
+
+app.post('/api/orders/:orderId/process-delivery', async (req, res, next) => {
+  try {
+    const order = findOrder(req.params.orderId);
+    if(!order) throw makeError(404, 'Pedido não encontrado.');
+    const result = await processPendingDeliveries({ orderId: order.orderId, limit: Number(req.body?.limit || 20) });
+    res.json({ ...result, delivery: getDeliveryOverview(order.orderId) });
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post('/api/delivery/process-pending', async (req, res, next) => {
+  try {
+    const result = await processPendingDeliveries({ limit: Number(req.body?.limit || 20) });
+    res.json(result);
+  } catch (err) {
+    next(err);
   }
 });
 

@@ -76,3 +76,35 @@ URL para cadastrar nos Webhooks do Mercado Pago.
 - O Mercado Pago envia notificações por webhook e inclui assinatura secreta para validar origem. citeturn221401search0turn642437search1turn642437search11
 
 Nesta etapa, a validação criptográfica da assinatura secreta ficou separada para a próxima revisão fina. O webhook já recebe, registra e sincroniza o pagamento pelo `paymentId`.
+
+
+## Entrega automática por RCON
+
+Quando o pedido é aprovado, o backend cria os jobs de entrega e tenta executar automaticamente os comandos no console do servidor via RCON.
+
+Variáveis novas:
+- `RCON_HOST`
+- `RCON_PORT`
+- `RCON_PASSWORD`
+- `RCON_TIMEOUT_MS`
+
+Para a BedHosting do seu caso:
+- host: `ultra-04.bedhosting.com.br`
+- porta RCON: `37050`
+- porta do servidor: `37444`
+
+Use os comandos sem `/`, porque o backend envia direto para o console.
+
+### Teste rápido
+1. Configure o `.env`.
+2. Rode `npm install` e `npm start` na pasta `backend`.
+3. Crie um pedido em modo teste.
+4. Aprove o pedido ou aguarde o webhook do Mercado Pago.
+5. O backend tentará entregar automaticamente via RCON.
+
+### Rotas úteis
+- `GET /api/health`
+- `POST /api/orders/:orderId/process-delivery`
+- `POST /api/delivery/process-pending`
+
+Se o RCON não estiver configurado, os jobs continuam na fila e você pode processá-los depois.

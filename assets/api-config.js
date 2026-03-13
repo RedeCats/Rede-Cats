@@ -6,7 +6,7 @@
 
   if (base) localStorage.setItem("redecats_api_base", base);
 
-  window.REDE_CATS_API = {
+  const api = {
     base,
     configured: !!base,
     url(path) {
@@ -14,4 +14,7 @@
       return base.replace(/\/$/, "") + path;
     }
   };
+
+  window.REDE_CATS_API = api;
+  window.RedeCatsAPI = api;
 })();

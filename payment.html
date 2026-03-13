@@ -5,19 +5,42 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Pagamento - Rede Cats</title>
   <meta name="description" content="Acompanhe o pagamento do seu pedido da Rede Cats." />
-  <link rel="stylesheet" href="assets/style.css?v=20260311f" />
+  <link rel="stylesheet" href="assets/style.css?v=20260313a" />
 </head>
 <body class="subpage checkout-page">
-  <div class="bg-animated"><div class="bg-image"></div><div class="bg-glow"></div></div>
+  <div class="bg-animated">
+    <div class="bg-image"></div>
+    <div class="bg-glow"></div>
+  </div>
+
   <header class="topbar">
     <div class="container topbar__content">
-      <div class="brand"><div class="logo">🐱</div><div class="brand__text"><strong class="brand__name">REDE CATS</strong></div></div>
+      <div class="brand">
+        <div class="logo">🐱</div>
+        <div class="brand__text">
+          <strong class="brand__name">REDE CATS</strong>
+        </div>
+      </div>
+
       <nav class="nav" aria-label="Navegação">
-        <a href="index.html">Início</a><a href="loja.html">Loja</a><a href="vips.html">VIPs</a><a href="suporte.html">Suporte</a><a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
+        <a href="index.html">Início</a>
+        <a href="loja.html">Loja</a>
+        <a href="vips.html">VIPs</a>
+        <a href="suporte.html">Suporte</a>
+        <a class="btn btn--outline" href="https://discord.gg/GQZGduc9" target="_blank" rel="noopener">Discord</a>
       </nav>
+
       <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">☰</button>
     </div>
-    <div class="container"><nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile"><a href="index.html">Início</a><a href="loja.html">Loja</a><a href="vips.html">VIPs</a><a href="suporte.html">Suporte</a></nav></div>
+
+    <div class="container">
+      <nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile">
+        <a href="index.html">Início</a>
+        <a href="loja.html">Loja</a>
+        <a href="vips.html">VIPs</a>
+        <a href="suporte.html">Suporte</a>
+      </nav>
+    </div>
   </header>
 
   <main class="site-content">
@@ -51,31 +74,36 @@
             </div>
 
             <div class="pix-payment-box">
-              <div id="qrCodeWrap" class="pix-qr-wrap"></div>
+              <div class="payment-qr-wrap">
+                <div id="qrCodeWrap" class="pix-qr-wrap"></div>
+              </div>
+
               <label class="checkout-field full" for="pixCode" style="margin-top:14px">
                 <span>Código Pix copia e cola</span>
                 <textarea id="pixCode" rows="4" readonly></textarea>
               </label>
+
               <div class="checkout-actions-row">
                 <button class="btn" id="copyPixBtn" type="button">Copiar código Pix</button>
                 <a class="btn btn--outline hidden" id="externalCheckoutBtn" href="#" target="_blank" rel="noopener">Abrir checkout externo</a>
                 <button class="btn btn--outline" id="refreshPaymentBtn" type="button">Atualizar status</button>
-                <button class="btn btn--outline" id="simulateApprovalBtn" type="button">Simular aprovação</button>
               </div>
-            
+            </div>
+
             <div class="checkout-section-head section-top-space">
               <h2>Entrega automática</h2>
               <p class="muted small">Depois do pagamento aprovado, o backend cria a fila de entrega para o servidor.</p>
             </div>
+
             <div class="summary-box">
               <div class="summary-line"><span>Status da entrega</span><strong id="deliveryStatusText">Aguardando pagamento</strong></div>
               <div class="summary-line"><span>Jobs criados</span><strong id="deliveryJobsCount">0</strong></div>
               <div class="summary-line"><span>Entregues</span><strong id="deliveryDeliveredCount">0</strong></div>
             </div>
+
             <div class="trust-box" id="deliveryMetaInfo">
               <div class="trust-pill">📦 A fila de entrega será criada após a aprovação</div>
             </div>
-</div>
           </section>
 
           <aside class="card premium-hover checkout-summary-card">
@@ -93,7 +121,7 @@
             </div>
 
             <div class="trust-box" id="paymentMetaInfo">
-              <div class="trust-pill">🔗 Pronto para sincronizar com o Mercado Pago</div>
+              <div class="trust-pill">🔗 Pix gerado pelo Mercado Pago</div>
               <div class="trust-pill">⚙️ Estrutura pronta para webhook</div>
             </div>
           </aside>
@@ -104,8 +132,8 @@
 
   <div class="toast" id="toast">OK</div>
 
-  <script src="assets/app.js?v=20260311f" defer></script>
-  <script src="assets/api-config.js?v=20260311f" defer></script>
-  <script src="assets/payment.js?v=20260311f" defer></script>
+  <script src="assets/app.js?v=20260313a" defer></script>
+  <script src="assets/api-config.js?v=20260313a" defer></script>
+  <script src="assets/payment.js?v=20260313a" defer></script>
 </body>
 </html>

@@ -1050,3 +1050,39 @@ body.subpage .cta-actions{
   .checkout-actions-row{flex-direction:column}
   .checkout-actions-row .btn{width:100%}
 }
+.payment-qr-wrap,
+.pix-qr-wrap,
+.qr-code-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.payment-qr-wrap img,
+.pix-qr-wrap img,
+.qr-code-wrap img,
+.payment-qr-wrap canvas,
+.pix-qr-wrap canvas,
+.qr-code-wrap canvas {
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  border-radius: 16px;
+}
+
+@media (max-width: 768px) {
+  .payment-qr-wrap img,
+  .pix-qr-wrap img,
+  .qr-code-wrap img,
+  .payment-qr-wrap canvas,
+  .pix-qr-wrap canvas,
+  .qr-code-wrap canvas {
+    max-width: 280px;
+  }
+}

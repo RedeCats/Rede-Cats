@@ -21,6 +21,16 @@ const FRONTEND_ORIGINS = (process.env.FRONTEND_ORIGIN || '')
   .map(v => v.trim())
   .filter(Boolean);
 
+
+const processingOrders = new Set();
+
+function isApprovedStatus(value=''){
+  return String(value || '').toLowerCase() === 'approved';
+}
+function transitionToApproved(previous, next){
+  return !isApprovedStatus(previous?.status) && isApprovedStatus(next?.status);
+}
+
 function mercadopagoConfigured(){
   return !!(process.env.MERCADOPAGO_ACCESS_TOKEN || '').trim();
 }
@@ -310,16 +320,81 @@ async function processPendingDeliveries({ orderId=null, limit=10 } = {}){
   if(!rconConfigured()){
     return { processed: 0, delivered: 0, failed: 0, skipped: true, reason: 'rcon-not-configured' };
   }
-  const deliveries = readDeliveries();
-  const pending = deliveries.filter(job => job.status === 'pending' && (!orderId || job.orderId === orderId)).slice(0, Math.max(1, limit));
-  let delivered = 0;
-  let failed = 0;
-  for(const job of pending){
-    const result = await processDeliveryJob(job);
-    if(result.status === 'delivered') delivered += 1;
-    if(result.status === 'failed') failed += 1;
+
+  const lockKey = orderId || '__all__';
+  if(processingOrders.has(lockKey)){
+    return { processed: 0, delivered: 0, failed: 0, skipped: true, reason: 'already-processing' };
   }
-  return { processed: pending.length, delivered, failed, skipped: false };
+
+  processingOrders.add(lockKey);
+
+  try {
+    let processed = 0;
+    let delivered = 0;
+    let failed = 0;
+    const max = Math.max(1, limit);
+
+    while (processed < max) {
+      const deliveries = readDeliveries();
+      const idx = deliveries.findIndex(job => job.status === 'pending' && (!orderId || job.orderId === orderId));
+      if (idx === -1) break;
+
+      const job = deliveries[idx];
+      job.status = 'processing';
+      job.processingAt = nowIso();
+      job.attempts = Number(job.attempts || 0) + 1;
+      writeDeliveries(deliveries);
+      updateOrder(job.orderId, order => ({ ...order, delivery: getDeliveryOverview(job.orderId) }));
+
+      console.log('[DELIVERY] Executando job', {
+        orderId: job.orderId,
+        jobId: job.jobId,
+        playerNick: job.playerNick,
+        productId: job.productId,
+        productName: job.productName,
+        qty: job.qty,
+        commands: job.commands
+      });
+
+      try {
+        const outputs = await runRconCommands(job.commands || []);
+        job.status = 'delivered';
+        job.deliveredAt = nowIso();
+        job.completedBy = 'rcon';
+        job.serverResponse = outputs.map(x => `[${x.command}] ${x.response}`).join('\n').trim();
+        job.lastError = '';
+        delivered += 1;
+
+        console.log('[DELIVERY] Job entregue', {
+          orderId: job.orderId,
+          jobId: job.jobId,
+          playerNick: job.playerNick,
+          serverResponse: job.serverResponse
+        });
+      } catch (error) {
+        job.status = 'failed';
+        job.lastError = String(error.message || error).trim();
+        job.serverResponse = '';
+        job.processingAt = '';
+        failed += 1;
+
+        console.error('[DELIVERY] Job falhou', {
+          orderId: job.orderId,
+          jobId: job.jobId,
+          playerNick: job.playerNick,
+          error: job.lastError
+        });
+      }
+
+      writeDeliveries(deliveries);
+      updateOrder(job.orderId, order => ({ ...order, delivery: getDeliveryOverview(job.orderId) }));
+      processed += 1;
+    }
+
+    return { processed, delivered, failed, skipped: false };
+  } finally {
+    processingOrders.delete(lockKey);
+  }
 }
 
 async function mercadopagoRequest(pathname, { method='GET', body, headers={} } = {}){
@@ -481,14 +556,15 @@ app.get('/api/health', (req, res) => {
 
 app.post('/api/orders', async (req, res, next) => {
   try {
-    let order = createBaseOrder(req.body || {});
+    const baseOrder = createBaseOrder(req.body || {});
+    let order = baseOrder;
     if(mercadopagoConfigured() && (order.paymentMethod === 'pix' || order.paymentMethod === 'mercadopago')){
       order = await createMercadoPagoPixPayment(order);
     }
     const orders = readOrders();
     orders.push(order);
     saveOrders(orders);
-    if(String(order.status || '').toLowerCase() === 'approved') await processPendingDeliveries({ orderId: order.orderId, limit: 20 });
+    if(transitionToApproved(baseOrder, order)) await processPendingDeliveries({ orderId: order.orderId, limit: 20 });
     res.status(201).json(applyDeliveryOverview(findOrder(order.orderId) || order));
   } catch (err) {
     next(err);
@@ -502,9 +578,10 @@ app.get('/api/orders/:orderId', async (req, res, next) => {
 
     const wantsRefresh = String(req.query.refresh || '').trim() === '1';
     if(wantsRefresh && mercadopagoConfigured() && order.payment?.paymentId){
+      const previousOrder = order;
       order = await refreshOrderFromMercadoPago(order);
       updateOrder(order.orderId, () => order);
-      if(String(order.status || '').toLowerCase() === 'approved') await processPendingDeliveries({ orderId: order.orderId, limit: 20 });
+      if(transitionToApproved(previousOrder, order)) await processPendingDeliveries({ orderId: order.orderId, limit: 20 });
       order = findOrder(order.orderId) || order;
     }
 
@@ -534,9 +611,10 @@ app.post('/api/orders/:orderId/refresh-payment', async (req, res, next) => {
     if(!order) throw makeError(404, 'Pedido não encontrado.');
     if(!mercadopagoConfigured()) throw makeError(400, 'Mercado Pago ainda não foi configurado no backend.');
     if(!order.payment?.paymentId) throw makeError(400, 'Este pedido ainda não tem paymentId do Mercado Pago.');
+    const previousOrder = order;
     order = await refreshOrderFromMercadoPago(order);
     updateOrder(order.orderId, () => order);
-    if(String(order.status || '').toLowerCase() === 'approved') await processPendingDeliveries({ orderId: order.orderId, limit: 20 });
+    if(transitionToApproved(previousOrder, order)) await processPendingDeliveries({ orderId: order.orderId, limit: 20 });
     res.json(applyDeliveryOverview(findOrder(order.orderId) || order));
   } catch (err) {
     next(err);
@@ -589,14 +667,21 @@ app.post('/api/webhooks/mercadopago', async (req, res) => {
       return res.status(200).json({ received:true, synced:false, reason:'missing-external-reference' });
     }
 
-    const updated = updateOrder(externalReference, (current) => mergeMercadoPagoPaymentIntoOrder(current, mpPayment));
-    if(updated && String(updated.status || '').toLowerCase() === 'approved') {
-      await processPendingDeliveries({ orderId: updated.orderId, limit: 20 });
+    const currentOrder = findOrder(externalReference);
+    if(!currentOrder){
+      return res.status(200).json({ received:true, synced:false, reason:'order-not-found' });
+    }
+
+    const merged = mergeMercadoPagoPaymentIntoOrder(currentOrder, mpPayment);
+    updateOrder(externalReference, () => merged);
+
+    if(transitionToApproved(currentOrder, merged)) {
+      await processPendingDeliveries({ orderId: merged.orderId, limit: 20 });
     }
     return res.status(200).json({
       received: true,
-      synced: !!updated,
-      orderId: updated?.orderId || null,
+      synced: true,
+      orderId: merged.orderId,
       paymentId: String(mpPayment?.id || paymentId)
     });
   } catch (error) {

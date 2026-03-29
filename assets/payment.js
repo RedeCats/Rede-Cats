@@ -308,7 +308,7 @@
     }
 
     try {
-      const order = await fetchOrder(orderId, true);
+      const order = await fetchOrder(orderId, false);
       renderOrder(order);
 
       $('#copyPixBtn')?.addEventListener('click', async () => {
@@ -340,7 +340,7 @@
         let attempts = 0;
         const timer = setInterval(async () => {
           attempts += 1;
-          if (attempts > 20) {
+          if (attempts > 12) {
             clearInterval(timer);
             return;
           }
@@ -349,7 +349,7 @@
             renderOrder(updated);
             if (String(updated.status || '').toLowerCase() === 'approved') clearInterval(timer);
           } catch {}
-        }, 15000);
+        }, 20000);
       }
     } catch (err) {
       console.error(err);
